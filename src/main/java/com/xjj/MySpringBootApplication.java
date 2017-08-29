@@ -6,12 +6,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableCaching
+//@EnableCaching
+//@ComponentScan
 public class MySpringBootApplication implements HealthIndicator{
 	//private static Logger logger = LoggerFactory.getLogger(MySpringBootApplication.class);
 	private static ObjectMapper objectMapper = new ObjectMapper();

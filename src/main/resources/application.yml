@@ -1,7 +1,11 @@
 # 默认的profile为dev，其他环境通过指定启动参数使用不同的profile，比如：
 #   测试环境：java -jar my-spring-boot.jar --spring.profiles.active=test
 #   生产环境：java -jar my-spring-boot.jar --spring.profiles.active=prod
+
 spring:
+  jackson:
+    dateFormat: yyyy-MM-dd HH:mm:ss
+    timeZone: GMT+8
   profiles:
     active: dev
 #  cache:
@@ -34,7 +38,9 @@ spring:
 
 mybatis:
   mapperLocations: classpath:mapper/*.xml
-    
+  configuration:
+          map-underscore-to-camel-case: true
+
 server:
   port: 8082
 management:
@@ -63,7 +69,7 @@ spring:
 #        - 192.168.0.9:6391
 #        - 192.168.0.9:6392
   datasource:
-    url: jdbc:mysql://localhost:3306/
+    url: jdbc:mysql://localhost:3306/police_dog
 #  data:
 #    mongodb:
 #      uri: mongodb://192.168.0.9:27017/test
@@ -88,11 +94,11 @@ myProps: #自定义的属性和值
 spring:
   profiles: test
   datasource:
-    url: jdbc:mysql://localhost:3306/
+    url: jdbc:mysql://localhost:3306/police_dog
   
 ---
 # 生产环境配置
 spring:
   profiles: prod
   datasource:
-    url: jdbc:mysql://localhost:3306/
+    url: jdbc:mysql://localhost:3306/police_dog

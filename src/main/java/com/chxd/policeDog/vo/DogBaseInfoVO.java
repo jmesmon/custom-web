@@ -1,4 +1,4 @@
-package com.chxd.policeDdog.vo;
+package com.chxd.policeDog.vo;
 
 import java.util.Date;
 
@@ -10,7 +10,9 @@ public class DogBaseInfoVO extends BaseVO {
     private static final long serialVersionUID = -4631461102580927830L;
 
     private String  dogName;	//犬名
+    private String nestNo; //窝编号
     private String  chipNo;	//芯片号
+    private Date chipNoInject; //芯片注入日期
     private Integer  sex;	//性别（1：公，2：母）
     private Date  birthday;	//出生日期
     private String  breed;	//犬品种
@@ -21,6 +23,7 @@ public class DogBaseInfoVO extends BaseVO {
     private Integer  dogLevel;	//犬种等级（1、2、3）
     private String  inbreeding;	//近交系数
     private String  tutor;	//训导员
+    private String breeder; //繁育员
     private String  trainScore;	//复训成绩（优秀、合格、不合格）
     private Date  nextTrainDate;	//下次复训时间（yyyy-mm-dd）
     private String  workPlace;	//工作单位（与人员信息关联自动生成）
@@ -233,5 +236,29 @@ public class DogBaseInfoVO extends BaseVO {
 
     public void setBelonging(String belonging) {
         this.belonging = belonging;
+    }
+
+    public String getNestNo() {
+        return nestNo;
+    }
+
+    public void setNestNo(String nestNo) {
+        this.nestNo = nestNo;
+    }
+
+    public Date getChipNoInject() {
+        return chipNoInject;
+    }
+
+    public void setChipNoInject(Date chipNoInject) {
+        this.chipNoInject = chipNoInject;
+    }
+
+    public String getBreeder() {
+        return breeder;
+    }
+
+    public void setBreeder(String breeder) {
+        this.breeder = breeder;
     }
 }

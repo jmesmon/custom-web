@@ -1,4 +1,4 @@
-package com.chxd.policeDdog.vo;
+package com.chxd.policeDog.vo;
 
 /**
  * 用户和角色关系表
