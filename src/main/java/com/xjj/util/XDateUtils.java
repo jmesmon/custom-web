@@ -2,11 +2,7 @@ package com.xjj.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.Date;
@@ -180,6 +176,21 @@ public class XDateUtils {
 	public static LocalDateTime timestampToLocalDateTime(long timestamp){
 		return LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), TimeZone.getDefault().toZoneId());
 	}
+
+	public static Date localDateToDate( LocalDate localDate){
+		ZoneId zone = ZoneId.systemDefault();
+		Instant instant = localDate.atStartOfDay().atZone(zone).toInstant();
+		Date date = Date.from(instant);
+		return date;
+	}
+
+	public static LocalDate dateToLocalDate(Date date) {
+		Instant instant = date.toInstant();
+		ZoneId zone = ZoneId.systemDefault();
+		LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone);
+		LocalDate localDate = localDateTime.toLocalDate();
+		return localDate;
+	}
 	
 	/**
 	 * 转换long类型的timestamp为LocalDate类型
@@ -264,7 +275,7 @@ public class XDateUtils {
 	 * @return 时间戳，以秒为单位
 	 */
 	public static long getMinusMonth(int m){
-		LocalDate now = LocalDate.now(); 
+		LocalDate now = LocalDate.now();
 		return now.minusMonths(m).atStartOfDay().toEpochSecond(ZoneOffset.ofHours(8));
 	}
 	
@@ -282,10 +293,10 @@ public class XDateUtils {
 		
 		System.out.println(LocalDateTime.ofEpochSecond(getMinusDay(0), 0, ZoneOffset.ofHours(8)));
 		System.out.println(LocalDateTime.ofEpochSecond(getMinusDay(1), 0, ZoneOffset.ofHours(8)));
-		
 		LocalDate now = LocalDate.now();
 		System.out.println(getDayOfWeek(now));
-		
+
+
 		LocalDate ld = stringToLocalDate("2015-05-29", DatePattern.DATE_ONLY);
 		System.out.println(ld);
 		

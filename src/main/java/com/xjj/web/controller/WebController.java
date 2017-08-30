@@ -1,7 +1,6 @@
 package com.xjj.web.controller;
 
 import com.xjj.config.MyProps;
-import com.xjj.util.XDateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +15,7 @@ public class WebController {
 	
 	@RequestMapping("/hi")
 	public String hi(Map<String, Object> model) {
-		model.put("time", XDateUtils.nowToString());
+//		model.put("time", XDateUtils.nowToString());
 		model.put("message", "这是测试的内容。。。");
 		model.put("toUserName", "张三");
 		model.put("fromUserName", "老许");

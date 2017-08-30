@@ -5,6 +5,8 @@
 
 	<sql id="condition">
 		<if test="dogInfo.id != null" > and id=#{dogInfo.id}</if>
+		<if test="dogInfo.chipNo != null" > and chip_no=#{dogInfo.chipNo}</if>
+		<if test="dogInfo.nestNo != null" > and nest_no=#{dogInfo.nestNo}</if>
 	</sql>
 
 	<sql id="pageCondition">
@@ -20,5 +22,43 @@
 	<select id="selectAllCount" resultType="java.lang.Integer">
 		select count(1) from t_dog_base
 	</select>
+
+	<insert id="add" parameterType="java.util.List">
+		insert into t_dog_base (dog_name, chip_no, chip_no_inject, sex, birthday,
+								breed, dog_source, dog_colour, hair_type, dog_type, dog_level,
+								inbreeding, tutor, breeder, train_score, next_train_date, work_place,
+								work_area, work_province, file_no, create_doc_date, dog_photo, nest_no,
+								father_id, mother_id, growth_stage, work_stage, belonging, creation_date, last_update_date)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			  #{item.dogName}, #{item.chipNo}, #{item.chipNoInjectStr}, #{item.sex}, #{item.birthdayStr},
+			  #{item.breed}, #{item.dogSource}, #{item.dogColour}, #{item.hairType}, #{item.dogType}, #{item.dogLevel},
+			  #{item.inbreeding}, #{item.tutor}, #{item.breeder}, #{item.trainScore}, #{item.nextTrainDate}, #{item.workPlace},
+			  #{item.workArea}, #{item.workProvince}, #{item.fileNo}, #{item.createDocDate}, #{item.dogPhoto}, #{item.nestNo},
+			  #{item.fatherId}, #{item.motherId}, #{item.growthStage}, #{item.workStage}, #{item.belonging}, #{item.creationDate}, #{item.lastUpdateDate}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="addWorm" parameterType="java.util.List">
+		insert into t_dog_worm (dog_id, nest_no, worm_date, worm_state, police_id)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.dogId}, #{item.nestNo}, #{item.wormDate}, #{item.wormState}, #{item.policeId}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="addImmue" parameterType="java.util.List">
+		insert into t_dog_immue (dog_id, nest_no, immue_date, immue_name, immue_state, police_id)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.dogId}, #{item.nestNo}, #{item.immueDate}, #{item.immueName}, #{item.immueState}, #{item.policeId}
+			)
+		</foreach>
+	</insert>
 
 </mapper>

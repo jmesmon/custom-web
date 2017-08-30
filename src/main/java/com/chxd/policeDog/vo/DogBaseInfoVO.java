@@ -13,8 +13,10 @@ public class DogBaseInfoVO extends BaseVO {
     private String nestNo; //窝编号
     private String  chipNo;	//芯片号
     private Date chipNoInject; //芯片注入日期
+    private String chipNoInjectStr; //芯片注入日期
     private Integer  sex;	//性别（1：公，2：母）
     private Date  birthday;	//出生日期
+    private String  birthdayStr;	//出生日期
     private String  breed;	//犬品种
     private String  dogSource;	//来源
     private String  dogColour;	//毛色
@@ -26,11 +28,13 @@ public class DogBaseInfoVO extends BaseVO {
     private String breeder; //繁育员
     private String  trainScore;	//复训成绩（优秀、合格、不合格）
     private Date  nextTrainDate;	//下次复训时间（yyyy-mm-dd）
+    private String  nextTrainDateStr;	//下次复训时间（yyyy-mm-dd）
     private String  workPlace;	//工作单位（与人员信息关联自动生成）
     private String  workArea;	//所属片区
     private String  workProvince;	//省区市
     private String  fileNo;	//警犬档案号
     private Date createDocDate;	//建档日期（YYYY-MM-dd）
+    private String createDocDateStr;	//建档日期（YYYY-MM-dd）
     private String  dogPhoto;	//外貌特征（照片）
     private Integer  fatherId;	//父亲id
     private Integer  motherId;	//母亲id
@@ -256,6 +260,38 @@ public class DogBaseInfoVO extends BaseVO {
 
     public String getBreeder() {
         return breeder;
+    }
+
+    public String getChipNoInjectStr() {
+        return chipNoInjectStr;
+    }
+
+    public void setChipNoInjectStr(String chipNoInjectStr) {
+        this.chipNoInjectStr = chipNoInjectStr;
+    }
+
+    public String getBirthdayStr() {
+        return birthdayStr;
+    }
+
+    public void setBirthdayStr(String birthdayStr) {
+        this.birthdayStr = birthdayStr;
+    }
+
+    public String getNextTrainDateStr() {
+        return nextTrainDateStr;
+    }
+
+    public void setNextTrainDateStr(String nextTrainDateStr) {
+        this.nextTrainDateStr = nextTrainDateStr;
+    }
+
+    public String getCreateDocDateStr() {
+        return createDocDateStr;
+    }
+
+    public void setCreateDocDateStr(String createDocDateStr) {
+        this.createDocDateStr = createDocDateStr;
     }
 
     public void setBreeder(String breeder) {

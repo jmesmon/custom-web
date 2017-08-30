@@ -42,7 +42,7 @@ mybatis:
           map-underscore-to-camel-case: true
 
 server:
-  port: 8082
+  port: 8088
 management:
   port: 54001
   health:

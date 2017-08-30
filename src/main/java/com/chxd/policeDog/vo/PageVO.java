@@ -9,6 +9,21 @@ public class PageVO {
     private int totalRows;
     private int startRow;
 
+    public static PageVO getInstance(){
+        return new PageVO();
+    }
+
+    public PageVO setPageSze(int pageSize){
+        this.pageSize = pageSize;
+        this.startRow = (this.curPage - 1) * this.pageSize;
+        return this;
+    }
+
+    public PageVO setStartRow(int startRow){
+        this.startRow = startRow;
+        return this;
+    }
+
     public int getPageSize() {
         return pageSize;
     }
