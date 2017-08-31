@@ -8,6 +8,15 @@ public class ResultVO {
     private String message;
     private Object result;
 
+    public ResultVO fail(){
+        return fail(null);
+    }
+    public ResultVO fail(String msg){
+        this.message = msg;
+        this.success = false;
+        return this;
+    }
+
     public static ResultVO getInstance(){
         return new ResultVO();
     }

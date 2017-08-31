@@ -20,7 +20,8 @@
 	</select>
 
 	<select id="selectAllCount" resultType="java.lang.Integer">
-		select count(1) from t_dog_base
+		select count(1) from t_dog_base where 1=1
+		<include refid="condition"/>
 	</select>
 
 	<insert id="add" parameterType="java.util.List">
@@ -42,21 +43,21 @@
 	</insert>
 
 	<insert id="addWorm" parameterType="java.util.List">
-		insert into t_dog_worm (dog_id, nest_no, worm_date, worm_state, police_id)
+		insert into t_dog_worm (dog_id, nest_no, worm_date, worm_state, police_id, worm_desc, police_name)
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
 			(
-			#{item.dogId}, #{item.nestNo}, #{item.wormDate}, #{item.wormState}, #{item.policeId}
+			#{item.dogId}, #{item.nestNo}, #{item.wormDate}, #{item.wormState}, #{item.policeId}, #{item.wormDesc}, #{item.policeName}
 			)
 		</foreach>
 	</insert>
 
 	<insert id="addImmue" parameterType="java.util.List">
-		insert into t_dog_immue (dog_id, nest_no, immue_date, immue_name, immue_state, police_id)
+		insert into t_dog_immue (dog_id, nest_no, immue_date, immue_name, immue_state, police_id, police_name)
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
 			(
-			#{item.dogId}, #{item.nestNo}, #{item.immueDate}, #{item.immueName}, #{item.immueState}, #{item.policeId}
+			#{item.dogId}, #{item.nestNo}, #{item.immueDate}, #{item.immueName}, #{item.immueState}, #{item.policeId}, #{item.policeName}
 			)
 		</foreach>
 	</insert>

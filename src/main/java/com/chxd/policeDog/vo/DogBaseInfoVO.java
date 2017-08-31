@@ -42,6 +42,13 @@ public class DogBaseInfoVO extends BaseVO {
     private Integer  workStage;	//工作状态（1：待申领，2：已被申领，3：被淘汰，4：死亡）
     private String  belonging;	//淘汰/退休归属
 
+    public DogBaseInfoVO() {
+
+    }
+    public DogBaseInfoVO(String nestNo) {
+        this.nestNo = nestNo;
+    }
+
     public String getDogName() {
         return dogName;
     }

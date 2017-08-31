@@ -18,7 +18,7 @@ import java.util.List;
 public interface IDogBaseInfoDao {
     public List<DogBaseInfoVO> selectAll(@Param("dogInfo") DogBaseInfoVO dogInfo, @Param("page") PageVO page);
 
-    public Integer selectAllCount();
+    public Integer selectAllCount(@Param("dogInfo") DogBaseInfoVO dogInfo);
 
     public void add(List<DogBaseInfoVO> list);
 

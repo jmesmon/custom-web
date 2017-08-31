@@ -13,6 +13,33 @@ public class DogWormVO extends BaseVO {
     private String wormDateStr;
     private Integer wormState;
     private Integer policeId;
+    private String wormDesc;
+    private String policeName;
+
+    private DogBaseInfoVO dogInfo;
+
+    public DogBaseInfoVO getDogInfo() {
+        return dogInfo;
+    }
+
+    public void setDogInfo(DogBaseInfoVO dogInfo) {
+        this.dogInfo = dogInfo;
+    }
+    public String getPoliceName() {
+        return policeName;
+    }
+
+    public void setPoliceName(String policeName) {
+        this.policeName = policeName;
+    }
+
+    public String getWormDesc() {
+        return wormDesc;
+    }
+
+    public void setWormDesc(String wormDesc) {
+        this.wormDesc = wormDesc;
+    }
 
     public Integer getDogId() {
         return dogId;

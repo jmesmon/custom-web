@@ -14,6 +14,25 @@ public class DogImmueVO extends BaseVO {
     private String immueDateStr;
     private Integer immueState;
     private Integer policeId;
+    private String policeName;
+
+    private DogBaseInfoVO dogInfo;
+
+    public DogBaseInfoVO getDogInfo() {
+        return dogInfo;
+    }
+
+    public void setDogInfo(DogBaseInfoVO dogInfo) {
+        this.dogInfo = dogInfo;
+    }
+
+    public String getPoliceName() {
+        return policeName;
+    }
+
+    public void setPoliceName(String policeName) {
+        this.policeName = policeName;
+    }
 
     public String getImmueName() {
         return immueName;
