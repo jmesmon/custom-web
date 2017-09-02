@@ -10,6 +10,15 @@ public class DogProVO extends BaseVO {
     private Integer  dogId;	//警犬ID
     private Integer  profId;	//专业ID
     private String  profName;	//专业名称
+    private DogBaseInfoVO dogInfo;
+
+    public DogBaseInfoVO getDogInfo() {
+        return dogInfo;
+    }
+
+    public void setDogInfo(DogBaseInfoVO dogInfo) {
+        this.dogInfo = dogInfo;
+    }
 
     public Integer getDogId() {
         return dogId;

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chxd.policeDog.dao.IProfessionDao">
+
+	<!-- worm seelct  -->
+	<sql id="pageCondition">
+		limit #{page.startRow}, #{page.pageSize}
+	</sql>
+
+	<sql id="condition">
+		<if test="dogProVO.dogId != null" > and a.dog_id=#{dogProVO.dogId}</if>
+		<if test="dogProVO.profId != null" > and a.prof_id=#{dogProVO.profId}</if>
+		<if test="dogProVO.profName != null" > and a.prof_name=#{dogProVO.profName}</if>
+	</sql>
+
+	<select id="getList" resultType="com.chxd.policeDog.vo.DogProVO">
+		select a.id as id, a.dog_id as dogId, a.prof_id as profId, a.creation_date as creationDate, b.prof_name as profName
+		from t_dog_pro a join t_dog_pro_base b on(a.prof_id=b.id) where 1=1
+		<include refid="condition"/>
+		<include refid="pageCondition"/>
+	</select>
+
+	<select id="getListCount" resultType="java.lang.Integer">
+		select count(1) from t_dog_pro where 1=1
+		<include refid="condition"/>
+	</select>
+</mapper>

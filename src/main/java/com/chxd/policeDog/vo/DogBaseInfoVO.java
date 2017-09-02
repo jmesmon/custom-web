@@ -36,8 +36,8 @@ public class DogBaseInfoVO extends BaseVO {
     private Date createDocDate;	//建档日期（YYYY-MM-dd）
     private String createDocDateStr;	//建档日期（YYYY-MM-dd）
     private String  dogPhoto;	//外貌特征（照片）
-    private Integer  fatherId;	//父亲id
-    private Integer  motherId;	//母亲id
+    private String  fatherId;	//父亲id
+    private String  motherId;	//母亲id
     private Integer  growthStage;	//成长阶段（1：幼犬，2：成犬）
     private Integer  workStage;	//工作状态（1：待申领，2：已被申领，3：被淘汰，4：死亡）
     private String  belonging;	//淘汰/退休归属
@@ -61,8 +61,9 @@ public class DogBaseInfoVO extends BaseVO {
         return chipNo;
     }
 
-    public void setChipNo(String chipNo) {
+    public DogBaseInfoVO setChipNo(String chipNo) {
         this.chipNo = chipNo;
+        return this;
     }
 
     public Integer getSex() {
@@ -209,19 +210,19 @@ public class DogBaseInfoVO extends BaseVO {
         this.dogPhoto = dogPhoto;
     }
 
-    public Integer getFatherId() {
+    public String getFatherId() {
         return fatherId;
     }
 
-    public void setFatherId(Integer fatherId) {
+    public void setFatherId(String fatherId) {
         this.fatherId = fatherId;
     }
 
-    public Integer getMotherId() {
+    public String getMotherId() {
         return motherId;
     }
 
-    public void setMotherId(Integer motherId) {
+    public void setMotherId(String motherId) {
         this.motherId = motherId;
     }
 
