@@ -147,4 +147,28 @@ public class DogBaseInfoController {
 
         return resultVO;
     }
+
+    @RequestMapping("/tickout")
+    public ResultVO doTickOut(@RequestBody List<DogBaseInfoVO> dogList) {
+        ResultVO resultVO = ResultVO.getInstance();
+        try{
+            dogBaseInfoDao.tickOut(dogList, dogList.get(0).getBelonging());
+        }catch (Exception e){
+            e.printStackTrace();
+            resultVO.fail(e.getMessage());
+        }
+        return resultVO;
+    }
+
+    @RequestMapping("/died")
+    public ResultVO doDied(@RequestBody List<DogBaseInfoVO> dogList) {
+        ResultVO resultVO = ResultVO.getInstance();
+        try{
+            dogBaseInfoDao.died(dogList);
+        }catch (Exception e){
+            e.printStackTrace();
+            resultVO.fail(e.getMessage());
+        }
+        return resultVO;
+    }
 }

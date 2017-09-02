@@ -24,4 +24,7 @@ public interface IDogBaseInfoDao {
 
     public void addWorm(List<DogWormVO> list);
     public void addImmue(List<DogImmueVO> list);
+
+    public void tickOut(@Param("list") List<DogBaseInfoVO> list, @Param("belong") String belong);
+    public void died(List<DogBaseInfoVO> list);
 }

@@ -7,6 +7,18 @@
 		<if test="dogInfo.id != null" > and id=#{dogInfo.id}</if>
 		<if test="dogInfo.chipNo != null" > and chip_no=#{dogInfo.chipNo}</if>
 		<if test="dogInfo.nestNo != null" > and nest_no=#{dogInfo.nestNo}</if>
+		<if test="dogInfo.fatherId != null" > and chip_no=#{dogInfo.fatherId}</if>
+		<if test="dogInfo.motherId != null" > and chip_no=#{dogInfo.motherId}</if>
+		<if test="dogInfo.sex != null" > and sex=#{dogInfo.sex}</if>
+		<if test="dogInfo.breed != null" > and breed=#{dogInfo.breed}</if>
+		<if test="dogInfo.dogSource != null" > and dog_source=#{dogInfo.dogSource}</if>
+		<if test="dogInfo.dogColour != null" > and dog_colour=#{dogInfo.dogColour}</if>
+		<if test="dogInfo.hairType != null" > and hair_type=#{dogInfo.hairType}</if>
+		<if test="dogInfo.dogType != null" > and dog_type=#{dogInfo.dogType}</if>
+		<if test="dogInfo.dogSource != null" > and dog_source=#{dogInfo.dogSource}</if>
+		<if test="dogInfo.dogLevel != null" > and dog_level=#{dogInfo.dogLevel}</if>
+		<if test="dogInfo.fileNo != null" > and file_no=#{dogInfo.fileNo}</if>
+		<if test="dogInfo.tutor != null" > and tutor=#{dogInfo.tutor}</if>
 	</sql>
 
 	<sql id="pageCondition">
@@ -61,5 +73,19 @@
 			)
 		</foreach>
 	</insert>
+
+	<update id="tickOut">
+		update t_dog_base set work_stage=3,belonging=#{belong} where id in
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+			#{item.id}
+		</foreach>
+	</update>
+
+	<update id="died">
+		update t_dog_base set work_stage=4 where id in
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+			#{item.id}
+		</foreach>
+	</update>
 
 </mapper>
