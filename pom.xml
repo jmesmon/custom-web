@@ -16,7 +16,7 @@
 
     <properties>
         <!--<start-class>com.chxd.policeDog.MySpringBootApplication</start-class> &lt;!&ndash; 指定启动类（main方法的位置） &ndash;&gt;-->
-        <start-class>com.chxd.policeDog.MySpringBootApplication</start-class> <!-- 指定启动类（main方法的位置） -->
+        <start-class>com.chxd.policeDog.Application</start-class> <!-- 指定启动类（main方法的位置） -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
     </properties>
@@ -136,16 +136,16 @@
             <version>23.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
 
     </dependencies>
 
     <build>
-        <finalName>my-spring-boot</finalName> <!-- 指定package生成的文件名为my-spring-boot.jar -->
+        <finalName>policeDog</finalName> <!-- 指定package生成的文件名为my-spring-boot.jar -->
 
         <plugins>
             <plugin>

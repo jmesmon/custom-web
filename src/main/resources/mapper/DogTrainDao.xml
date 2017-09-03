@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chxd.policeDog.dao.IDogTrainDao">
+
+	<!-- worm seelct  -->
+	<sql id="pageCondition">
+		limit #{page.startRow}, #{page.pageSize}
+	</sql>
+
+	<sql id="condition">
+		<if test="vo.growStage != null" > and grow_stage=#{vo.growStage}</if>
+		<if test="vo.dogId != null" > and dog_id=#{vo.dogId}</if>
+		<if test="vo.trainId != null" > and train_id=#{vo.trainId}</if>
+		<if test="vo.trainDateStr != null" > and train_date=#{vo.trainDateStr}</if>
+		<if test="vo.trainClassName != null" > and train_class_name=#{vo.trainClassName}</if>
+		<if test="vo.trainLevel != null" > and train_level=#{vo.trainLevel}</if>
+		<if test="vo.trainStage != null" > and train_stage=#{vo.trainStage}</if>
+		<if test="vo.trainUnit != null" > and train_unit=#{vo.trainUnit}</if>
+		<if test="vo.trainAddr != null" > and train_addr=#{vo.trainAddr}</if>
+		<if test="vo.trainUser != null" > and train_user=#{vo.trainUser}</if>
+		<if test="vo.scoreDetail != null" > and score_detail=#{vo.scoreDetail}</if>
+		<if test="vo.totalScore != null" > and total_score=#{vo.totalScore}</if>
+		<if test="vo.nextTrainDateStr != null" > and next_train_date=#{vo.nextTrainDateStr}</if>
+		<if test="vo.policeId != null" > and police_id=#{vo.policeId}</if>
+		<if test="vo.policeName != null" > and police_name=#{vo.policeName}</if>
+		<if test="vo.mainTrainUser != null" > and main_train_user=#{vo.mainTrainUser}</if>
+	</sql>
+
+	<select id="getList" resultType="com.chxd.policeDog.vo.DogTrainVO">
+		select * from t_dog_train where 1=1
+		<include refid="condition"/>
+		<include refid="pageCondition"/>
+	</select>
+
+	<select id="getListCount" resultType="java.lang.Integer">
+		select count(1) from t_dog_train where 1=1
+		<include refid="condition"/>
+	</select>
+
+	<insert id="add" parameterType="java.util.List">
+		insert into t_dog_train (grow_stage, dog_id, train_id, train_date, train_class_name, train_level, train_stage, train_unit, train_addr, train_user, score_detail, total_score, next_train_date, police_id, main_train_user, police_name)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.growStage}, #{item.dogId}, #{item.trainId}, #{item.trainDateStr}, #{item.trainClassName}, #{item.trainLevel}, #{item.trainStage}, #{item.trainUnit}, #{item.trainAddr}, #{item.trainUser}, #{item.scoreDetail}, #{item.totalScore}, #{item.nextTrainDateStr}, #{item.policeId}, #{item.mainTrainUser}, #{item.policeName}
+			)
+		</foreach>
+	</insert>
+
+	<delete id="del">
+		delete from t_dog_train where id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="com.chxd.policeDog.vo.DogTrainVO">
+		update t_dog_train set last_update_date=now()
+		<if test="vo.growStage != null" > , grow_stage=#{vo.growStage}</if>
+		<if test="vo.dogId != null" > , dog_id=#{vo.dogId}</if>
+		<if test="vo.trainId != null" > , dog_id=#{vo.trainId}</if>
+		<if test="vo.trainDateStr != null" > , train_date=#{vo.trainDateStr}</if>
+		<if test="vo.trainClassName != null" > , train_class_name=#{vo.trainClassName}</if>
+		<if test="vo.trainLevel != null" > , train_level=#{vo.trainLevel}</if>
+		<if test="vo.trainStage != null" > , train_stage=#{vo.trainStage}</if>
+		<if test="vo.trainUnit != null" > , train_unit=#{vo.trainUnit}</if>
+		<if test="vo.trainAddr != null" > , train_addr=#{vo.trainAddr}</if>
+		<if test="vo.trainUser != null" > , train_user=#{vo.trainUser}</if>
+		<if test="vo.scoreDetail != null" > , score_detail=#{vo.scoreDetail}</if>
+		<if test="vo.totalScore != null" > , total_score=#{vo.totalScore}</if>
+		<if test="vo.nextTrainDateStr != null" > , next_train_date=#{vo.nextTrainDateStr}</if>
+		<if test="vo.policeId != null" > , police_id=#{vo.policeId}</if>
+		<if test="vo.mainTrainUser != null" > , main_train_user=#{vo.mainTrainUser}</if>
+		<if test="vo.policeName != null" > , police_name=#{vo.policeName}</if>
+		where id=#{vo.id}
+	</update>
+</mapper>

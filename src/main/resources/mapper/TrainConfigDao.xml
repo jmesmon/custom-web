@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chxd.policeDog.dao.ITrainConfigDao">
+
+	<!-- worm seelct  -->
+	<sql id="pageCondition">
+		limit #{page.startRow}, #{page.pageSize}
+	</sql>
+
+	<sql id="condition">
+		<if test="vo.trainName != null" > and train_name like concat('%', #{vo.trainName}, '%')</if>
+		<if test="vo.trainDesc != null" > and train_desc=#{vo.trainDesc}</if>
+		<if test="vo.trainUnit != null" > and train_unit like concat('%', #{vo.trainUnit}, '%') </if>
+		<if test="vo.trainAddr != null" > and train_addr like concat('%', #{vo.trainAddr}, '%')</if>
+		<if test="vo.startDateStr != null" ><![CDATA[  and start_date >= #{vo.startDateStr} ]]></if>
+		<if test="vo.endDateStr != null" ><![CDATA[ and start_date <= #{vo.endDateStr} ]]></if>
+		order by start_date desc
+	</sql>
+
+	<select id="getList" resultType="com.chxd.policeDog.vo.TrainConfigVO">
+		select * from t_train_config where 1=1
+		<include refid="condition"/>
+		<include refid="pageCondition"/>
+	</select>
+
+	<select id="getListCount" resultType="java.lang.Integer">
+		select count(1) from t_train_config where 1=1
+		<include refid="condition"/>
+	</select>
+
+	<insert id="add" parameterType="java.util.List">
+		insert into t_train_config (train_name, train_desc, train_unit, train_addr, start_date, end_date, last_update_date)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.trainName}, #{item.trainDesc}, #{item.trainUnit}, #{item.trainAddr}, #{item.startDateStr}, #{item.endDateStr}, now()
+			)
+		</foreach>
+	</insert>
+
+	<delete id="del">
+		delete from t_train_config where id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+
+	<update id="update">
+		update t_train_config set last_update_date=now()
+		<if test="vo.trainName != null" > , train_name=#{vo.trainName}</if>
+		<if test="vo.trainDesc != null" > , train_desc=#{vo.trainDesc}</if>
+		<if test="vo.trainUnit != null" > , train_unit=#{vo.trainUnit}</if>
+		<if test="vo.trainAddr != null" > , train_addr=#{vo.trainAddr}</if>
+		<if test="vo.startDateStr != null" > , start_date=#{vo.startDateStr}</if>
+		<if test="vo.endDateStr != null" > , end_date=#{vo.endDateStr}</if>
+		where id=#{vo.id}
+	</update>
+</mapper>
