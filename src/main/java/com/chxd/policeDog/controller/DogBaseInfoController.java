@@ -6,6 +6,10 @@ import com.chxd.policeDog.vo.*;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.xjj.util.XDateUtils;
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
+import java.io.*;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +41,7 @@ public class DogBaseInfoController {
         List<DogBaseInfoVO> list = dogBaseInfoDao.selectAll(dogBaseInfoVO, pageVO);
         Integer integer = dogBaseInfoDao.selectAllCount(dogBaseInfoVO);
 
+        buildWord(list);
         pageVO.setTotalRows(integer);
         page.setResult(list);
         page.setPageVO(pageVO);
@@ -43,7 +50,44 @@ public class DogBaseInfoController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+
         return page;
+    }
+
+    private void buildWord(List<DogBaseInfoVO> list){
+        Configuration con = new Configuration();
+        try {
+            con.setDirectoryForTemplateLoading(new File("E://001"));//指定加载模板的位置
+            con.setObjectWrapper(new DefaultObjectWrapper());//指定生产模板的方式
+            con.setDefaultEncoding("utf-8");//设置模板读取的编码方式，用于处理乱码
+            con.setClassicCompatible(true);
+
+            Template template = con.getTemplate("s2.xml");//模板文件，可以是xml,ftl,html
+            System.out.println(template.getEncoding());
+            template.setEncoding("utf-8");//设置写入模板的编码方式
+
+            Map root = new HashMap();//data数据
+
+            root.put("year", "2017");
+            root.put("month", "09");
+            root.put("createUnit", "刑侦总队");
+            root.put("createUser", "张山泉");
+
+            Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("E://001//export//s.doc")), "utf-8"));//生产文件输出流
+
+            root.put("dogList", list);
+            template.process(root, out);//将模板写到文件中
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (TemplateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     @RequestMapping("/get")

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chxd.policeDog.dao.IDogMatingDao">
+
+	<!-- worm seelct  -->
+	<sql id="pageCondition">
+		limit #{page.startRow}, #{page.pageSize}
+	</sql>
+
+	<sql id="condition">
+		<if test="vo.fatherDogChipNo != null" > and father_dog_chip_no=#{vo.fatherDogChipNo}</if>
+		<if test="vo.motherDogChipNo != null" > and mother_dog_chip_no=#{vo.motherDogChipNo}</if>
+		<if test="vo.mateDateStr != null" > and mate_date=#{vo.mateDateStr}</if>
+		<if test="vo.bMuDateStr != null" > and b_mu_date=#{vo.bMuDateStr}</if>
+		<if test="vo.expectDateStr != null" > and expect_date=#{vo.expectDateStr}</if>
+		<if test="vo.breedCount != null" > and breed_count=#{vo.breedCount}</if>
+		<if test="vo.mateState != null" > and mate_state=#{vo.mateState}</if>
+		<if test="vo.liveCount7 != null" > and live_count_7=#{vo.liveCount7}</if>
+		<if test="vo.liveCount21 != null" > and live_count_21=#{vo.liveCount21}</if>
+	</sql>
+
+	<select id="getList" resultType="com.chxd.policeDog.vo.DogMatingVO">
+		select * from t_dog_mating where 1=1
+		<include refid="condition"/>
+		<include refid="pageCondition"/>
+	</select>
+
+	<select id="getListCount" resultType="java.lang.Integer">
+		select count(1) from t_dog_mating where 1=1
+		<include refid="condition"/>
+	</select>
+
+	<insert id="add" parameterType="java.util.List">
+		insert into t_dog_mating (mate_state, father_dog_chip_no, mother_dog_chip_no, mate_date, b_mu_date, expect_date, breed_count, live_count_7, live_count_21, last_update_date)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.mateState}, #{item.fatherDogChipNo}, #{item.motherDogChipNo}, #{item.mateDateStr}, #{item.bMuDateStr}, #{item.expectDateStr}, #{item.breedCount}, #{item.liveCount7}, #{item.liveCount21}, #{item.lastUpdateDate}
+			)
+		</foreach>
+	</insert>
+
+	<delete id="del">
+		delete from t_dog_mating where id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="com.chxd.policeDog.vo.DogMatingVO">
+		update t_dog_mating set last_update_date=now()
+		<if test="vo.fatherDogChipNo != null" > , father_dog_chip_no=#{vo.fatherDogChipNo}</if>
+		<if test="vo.motherDogChipNo != null" > , mother_dog_chip_no=#{vo.motherDogChipNo}</if>
+		<if test="vo.mateDateStr != null" > , mate_date=#{vo.mateDateStr}</if>
+		<if test="vo.bMuDateStr != null" > , b_mu_date=#{vo.bMuDateStr}</if>
+		<if test="vo.expectDateStr != null" > , expect_date=#{vo.expectDateStr}</if>
+		<if test="vo.breedCount != null" > , breed_count=#{vo.breedCount}</if>
+		<if test="vo.mateState != null" > , mate_state=#{vo.mateState}</if>
+		<if test="vo.liveCount7 != null" > , live_count_7=#{vo.liveCount7}</if>
+		<if test="vo.liveCount21 != null" > , live_count_21=#{vo.liveCount21}</if>
+		where id=#{vo.id}
+	</update>
+</mapper>

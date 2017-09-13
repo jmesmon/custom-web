@@ -50,7 +50,7 @@
 	<delete id="del">
 		delete from t_dog_train where id in
 		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
-			#{id}
+			#{item.id}
 		</foreach>
 	</delete>
 
