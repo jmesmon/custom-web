@@ -30,13 +30,13 @@
 	</update>
 
 	<insert id="addWorm" parameterType="com.chxd.policeDog.vo.DogWormVO">
-		insert into t_dog_worm(dog_id, nest_no, worm_date, worm_state, worm_desc, police_name, police_id, last_update_time)
-		values ( #{dogId}, #{nestNo}, #{wormDate}, #{wormState}, #{wormDesc}, #{policeName}, #{policeId}, now() )
+		insert into t_dog_worm(dog_chip_no, nest_no, worm_date, worm_state, worm_desc, police_name, police_id, last_update_date)
+		values ( #{dogChipNo}, #{nestNo}, #{wormDateStr}, #{wormState}, #{wormDesc}, #{policeName}, #{policeId}, now() )
 	</insert>
 
 	<insert id="addImmue" parameterType="com.chxd.policeDog.vo.DogImmueVO">
-		insert into t_dog_worm(dog_id, nest_no, immue_date, immue_name, immue_state, police_name, police_id, last_update_date)
-		values ( #{dogId}, #{nestNo}, #{immueDate}, #{immueName}, #{immueState}, #{policeName}, #{policeId}, now() )
+		insert into t_dog_immue(dog_chip_no, nest_no, immue_date, immue_name, immue_state, police_name, police_id, last_update_date)
+		values ( #{dogChipNo}, #{nestNo}, #{immueDateStr}, #{immueName}, #{immueState}, #{policeName}, #{policeId}, now() )
 	</insert>
 
 	<!-- worm seelct  -->
@@ -47,11 +47,14 @@
 
 	<sql id="worm_condition">
 		<if test="wormVO.id != null" > and id=#{wormVO.id}</if>
-		<if test="wormVO.dogId != null" > and dog_id=#{wormVO.dogId}</if>
+		<if test="wormVO.dogChipNo != null" > and dog_chip_no=#{wormVO.dogChipNo}</if>
 		<if test="wormVO.nestNo != null" > and nest_no=#{wormVO.nestNo}</if>
-		<if test="wormVO.wormDate != null" > and worm_date=#{wormVO.wormDate}</if>
+		<if test="wormVO.wormDate != null" > and worm_date=#{wormVO.wormDateStr}</if>
+		<if test="wormVO.wormDateStart != null" ><![CDATA[ and worm_date>=#{wormVO.wormDateStart} ]]></if>
+		<if test="wormVO.wormDateEnd != null" ><![CDATA[ and worm_date<=#{wormVO.wormDateEnd} ]]></if>
 		<if test="wormVO.wormState != null" > and worm_state=#{wormVO.wormState}</if>
 		<if test="wormVO.wormDesc != null" > and worm_desc=#{wormVO.wormDesc}</if>
+		order by worm_date desc
 	</sql>
 
 	<select id="getWormList" resultType="com.chxd.policeDog.vo.DogWormVO">
@@ -68,11 +71,14 @@
 	<!-- immue seelct  -->
 	<sql id="immue_condition">
 		<if test="immueVO.id != null" > and id=#{immueVO.id}</if>
-		<if test="immueVO.dogId != null" > and dog_id=#{immueVO.dogId}</if>
+		<if test="immueVO.dogChipNo != null" > and dog_chip_no=#{immueVO.dogChipNo}</if>
 		<if test="immueVO.nestNo != null" > and nest_no=#{immueVO.nestNo}</if>
-		<if test="immueVO.immueDate != null" > and immue_date=#{immueVO.immueDate}</if>
+		<if test="immueVO.immueDate != null" > and immue_date=#{immueVO.immueDateStr}</if>
+		<if test="immueVO.immueDateStart != null" ><![CDATA[ and immue_date>=#{immueVO.immueDateStart} ]]></if>
+		<if test="immueVO.immueDateEnd != null" ><![CDATA[ and immue_date<=#{immueVO.immueDateEnd} ]]></if>
 		<if test="immueVO.immueName != null" > and immue_name=#{immueVO.immueName}</if>
 		<if test="immueVO.immueState != null" > and immue_state=#{immueVO.immueState}</if>
+		order by immue_date desc
 	</sql>
 
 	<select id="getImmueList" resultType="com.chxd.policeDog.vo.DogImmueVO">
@@ -85,4 +91,18 @@
 		select count(1) from t_dog_immue where 1=1
 		<include refid="immue_condition"/>
 	</select>
+
+	<delete id="delWorm">
+		delete from t_dog_worm where id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+
+	<delete id="delImmue">
+		delete from t_dog_immue where id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
 </mapper>

@@ -17,6 +17,7 @@
 		<if test="vo.mateState != null" > and mate_state=#{vo.mateState}</if>
 		<if test="vo.liveCount7 != null" > and live_count_7=#{vo.liveCount7}</if>
 		<if test="vo.liveCount21 != null" > and live_count_21=#{vo.liveCount21}</if>
+		order by mate_date, b_mu_date, expect_date desc
 	</sql>
 
 	<select id="getList" resultType="com.chxd.policeDog.vo.DogMatingVO">

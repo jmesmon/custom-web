@@ -17,6 +17,8 @@ public class DogBaseInfoVO extends BaseVO {
     private Integer  sex;	//性别（1：公，2：母）
     private Date  birthday;	//出生日期
     private String  birthdayStr;	//出生日期
+    private String  birthdayStart;
+    private String  birthdayEnd;
     private String  breed;	//犬品种
     private String  dogSource;	//来源
     private String  dogColour;	//毛色
@@ -45,8 +47,24 @@ public class DogBaseInfoVO extends BaseVO {
     public DogBaseInfoVO() {
 
     }
-    public DogBaseInfoVO(String nestNo) {
-        this.nestNo = nestNo;
+    public DogBaseInfoVO(String chipNo) {
+        this.chipNo = chipNo;
+    }
+
+    public String getBirthdayStart() {
+        return birthdayStart;
+    }
+
+    public void setBirthdayStart(String birthdayStart) {
+        this.birthdayStart = birthdayStart;
+    }
+
+    public String getBirthdayEnd() {
+        return birthdayEnd;
+    }
+
+    public void setBirthdayEnd(String birthdayEnd) {
+        this.birthdayEnd = birthdayEnd;
     }
 
     public String getDogName() {

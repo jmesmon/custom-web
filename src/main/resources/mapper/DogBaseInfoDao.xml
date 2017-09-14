@@ -6,6 +6,11 @@
 	<sql id="condition">
 		<if test="dogInfo.id != null" > and id=#{dogInfo.id}</if>
 		<if test="dogInfo.chipNo != null" > and chip_no=#{dogInfo.chipNo}</if>
+
+		<if test="dogInfo.birthdayStart != null" ><![CDATA[  and birthday>=#{dogInfo.birthdayStart} ]]></if>
+		<if test="dogInfo.birthdayEnd != null" ><![CDATA[  and birthday<=#{dogInfo.birthdayEnd} ]]></if>
+
+		<if test="dogInfo.growthStage != null" > and growth_stage=#{dogInfo.growthStage}</if>
 		<if test="dogInfo.nestNo != null" > and nest_no=#{dogInfo.nestNo}</if>
 		<if test="dogInfo.fatherId != null" > and chip_no=#{dogInfo.fatherId}</if>
 		<if test="dogInfo.motherId != null" > and chip_no=#{dogInfo.motherId}</if>

@@ -24,6 +24,9 @@ public interface IWormImmueDao {
     void addWorm(DogWormVO vo);
     void addImmue(DogImmueVO vo);
 
+    void delWorm(List<DogWormVO> list);
+    void delImmue(List<DogImmueVO> list);
+
     List<DogWormVO> getWormList(@Param("wormVO")DogWormVO wormVO, @Param("page")PageVO page);
     Integer getWormCount(@Param("wormVO")DogWormVO wormVO);
 

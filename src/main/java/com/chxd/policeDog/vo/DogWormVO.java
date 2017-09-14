@@ -7,10 +7,12 @@ import java.util.Date;
  */
 public class DogWormVO extends BaseVO {
     private static final long serialVersionUID = -2736738083441059870L;
-    private Integer dogId;
+    private String dogChipNo;
     private String nestNo;
     private Date wormDate;
     private String wormDateStr;
+    private String wormDateStart;
+    private String wormDateEnd;
     private Integer wormState;
     private Integer policeId;
     private String wormDesc;
@@ -41,12 +43,12 @@ public class DogWormVO extends BaseVO {
         this.wormDesc = wormDesc;
     }
 
-    public Integer getDogId() {
-        return dogId;
+    public String getDogChipNo() {
+        return dogChipNo;
     }
 
-    public void setDogId(Integer dogId) {
-        this.dogId = dogId;
+    public void setDogChipNo(String dogChipNo) {
+        this.dogChipNo = dogChipNo;
     }
 
     public String getNestNo() {
@@ -87,5 +89,21 @@ public class DogWormVO extends BaseVO {
 
     public void setPoliceId(Integer policeId) {
         this.policeId = policeId;
+    }
+
+    public String getWormDateStart() {
+        return wormDateStart;
+    }
+
+    public void setWormDateStart(String wormDateStart) {
+        this.wormDateStart = wormDateStart;
+    }
+
+    public String getWormDateEnd() {
+        return wormDateEnd;
+    }
+
+    public void setWormDateEnd(String wormDateEnd) {
+        this.wormDateEnd = wormDateEnd;
     }
 }

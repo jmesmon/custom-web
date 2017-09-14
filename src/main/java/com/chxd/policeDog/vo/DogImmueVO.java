@@ -7,11 +7,13 @@ import java.util.Date;
  */
 public class DogImmueVO extends BaseVO {
     private static final long serialVersionUID = -7025306881688939614L;
-    private Integer dogId;
+    private String dogChipNo;
     private String nestNo;
     private Date immueDate;
     private String immueName;
     private String immueDateStr;
+    private String immueDateStart;
+    private String immueDateEnd;
     private Integer immueState;
     private Integer policeId;
     private String policeName;
@@ -42,12 +44,12 @@ public class DogImmueVO extends BaseVO {
         this.immueName = immueName;
     }
 
-    public Integer getDogId() {
-        return dogId;
+    public String getDogChipNo() {
+        return dogChipNo;
     }
 
-    public void setDogId(Integer dogId) {
-        this.dogId = dogId;
+    public void setDogChipNo(String dogChipNo) {
+        this.dogChipNo = dogChipNo;
     }
 
     public String getNestNo() {
@@ -88,5 +90,21 @@ public class DogImmueVO extends BaseVO {
 
     public void setImmueState(Integer immueState) {
         this.immueState = immueState;
+    }
+
+    public String getImmueDateStart() {
+        return immueDateStart;
+    }
+
+    public void setImmueDateStart(String immueDateStart) {
+        this.immueDateStart = immueDateStart;
+    }
+
+    public String getImmueDateEnd() {
+        return immueDateEnd;
+    }
+
+    public void setImmueDateEnd(String immueDateEnd) {
+        this.immueDateEnd = immueDateEnd;
     }
 }
