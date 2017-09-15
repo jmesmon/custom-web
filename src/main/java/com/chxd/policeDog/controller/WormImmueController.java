@@ -31,7 +31,7 @@ public class WormImmueController {
             Integer integer = wormImmueDao.getWormCount(dogWormVO);
             for(int i = 0; i<list.size(); i++){
                 DogWormVO w = list.get(i);
-                List<DogBaseInfoVO> dog = dogBaseInfoDao.selectAll(new DogBaseInfoVO(w.getNestNo()), PageVO.getInstance());
+                List<DogBaseInfoVO> dog = dogBaseInfoDao.selectAll(new DogBaseInfoVO(w.getDogChipNo()), PageVO.getInstance());
                 if(dog.size() > 0) {
                     w.setDogInfo(dog.get(0));
                 }
@@ -54,7 +54,7 @@ public class WormImmueController {
             Integer integer = wormImmueDao.getImmueCount(dogImmueVO);
             for(int i = 0; i<list.size(); i++){
                 DogImmueVO w = list.get(i);
-                List<DogBaseInfoVO> dog = dogBaseInfoDao.selectAll(new DogBaseInfoVO(w.getNestNo()), PageVO.getInstance());
+                List<DogBaseInfoVO> dog = dogBaseInfoDao.selectAll(new DogBaseInfoVO(w.getDogChipNo()), PageVO.getInstance());
                 if(dog.size() > 0) {
                     w.setDogInfo(dog.get(0));
                 }
@@ -119,6 +119,20 @@ public class WormImmueController {
             e.printStackTrace();
             resultVO.fail(e.getMessage());
         }
+        return resultVO;
+    }
+
+    @RequestMapping("/delWorm")
+    public ResultVO delWorm(@RequestBody List<DogWormVO> list){
+        ResultVO resultVO = ResultVO.getInstance();
+        wormImmueDao.delWorm(list);
+        return resultVO;
+    }
+
+    @RequestMapping("/delImmue")
+    public ResultVO delImmue(@RequestBody List<DogImmueVO> list){
+        ResultVO resultVO = ResultVO.getInstance();
+        wormImmueDao.delImmue(list);
         return resultVO;
     }
 }

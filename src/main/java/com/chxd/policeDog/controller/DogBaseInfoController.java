@@ -41,7 +41,7 @@ public class DogBaseInfoController {
         List<DogBaseInfoVO> list = dogBaseInfoDao.selectAll(dogBaseInfoVO, pageVO);
         Integer integer = dogBaseInfoDao.selectAllCount(dogBaseInfoVO);
 
-        buildWord(list);
+//        buildWord(list);
         pageVO.setTotalRows(integer);
         page.setResult(list);
         page.setPageVO(pageVO);
@@ -136,7 +136,7 @@ public class DogBaseInfoController {
                     localDate = localDate.plusDays(cfg.getPeriod());
 
                     worm.setNestNo(nestNo);
-                    worm.setDogId(dog.getId());
+                    worm.setDogChipNo(dog.getChipNo());
                     worm.setWormState(1);
                     worm.setWormDesc(cfg.getDescription());
                     worm.setWormDate(XDateUtils.localDateToDate(localDate));
@@ -178,7 +178,7 @@ public class DogBaseInfoController {
                     localDate = localDate.plusDays(cfg.getPeriod());
 
                     vo.setNestNo(nestNo);
-                    vo.setDogId(dog.getId());
+                    vo.setDogChipNo(dog.getChipNo());
                     vo.setImmueState(1);
                     vo.setImmueDate(XDateUtils.localDateToDate(localDate));
                     vo.setImmueName(cfg.getDescription());
