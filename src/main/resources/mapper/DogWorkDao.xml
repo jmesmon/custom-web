@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chxd.policeDog.dao.IDogWorkDao">
+
+	<!-- worm seelct  -->
+	<sql id="pageCondition">
+		limit #{page.startRow}, #{page.pageSize}
+	</sql>
+
+	<sql id="condition">
+		<if test="vo.workType != null" > and work_type=#{vo.workType}</if>
+		<if test="vo.workUnit != null" > and work_unit=#{vo.workUnit}</if>
+		<if test="vo.attPerson != null" > and att_person=#{vo.attPerson}</if>
+		<if test="vo.dogChipNo != null" > and dog_chip_no=#{vo.dogChipNo}</if>
+		<if test="vo.caseProperty != null" > and case_property=#{vo.caseProperty}</if>
+		<if test="vo.caseNo != null" > and case_no=#{vo.caseNo}</if>
+		<if test="vo.isWork != null" > and is_work=#{vo.isWork}</if>
+		<if test="vo.securityCheckArea != null" > and security_check_area=#{vo.securityCheckArea}</if>
+		<if test="vo.workResult != null" > and work_result=#{vo.workResult}</if>
+		<if test="vo.workPic != null" > and work_pic=#{vo.workPic}</if>
+		<if test="vo.startTimeStr != null" ><![CDATA[  and start_time >= #{vo.startTimeStr} ]]></if>
+		<if test="vo.endTimeStr != null" ><![CDATA[ and start_time <= #{vo.endTimeStr} ]]></if>
+		order by start_time desc
+	</sql>
+
+	<select id="getList" resultType="com.chxd.policeDog.vo.DogWorkVO">
+		select * from t_dog_work where 1=1
+		<include refid="condition"/>
+		<include refid="pageCondition"/>
+	</select>
+
+	<select id="getListCount" resultType="java.lang.Integer">
+		select count(1) from t_dog_work where 1=1
+		<include refid="condition"/>
+	</select>
+
+	<insert id="add" parameterType="java.util.List">
+		insert into t_dog_work ( work_type, start_time, end_time, work_unit, att_person, dog_chip_no, case_property, case_no, is_work, security_check_area, work_result, work_pic, creation_date, last_update_date)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.workType}, #{item.startTime}, #{item.endTime}, #{item.workUnit}, #{item.attPerson}, #{item.dogChipNo}, #{item.caseProperty}, #{item.caseNo}, #{item.isWork}, #{item.securityCheckArea}, #{item.workResult}, #{item.workPic}, now(), now()
+			)
+		</foreach>
+	</insert>
+
+	<delete id="del">
+		delete from t_dog_work where id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+
+	<update id="update">
+		update t_dog_work set last_update_date=now()
+		<if test="vo.workType != null" > , work_type=#{vo.workType}</if>
+		<if test="vo.workUnit != null" > , work_unit=#{vo.workUnit}</if>
+		<if test="vo.attPerson != null" > , att_person=#{vo.attPerson}</if>
+		<if test="vo.dogChipNo != null" > , dog_chip_no=#{vo.dogChipNo}</if>
+		<if test="vo.caseProperty != null" > , case_property=#{vo.caseProperty}</if>
+		<if test="vo.caseNo != null" > , case_no=#{vo.caseNo}</if>
+		<if test="vo.isWork != null" > , is_work=#{vo.isWork}</if>
+		<if test="vo.securityCheckArea != null" > , security_check_area=#{vo.securityCheckArea}</if>
+		<if test="vo.workResult != null" > , work_result=#{vo.workResult}</if>
+		<if test="vo.workPic != null" > , work_pic=#{vo.workPic}</if>
+		<if test="vo.startTimeStr != null" ><![CDATA[  , start_time = #{vo.startTimeStr} ]]></if>
+		<if test="vo.endTimeStr != null" ><![CDATA[ , end_time = #{vo.endTimeStr} ]]></if>
+		where id=#{vo.id}
+	</update>
+</mapper>
