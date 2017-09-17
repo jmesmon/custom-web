@@ -39,7 +39,7 @@
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
 			(
-			#{item.workType}, #{item.startTime}, #{item.endTime}, #{item.workUnit}, #{item.attPerson}, #{item.dogChipNo}, #{item.caseProperty}, #{item.caseNo}, #{item.isWork}, #{item.securityCheckArea}, #{item.workResult}, #{item.workPic}, now(), now()
+			#{item.workType}, #{item.startTimeStr}, #{item.endTimeStr}, #{item.workUnit}, #{item.attPerson}, #{item.dogChipNo}, #{item.caseProperty}, #{item.caseNo}, #{item.isWork}, #{item.securityCheckArea}, #{item.workResult}, #{item.workPic}, now(), now()
 			)
 		</foreach>
 	</insert>

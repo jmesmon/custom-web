@@ -93,4 +93,8 @@
 		</foreach>
 	</update>
 
+	<select id="search" resultType="com.chxd.policeDog.vo.DogBaseInfoVO">
+		select * from t_dog_base where chip_no like concat(#{chipNo} '%') limit 0, 20
+	</select>
+
 </mapper>

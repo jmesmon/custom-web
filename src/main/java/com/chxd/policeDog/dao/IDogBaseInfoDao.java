@@ -27,4 +27,6 @@ public interface IDogBaseInfoDao {
 
     public void tickOut(@Param("list") List<DogBaseInfoVO> list, @Param("belong") String belong);
     public void died(List<DogBaseInfoVO> list);
+
+    List<DogBaseInfoVO> search(String chipNo);
 }
