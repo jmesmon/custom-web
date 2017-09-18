@@ -43,10 +43,29 @@ public class DogBaseInfoVO extends BaseVO {
     private Integer  growthStage;	//成长阶段（1：幼犬，2：成犬）
     private Integer  workStage;	//工作状态（1：待申领，2：已被申领，3：被淘汰，4：死亡）
     private String  belonging;	//淘汰/退休归属
+    private Integer policeId;
+    private String policeName;
 
     public DogBaseInfoVO() {
 
     }
+
+    public Integer getPoliceId() {
+        return policeId;
+    }
+
+    public void setPoliceId(Integer policeId) {
+        this.policeId = policeId;
+    }
+
+    public String getPoliceName() {
+        return policeName;
+    }
+
+    public void setPoliceName(String policeName) {
+        this.policeName = policeName;
+    }
+
     public DogBaseInfoVO(String chipNo) {
         this.chipNo = chipNo;
     }

@@ -24,6 +24,8 @@
 		<if test="dogInfo.dogLevel != null" > and dog_level=#{dogInfo.dogLevel}</if>
 		<if test="dogInfo.fileNo != null" > and file_no=#{dogInfo.fileNo}</if>
 		<if test="dogInfo.tutor != null" > and tutor=#{dogInfo.tutor}</if>
+		<if test="dogInfo.policeId != null" > and police_id=#{dogInfo.policeId}</if>
+		<if test="dogInfo.policeName != null" > and police_name=#{dogInfo.policeName}</if>
 	</sql>
 
 	<sql id="pageCondition">

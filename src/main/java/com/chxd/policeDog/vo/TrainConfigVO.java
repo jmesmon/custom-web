@@ -16,6 +16,15 @@ public class TrainConfigVO extends BaseVO {
     private Date endDate;
     private String endDateStr;
     private Integer total;
+    private String trainUser;
+
+    public String getTrainUser() {
+        return trainUser;
+    }
+
+    public void setTrainUser(String trainUser) {
+        this.trainUser = trainUser;
+    }
 
     public String getStartDateStr() {
         return startDateStr;

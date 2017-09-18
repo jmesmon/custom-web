@@ -11,8 +11,11 @@ public class DogTrainVO extends  BaseVO {
     private Integer growStage;
     private Integer dogId;
     private Integer trainId;
-    private Date trainDate;
-    private String trainDateStr;
+    private String trainName;
+    private Date trainStartDate;
+    private String trainStartDateStr;
+    private Date trainEndDate;
+    private String trainEndDateStr;
     private String trainClassName;
     private Integer trainLevel;
     private Integer trainStage;
@@ -26,7 +29,56 @@ public class DogTrainVO extends  BaseVO {
     private Integer policeId;
     private String policeName;
     private String mainTrainUser;
+    private String trainResult;
     private DogBaseInfoVO dogInfo;
+
+    public String getTrainResult() {
+        return trainResult;
+    }
+
+    public void setTrainResult(String trainResult) {
+        this.trainResult = trainResult;
+    }
+
+    public String getTrainName() {
+        return trainName;
+    }
+
+    public void setTrainName(String trainName) {
+        this.trainName = trainName;
+    }
+
+    public String getTrainStartDateStr() {
+        return trainStartDateStr;
+    }
+
+    public void setTrainStartDateStr(String trainStartDateStr) {
+        this.trainStartDateStr = trainStartDateStr;
+    }
+
+    public Date getTrainStartDate() {
+        return trainStartDate;
+    }
+
+    public void setTrainStartDate(Date trainStartDate) {
+        this.trainStartDate = trainStartDate;
+    }
+
+    public Date getTrainEndDate() {
+        return trainEndDate;
+    }
+
+    public void setTrainEndDate(Date trainEndDate) {
+        this.trainEndDate = trainEndDate;
+    }
+
+    public String getTrainEndDateStr() {
+        return trainEndDateStr;
+    }
+
+    public void setTrainEndDateStr(String trainEndDateStr) {
+        this.trainEndDateStr = trainEndDateStr;
+    }
 
     public Integer getTrainId() {
         return trainId;
@@ -34,14 +86,6 @@ public class DogTrainVO extends  BaseVO {
 
     public void setTrainId(Integer trainId) {
         this.trainId = trainId;
-    }
-
-    public String getTrainDateStr() {
-        return trainDateStr;
-    }
-
-    public void setTrainDateStr(String trainDateStr) {
-        this.trainDateStr = trainDateStr;
     }
 
     public String getNextTrainDateStr() {
@@ -90,14 +134,6 @@ public class DogTrainVO extends  BaseVO {
 
     public void setDogId(Integer dogId) {
         this.dogId = dogId;
-    }
-
-    public Date getTrainDate() {
-        return trainDate;
-    }
-
-    public void setTrainDate(Date trainDate) {
-        this.trainDate = trainDate;
     }
 
     public String getTrainClassName() {

@@ -11,7 +11,10 @@
 		<if test="vo.growStage != null" > and grow_stage=#{vo.growStage}</if>
 		<if test="vo.dogId != null" > and dog_id=#{vo.dogId}</if>
 		<if test="vo.trainId != null" > and train_id=#{vo.trainId}</if>
-		<if test="vo.trainDateStr != null" > and train_date=#{vo.trainDateStr}</if>
+		<if test="vo.trainName != null" > and train_name=#{vo.trainName}</if>
+		<if test="vo.trainResult != null" > and train_result=#{vo.trainResult}</if>
+		<if test="vo.trainStartDateStr != null" > , train_start_date=#{vo.trainStartDateStr}</if>
+		<if test="vo.trainEndDateStr != null" > , train_end_date=#{vo.trainEndDateStr}</if>
 		<if test="vo.trainClassName != null" > and train_class_name=#{vo.trainClassName}</if>
 		<if test="vo.trainLevel != null" > and train_level=#{vo.trainLevel}</if>
 		<if test="vo.trainStage != null" > and train_stage=#{vo.trainStage}</if>
@@ -38,11 +41,11 @@
 	</select>
 
 	<insert id="add" parameterType="java.util.List">
-		insert into t_dog_train (grow_stage, dog_id, train_id, train_date, train_class_name, train_level, train_stage, train_unit, train_addr, train_user, score_detail, total_score, next_train_date, police_id, main_train_user, police_name)
+		insert into t_dog_train (train_result, grow_stage, dog_id, train_id, train_name, train_start_date, train_end_date, train_class_name, train_level, train_stage, train_unit, train_addr, train_user, score_detail, total_score, next_train_date, police_id, main_train_user, police_name)
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
 			(
-			#{item.growStage}, #{item.dogId}, #{item.trainId}, #{item.trainDateStr}, #{item.trainClassName}, #{item.trainLevel}, #{item.trainStage}, #{item.trainUnit}, #{item.trainAddr}, #{item.trainUser}, #{item.scoreDetail}, #{item.totalScore}, #{item.nextTrainDateStr}, #{item.policeId}, #{item.mainTrainUser}, #{item.policeName}
+			#{item.trainResult}, #{item.growStage}, #{item.dogId}, #{item.trainId}, #{item.trainName}, #{item.trainStartDateStr}, #{item.trainEndDateStr}, #{item.trainClassName}, #{item.trainLevel}, #{item.trainStage}, #{item.trainUnit}, #{item.trainAddr}, #{item.trainUser}, #{item.scoreDetail}, #{item.totalScore}, #{item.nextTrainDateStr}, #{item.policeId}, #{item.mainTrainUser}, #{item.policeName}
 			)
 		</foreach>
 	</insert>
@@ -59,7 +62,9 @@
 		<if test="vo.growStage != null" > , grow_stage=#{vo.growStage}</if>
 		<if test="vo.dogId != null" > , dog_id=#{vo.dogId}</if>
 		<if test="vo.trainId != null" > , dog_id=#{vo.trainId}</if>
-		<if test="vo.trainDateStr != null" > , train_date=#{vo.trainDateStr}</if>
+		<if test="vo.trainName != null" > , train_name=#{vo.trainName}</if>
+		<if test="vo.trainStartDateStr != null" > , train_start_date=#{vo.trainStartDateStr}</if>
+		<if test="vo.trainEndDateStr != null" > , train_end_date=#{vo.trainEndDateStr}</if>
 		<if test="vo.trainClassName != null" > , train_class_name=#{vo.trainClassName}</if>
 		<if test="vo.trainLevel != null" > , train_level=#{vo.trainLevel}</if>
 		<if test="vo.trainStage != null" > , train_stage=#{vo.trainStage}</if>
@@ -72,6 +77,7 @@
 		<if test="vo.policeId != null" > , police_id=#{vo.policeId}</if>
 		<if test="vo.mainTrainUser != null" > , main_train_user=#{vo.mainTrainUser}</if>
 		<if test="vo.policeName != null" > , police_name=#{vo.policeName}</if>
+		<if test="vo.trainResult != null" > , train_result=#{vo.trainResult}</if>
 		where id=#{vo.id}
 	</update>
 </mapper>
