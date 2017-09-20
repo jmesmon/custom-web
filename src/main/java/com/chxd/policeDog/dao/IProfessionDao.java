@@ -14,6 +14,10 @@ import java.util.List;
 @Mapper
 @Repository
 public interface IProfessionDao {
-    List<DogProVO> getList(@Param("dogProVO") DogProVO dogProVO, @Param("page") PageVO page);
-    Integer getListCount(@Param("dogProVO") DogProVO dogProVO);
+    List<DogProVO> getList(@Param("vo") DogProVO dogProVO, @Param("page") PageVO page);
+    Integer getListCount(@Param("vo") DogProVO dogProVO);
+
+    void add(List<DogProVO> list);
+    void update(@Param("vo") DogProVO vo);
+    void del(List<DogProVO> list);
 }

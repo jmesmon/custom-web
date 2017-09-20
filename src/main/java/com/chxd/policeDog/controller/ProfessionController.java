@@ -2,10 +2,7 @@ package com.chxd.policeDog.controller;
 
 import com.chxd.policeDog.dao.IDogBaseInfoDao;
 import com.chxd.policeDog.dao.IProfessionDao;
-import com.chxd.policeDog.vo.DogBaseInfoVO;
-import com.chxd.policeDog.vo.DogProVO;
-import com.chxd.policeDog.vo.PageResultVO;
-import com.chxd.policeDog.vo.PageVO;
+import com.chxd.policeDog.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,5 +41,26 @@ public class ProfessionController {
         page.setResult(list);
         page.setPageVO(pageVO);
         return page;
+    }
+
+    @RequestMapping("/add")
+    public ResultVO add(@RequestBody List<DogProVO> list){
+        ResultVO resultVO = ResultVO.getInstance();
+        professionDao.add(list);
+        return resultVO;
+    }
+
+    @RequestMapping("/delete")
+    public ResultVO delete(@RequestBody List<DogProVO> list){
+        ResultVO resultVO = ResultVO.getInstance();
+        professionDao.del(list);
+        return resultVO;
+    }
+
+    @RequestMapping("/update")
+    public ResultVO update(@RequestBody DogProVO dogProVO){
+        ResultVO resultVO = ResultVO.getInstance();
+        professionDao.update(dogProVO);
+        return resultVO;
     }
 }

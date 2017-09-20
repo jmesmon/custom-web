@@ -8,14 +8,13 @@
 	</sql>
 
 	<sql id="condition">
-		<if test="dogProVO.dogId != null" > and a.dog_id=#{dogProVO.dogId}</if>
-		<if test="dogProVO.profId != null" > and a.prof_id=#{dogProVO.profId}</if>
-		<if test="dogProVO.profName != null" > and a.prof_name=#{dogProVO.profName}</if>
+		<if test="vo.dogId != null" > and dog_id=#{vo.dogId}</if>
+		<if test="vo.profId != null" > and prof_id=#{vo.profId}</if>
+		<if test="vo.profName != null" > and prof_name=#{vo.profName}</if>
 	</sql>
 
 	<select id="getList" resultType="com.chxd.policeDog.vo.DogProVO">
-		select a.id as id, a.dog_id as dogId, a.prof_id as profId, a.creation_date as creationDate, b.prof_name as profName
-		from t_dog_pro a join t_dog_pro_base b on(a.prof_id=b.id) where 1=1
+		select * from t_dog_pro where 1=1
 		<include refid="condition"/>
 		<include refid="pageCondition"/>
 	</select>
@@ -24,4 +23,29 @@
 		select count(1) from t_dog_pro where 1=1
 		<include refid="condition"/>
 	</select>
+
+	<insert id="add" parameterType="java.util.List">
+		insert into t_dog_pro (dog_id, prof_id, prof_name, creation_date, last_update_date)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.dogId}, #{item.profId}, #{item.profName}, now(), now()
+			)
+		</foreach>
+	</insert>
+
+	<delete id="del">
+		delete from t_dog_pro where id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+
+	<update id="update">
+		update t_dog_pro set last_update_date=now()
+		<if test="vo.dogId != null" > , dog_id=#{vo.dogId}</if>
+		<if test="vo.profId != null" > , prof_id=#{vo.profId}</if>
+		<if test="vo.profName != null" > , prof_name=#{vo.profName}</if>
+		where id=#{vo.id}
+	</update>
 </mapper>

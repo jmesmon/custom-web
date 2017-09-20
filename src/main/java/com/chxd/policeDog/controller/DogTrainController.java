@@ -76,4 +76,17 @@ public class DogTrainController {
         dogTrainDao.update(dogTrainVO);
         return resultVO;
     }
+    @RequestMapping("/batchUpdate")
+    public ResultVO batchUpdate(@RequestBody List<DogTrainVO> list){
+        ResultVO resultVO = ResultVO.getInstance();
+        try {
+            for (int i = 0; i < list.size(); i++) {
+                dogTrainDao.update(list.get(i));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            resultVO.fail(e.getMessage());
+        }
+        return resultVO;
+    }
 }
