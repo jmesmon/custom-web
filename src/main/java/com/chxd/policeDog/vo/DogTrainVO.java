@@ -10,6 +10,7 @@ public class DogTrainVO extends  BaseVO {
 
     private Integer growStage;
     private Integer dogId;
+
     private Integer trainId;
     private String trainName;
     private Date trainStartDate;

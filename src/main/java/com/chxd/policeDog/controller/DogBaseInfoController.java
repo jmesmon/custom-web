@@ -1,6 +1,9 @@
 package com.chxd.policeDog.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.chxd.policeDog.dao.IDogBaseInfoDao;
+import com.chxd.policeDog.dao.IDogTrainDao;
 import com.chxd.policeDog.dao.IWormImmueDao;
 import com.chxd.policeDog.vo.*;
 import com.google.common.collect.Lists;
@@ -17,10 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.websocket.server.PathParam;
 import java.io.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by cheng on 2017/8/27.
@@ -32,6 +32,8 @@ public class DogBaseInfoController {
     private IDogBaseInfoDao dogBaseInfoDao;
     @Autowired
     private IWormImmueDao wormImmueDao;
+    @Autowired
+    private IDogTrainDao dogTrainDao;
 
     @RequestMapping("/getAll/{pageSize}/{curPage}")
     public PageResultVO getAll(@RequestBody DogBaseInfoVO dogBaseInfoVO, @PathParam("") PageVO pageVO) {
@@ -337,5 +339,79 @@ public class DogBaseInfoController {
         }else{
            return new DogBaseInfoVO();
         }
+    }
+
+    @RequestMapping("/addDogInfo")
+    public ResultVO addDogInfo(@RequestBody Map<String, Object> params){
+        ResultVO resultVO = ResultVO.getInstance();
+        try {
+            DogBaseInfoVO dogBaseInfoVO = JSON.parseObject(JSON.toJSONString(params.get("baseInfo")), new TypeReference<DogBaseInfoVO>() {});
+            dogBaseInfoVO.setCreationDate(new Date());
+            dogBaseInfoVO.setUid(System.currentTimeMillis());
+
+            List<DogBaseInfoVO> li = Lists.newArrayList();
+            li.add(dogBaseInfoVO);
+            dogBaseInfoDao.add(li);
+            DogBaseInfoVO dg = new DogBaseInfoVO();
+            dg.setUid(dogBaseInfoVO.getUid());
+            li = dogBaseInfoDao.selectAll(dg, new PageVO());
+            int wormCount = 0;
+            int immuCount = 0;
+            int trainCount = 0;
+            if(li.size() > 0){
+                DogBaseInfoVO dogInfo = li.get(0);
+                try {
+                    ArrayList<DogTrainVO> trainList = JSON.parseObject(JSON.toJSONString(params.get("trainData")), new TypeReference<ArrayList<DogTrainVO>>() {
+                    });
+                    for (int i = 0; i < trainList.size(); i++) {
+                        trainList.get(i).setDogId(dogInfo.getId());
+                    }
+                    dogTrainDao.add(trainList);
+                    trainCount = trainList.size();
+                }catch (Exception e1){
+                    e1.printStackTrace();
+                }
+
+                ArrayList<WormImmueInfoVO> wormImmueList = JSON.parseObject(JSON.toJSONString(params.get("wormImmueData")), new TypeReference<ArrayList<WormImmueInfoVO>>() {});
+                for(int i = 0; i<wormImmueList.size(); i++){
+                    WormImmueInfoVO wormImmueInfoVO = wormImmueList.get(i);
+                    try {
+                        DogWormVO worm = new DogWormVO();
+                        worm.setDogChipNo(dogInfo.getChipNo());
+                        worm.setWormDateStr(wormImmueInfoVO.getDate());
+                        worm.setWormDesc(wormImmueInfoVO.getName());
+                        worm.setWormState(2);
+                        wormImmueDao.addWorm(worm);
+                        wormCount ++;
+                    }catch (Exception e2){
+                        e2.printStackTrace();
+                    }
+
+                    try {
+                        DogImmueVO imu = new DogImmueVO();
+                        imu.setDogChipNo(dogInfo.getChipNo());
+                        imu.setImmueDateStr(wormImmueInfoVO.getDate());
+                        imu.setImmueName(wormImmueInfoVO.getName());
+                        imu.setImmueState(2);
+                        wormImmueDao.addImmue(imu);
+                        immuCount ++;
+                    }catch (Exception e3){
+                        e3.printStackTrace();
+                    }
+                }
+            }else{
+                resultVO.fail("操作失败，基本信息添加失败！");
+                return resultVO;
+            }
+            Map<String, Object> data = Maps.newHashMap();
+            data.put("trainCount", trainCount);
+            data.put("wormCount", wormCount);
+            data.put("immuCount", immuCount);
+            resultVO.setResult(data);
+        }catch (Exception e){
+            e.printStackTrace();
+            resultVO.fail(e.getMessage());
+        }
+        return resultVO;
     }
 }

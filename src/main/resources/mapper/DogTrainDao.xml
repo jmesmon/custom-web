@@ -13,8 +13,8 @@
 		<if test="vo.trainId != null" > and train_id=#{vo.trainId}</if>
 		<if test="vo.trainName != null" > and train_name=#{vo.trainName}</if>
 		<if test="vo.trainResult != null" > and train_result=#{vo.trainResult}</if>
-		<if test="vo.trainStartDateStr != null" > , train_start_date=#{vo.trainStartDateStr}</if>
-		<if test="vo.trainEndDateStr != null" > , train_end_date=#{vo.trainEndDateStr}</if>
+		<if test="vo.trainStartDateStr != null" > and train_start_date=#{vo.trainStartDateStr}</if>
+		<if test="vo.trainEndDateStr != null" > and train_end_date=#{vo.trainEndDateStr}</if>
 		<if test="vo.trainClassName != null" > and train_class_name=#{vo.trainClassName}</if>
 		<if test="vo.trainLevel != null" > and train_level=#{vo.trainLevel}</if>
 		<if test="vo.trainStage != null" > and train_stage=#{vo.trainStage}</if>

@@ -26,6 +26,7 @@
 		<if test="dogInfo.tutor != null" > and tutor=#{dogInfo.tutor}</if>
 		<if test="dogInfo.policeId != null" > and police_id=#{dogInfo.policeId}</if>
 		<if test="dogInfo.policeName != null" > and police_name=#{dogInfo.policeName}</if>
+		<if test="dogInfo.uid != null" > and uid=#{dogInfo.uid}</if>
 	</sql>
 
 	<sql id="pageCondition">
@@ -48,7 +49,7 @@
 								breed, dog_source, dog_colour, hair_type, dog_type, dog_level,
 								inbreeding, tutor, breeder, train_score, next_train_date, work_place,
 								work_area, work_province, file_no, create_doc_date, dog_photo, nest_no,
-								father_id, mother_id, growth_stage, work_stage, belonging, creation_date, last_update_date)
+								father_id, mother_id, growth_stage, work_stage, belonging, creation_date, last_update_date, uid)
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
 			(
@@ -56,7 +57,7 @@
 			  #{item.breed}, #{item.dogSource}, #{item.dogColour}, #{item.hairType}, #{item.dogType}, #{item.dogLevel},
 			  #{item.inbreeding}, #{item.tutor}, #{item.breeder}, #{item.trainScore}, #{item.nextTrainDate}, #{item.workPlace},
 			  #{item.workArea}, #{item.workProvince}, #{item.fileNo}, #{item.createDocDate}, #{item.dogPhoto}, #{item.nestNo},
-			  #{item.fatherId}, #{item.motherId}, #{item.growthStage}, #{item.workStage}, #{item.belonging}, #{item.creationDate}, #{item.lastUpdateDate}
+			  #{item.fatherId}, #{item.motherId}, #{item.growthStage}, #{item.workStage}, #{item.belonging}, #{item.creationDate}, #{item.lastUpdateDate}, #{item.uid}
 			)
 		</foreach>
 	</insert>

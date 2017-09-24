@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chxd.policeDog.dao.IDogNewsDao">
+
+    <insert id="add" parameterType="java.util.List">
+        insert into t_news (id, title, publish_date, publisher, content, news_type, creation_date, last_update_date)
+        values
+            (#{vo.id}, #{vo.title}, #{vo.publishDateStr}, #{vo.publisher}, #{vo.content}, #{vo.newsType}, now(), now())
+    </insert>
+    <delete id="del">
+        delete from t_news where id in
+        <foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+            #{item.id}
+        </foreach>
+    </delete>
+    <update id="update" parameterType="com.chxd.policeDog.vo.DogNewsVO">
+        update t_apply_dog set last_update_date=now()
+        <if test="vo.id != null" > , id=#{vo.id}</if>
+        <if test="vo.title != null" > , title=#{vo.title}</if>
+        <if test="vo.publishDateStr != null" > , publish_date=#{vo.publishDateStr}</if>
+        <if test="vo.publisher != null" > , publisher=#{vo.publisher}</if>
+        <if test="vo.content != null" > , content=#{vo.content}</if>
+        <if test="vo.newsType != null" > , news_type=#{vo.newsType}</if>
+        <if test="vo.creationDate != null" > , creation_date=#{vo.creationDate}</if>
+        <if test="vo.lastUpdateDate != null" > , last_update_date=#{vo.lastUpdateDate}</if>
+        where id=#{vo.id}
+    </update>
+    <sql id="pageCondition">
+        limit #{page.startRow}, #{page.pageSize}
+    </sql>
+
+    <sql id="condition">
+        <if test="vo.id != null" > and id=#{vo.id}</if>
+        <if test="vo.title != null" > and title=#{vo.title}</if>
+        <if test="vo.publishDateStr != null" > and publish_date=#{vo.publishDateStr}</if>
+        <if test="vo.publisher != null" > and publisher=#{vo.publisher}</if>
+        <if test="vo.content != null" > and content=#{vo.content}</if>
+        <if test="vo.newsType != null" > and news_type=#{vo.newsType}</if>
+        <if test="vo.creationDate != null" > and creation_date=#{vo.creationDate}</if>
+        <if test="vo.lastUpdateDate != null" > and last_update_date=#{vo.lastUpdateDate}</if>
+    </sql>
+
+    <select id="getList" resultType="com.chxd.policeDog.vo.DogNewsVO">
+        select * from t_news where 1=1
+        <include refid="condition"/>
+        <include refid="pageCondition"/>
+    </select>
+
+    <select id="getListCount" resultType="java.lang.Integer">
+        select count(1) from t_news where 1=1
+        <include refid="condition"/>
+    </select>
+</mapper>

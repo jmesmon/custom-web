@@ -1,6 +1,7 @@
 package com.chxd.policeDog.vo;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 警犬基本信息表
@@ -45,9 +46,37 @@ public class DogBaseInfoVO extends BaseVO {
     private String  belonging;	//淘汰/退休归属
     private Integer policeId;
     private String policeName;
+    private Long uid;
+
+    private List<DogTrainVO> trainInfo;
+    private List<WormImmueInfoVO> wormImmueInfo;
 
     public DogBaseInfoVO() {
 
+    }
+
+    public Long getUid() {
+        return uid;
+    }
+
+    public void setUid(Long uid) {
+        this.uid = uid;
+    }
+
+    public List<DogTrainVO> getTrainInfo() {
+        return trainInfo;
+    }
+
+    public void setTrainInfo(List<DogTrainVO> trainInfo) {
+        this.trainInfo = trainInfo;
+    }
+
+    public List<WormImmueInfoVO> getWormImmueInfo() {
+        return wormImmueInfo;
+    }
+
+    public void setWormImmueInfo(List<WormImmueInfoVO> wormImmueInfo) {
+        this.wormImmueInfo = wormImmueInfo;
     }
 
     public Integer getPoliceId() {
