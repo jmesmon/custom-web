@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chxd.policeDog.dao.IPoliceUserDao">
+
+	<insert id="add" parameterType="java.util.List">
+		insert into t_police_user (id, user_role, police_id, password, police_name, sex, police_photo, national, id_nun, birthday, on_face, education, degree, gradu_from, major, contact_info, work_unit, work_type, dept, job_title, job, cert_quali, cert_num, reward_info, creation_date, last_update_date)
+		values
+			(#{vo.id}, #{vo.userRole}, #{vo.policeId}, #{vo.password}, #{vo.policeName}, #{vo.sex}, #{vo.policePhoto}, #{vo.national}, #{vo.idNun}, #{vo.birthday}, #{vo.onFace}, #{vo.education}, #{vo.degree}, #{vo.graduFrom}, #{vo.major}, #{vo.contactInfo}, #{vo.workUnit}, #{vo.workType}, #{vo.dept}, #{vo.jobTitle}, #{vo.job}, #{vo.certQuali}, #{vo.certNum}, #{vo.rewardInfo}, #{vo.creationDate}, #{vo.lastUpdateDate})
+	</insert>
+	<delete id="del">
+		delete from t_police_user where id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+	<update id="update" parameterType="com.chxd.policeDog.vo.PoliceUserVO">
+		update t_apply_dog set last_update_date=now()
+		<if test="vo.id != null" > , id=#{vo.id}</if>
+		<if test="vo.userRole != null" > , user_role=#{vo.userRole}</if>
+		<if test="vo.policeId != null" > , police_id=#{vo.policeId}</if>
+		<if test="vo.password != null" > , password=#{vo.password}</if>
+		<if test="vo.policeName != null" > , police_name=#{vo.policeName}</if>
+		<if test="vo.sex != null" > , sex=#{vo.sex}</if>
+		<if test="vo.policePhoto != null" > , police_photo=#{vo.policePhoto}</if>
+		<if test="vo.national != null" > , national=#{vo.national}</if>
+		<if test="vo.idNun != null" > , id_nun=#{vo.idNun}</if>
+		<if test="vo.birthday != null" > , birthday=#{vo.birthday}</if>
+		<if test="vo.onFace != null" > , on_face=#{vo.onFace}</if>
+		<if test="vo.education != null" > , education=#{vo.education}</if>
+		<if test="vo.degree != null" > , degree=#{vo.degree}</if>
+		<if test="vo.graduFrom != null" > , gradu_from=#{vo.graduFrom}</if>
+		<if test="vo.major != null" > , major=#{vo.major}</if>
+		<if test="vo.contactInfo != null" > , contact_info=#{vo.contactInfo}</if>
+		<if test="vo.workUnit != null" > , work_unit=#{vo.workUnit}</if>
+		<if test="vo.workType != null" > , work_type=#{vo.workType}</if>
+		<if test="vo.dept != null" > , dept=#{vo.dept}</if>
+		<if test="vo.jobTitle != null" > , job_title=#{vo.jobTitle}</if>
+		<if test="vo.job != null" > , job=#{vo.job}</if>
+		<if test="vo.certQuali != null" > , cert_quali=#{vo.certQuali}</if>
+		<if test="vo.certNum != null" > , cert_num=#{vo.certNum}</if>
+		<if test="vo.rewardInfo != null" > , reward_info=#{vo.rewardInfo}</if>
+		<if test="vo.creationDate != null" > , creation_date=#{vo.creationDate}</if>
+		<if test="vo.lastUpdateDate != null" > , last_update_date=#{vo.lastUpdateDate}</if>
+		where id=#{vo.id}
+	</update>
+	<sql id="pageCondition">
+		limit #{page.startRow}, #{page.pageSize}
+	</sql>
+
+	<sql id="condition">
+		<if test="vo.id != null" > and id=#{vo.id}</if>
+		<if test="vo.userRole != null" > and user_role=#{vo.userRole}</if>
+		<if test="vo.policeId != null" > and police_id=#{vo.policeId}</if>
+		<if test="vo.password != null" > and password=#{vo.password}</if>
+		<if test="vo.policeName != null" > and police_name=#{vo.policeName}</if>
+		<if test="vo.sex != null" > and sex=#{vo.sex}</if>
+		<if test="vo.policePhoto != null" > and police_photo=#{vo.policePhoto}</if>
+		<if test="vo.national != null" > and national=#{vo.national}</if>
+		<if test="vo.idNun != null" > and id_nun=#{vo.idNun}</if>
+		<if test="vo.birthday != null" > and birthday=#{vo.birthday}</if>
+		<if test="vo.onFace != null" > and on_face=#{vo.onFace}</if>
+		<if test="vo.education != null" > and education=#{vo.education}</if>
+		<if test="vo.degree != null" > and degree=#{vo.degree}</if>
+		<if test="vo.graduFrom != null" > and gradu_from=#{vo.graduFrom}</if>
+		<if test="vo.major != null" > and major=#{vo.major}</if>
+		<if test="vo.contactInfo != null" > and contact_info=#{vo.contactInfo}</if>
+		<if test="vo.workUnit != null" > and work_unit=#{vo.workUnit}</if>
+		<if test="vo.workType != null" > and work_type=#{vo.workType}</if>
+		<if test="vo.dept != null" > and dept=#{vo.dept}</if>
+		<if test="vo.jobTitle != null" > and job_title=#{vo.jobTitle}</if>
+		<if test="vo.job != null" > and job=#{vo.job}</if>
+		<if test="vo.certQuali != null" > and cert_quali=#{vo.certQuali}</if>
+		<if test="vo.certNum != null" > and cert_num=#{vo.certNum}</if>
+		<if test="vo.rewardInfo != null" > and reward_info=#{vo.rewardInfo}</if>
+		<if test="vo.creationDate != null" > and creation_date=#{vo.creationDate}</if>
+		<if test="vo.lastUpdateDate != null" > and last_update_date=#{vo.lastUpdateDate}</if>
+	</sql>
+
+	<select id="getList" resultType="com.chxd.policeDog.vo.PoliceUserVO">
+		select * from t_police_user where 1=1
+		<include refid="condition"/>
+		<include refid="pageCondition"/>
+	</select>
+
+	<select id="getListCount" resultType="java.lang.Integer">
+		select count(1) from t_police_user where 1=1
+		<include refid="condition"/>
+	</select>
+</mapper>

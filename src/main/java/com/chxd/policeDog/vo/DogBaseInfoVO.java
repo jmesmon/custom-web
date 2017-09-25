@@ -44,7 +44,7 @@ public class DogBaseInfoVO extends BaseVO {
     private Integer  growthStage;	//成长阶段（1：幼犬，2：成犬）
     private Integer  workStage;	//工作状态（1：待申领，2：已被申领，3：被淘汰，4：死亡）
     private String  belonging;	//淘汰/退休归属
-    private Integer policeId;
+    private String policeId;
     private String policeName;
     private Long uid;
 
@@ -79,11 +79,11 @@ public class DogBaseInfoVO extends BaseVO {
         this.wormImmueInfo = wormImmueInfo;
     }
 
-    public Integer getPoliceId() {
+    public String getPoliceId() {
         return policeId;
     }
 
-    public void setPoliceId(Integer policeId) {
+    public void setPoliceId(String policeId) {
         this.policeId = policeId;
     }
 

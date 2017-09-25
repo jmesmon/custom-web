@@ -100,4 +100,7 @@
 		select * from t_dog_base where chip_no like concat(#{chipNo} '%') limit 0, 20
 	</select>
 
+	<select id="getListByWorkUnit" resultType="com.chxd.policeDog.vo.DogBaseInfoVO">
+		select * from t_dog_base where police_id in (select police_id from t_police_user where work_unit=#{workUnit})
+	</select>
 </mapper>

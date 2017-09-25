@@ -4,11 +4,12 @@ package com.chxd.policeDog.vo;
  * 用户（民警）信息表
  * Created by cheng on 2017/8/15.
  */
-public class PoliceUserVO extends BaseVO {
+public class PoliceUserVO extends BaseVO implements Cloneable {
     private static final long serialVersionUID = -3431781031584443106L;
 
     private String  policeId;	//	警号
     private String  policeName;	//	姓名
+    private String  password; // 密码
     private String  sex;	//	性别
     private String  policePhoto;	//	照片
     private String  national;	//	民族
@@ -28,6 +29,30 @@ public class PoliceUserVO extends BaseVO {
     private String  certQuali;	//	证书资格
     private String  certNum;	//	证书编号
     private String  rewardInfo;	//	立功授奖信息
+
+    private String userRole;
+
+
+    @Override
+    public PoliceUserVO clone() throws CloneNotSupportedException {
+        return (PoliceUserVO)super.clone();
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getPoliceId() {
         return policeId;

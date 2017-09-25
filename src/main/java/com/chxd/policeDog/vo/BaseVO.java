@@ -2,6 +2,7 @@ package com.chxd.policeDog.vo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by cheng on 2017/8/15.
@@ -12,6 +13,34 @@ public class BaseVO implements Serializable{
     protected Integer id;
     protected Date creationDate;	//	创建日期
     protected Date lastUpdateDate;	//	最后修改日期
+
+    private List<UserRoleVO> roleList;
+    private List<DogBaseInfoVO> dogList;
+    private List<MyTodoVO> todoList;
+
+    public List<UserRoleVO> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<UserRoleVO> roleList) {
+        this.roleList = roleList;
+    }
+
+    public List<DogBaseInfoVO> getDogList() {
+        return dogList;
+    }
+
+    public void setDogList(List<DogBaseInfoVO> dogList) {
+        this.dogList = dogList;
+    }
+
+    public List<MyTodoVO> getTodoList() {
+        return todoList;
+    }
+
+    public void setTodoList(List<MyTodoVO> todoList) {
+        this.todoList = todoList;
+    }
 
     protected Date now = new Date();
 

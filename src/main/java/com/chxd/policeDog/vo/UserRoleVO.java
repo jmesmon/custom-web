@@ -5,6 +5,14 @@ package com.chxd.policeDog.vo;
  * Created by cheng on 2017/8/15.
  */
 public class UserRoleVO extends BaseVO {
+    public static final String NORMAL_USER = "JingYuan";
+    public static final String JZ_USER = "JuZhang";
+    public static final String JZD_USER = "JiuZhiDui";
+    public static final String GLY_USER = "GuanLiYuan";
+    public static final String FZRY_USER = "FanZhiRenYuan";
+    public static final String PXRY_USER = "PeiXunRenYuan";
+    public static final String SUPER_USER = "SuperMan";
+
     private static final long serialVersionUID = 3907950831836557145L;
 
     private Integer  policeId;	//	日期

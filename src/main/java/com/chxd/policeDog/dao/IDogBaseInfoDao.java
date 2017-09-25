@@ -29,4 +29,6 @@ public interface IDogBaseInfoDao {
     public void died(List<DogBaseInfoVO> list);
 
     List<DogBaseInfoVO> search(String chipNo);
+
+    List<DogBaseInfoVO> getListByWorkUnit(@Param("workUnit") String workUnit);
 }
