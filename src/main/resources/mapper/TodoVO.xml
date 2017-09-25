@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chxd.policeDog.dao.ITodoDao">
+
+	<insert id="add" parameterType="java.util.List">
+		insert into t_todo (id, apply_type, apply_title, apply_state, apply_date, apply_id, police_id, creation_date, last_update_date)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(#{vo.id}, #{vo.applyType}, #{vo.applyTitle}, #{vo.applyState}, #{vo.applyDate}, #{vo.applyId}, #{vo.policeId}, now(), now())
+		</foreach>
+	</insert>
+	<delete id="del">
+		delete from t_todo where id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+	<update id="update" parameterType="com.chxd.policeDog.vo.TodoVO">
+		update t_apply_dog set last_update_date=now()
+		<if test="vo.id != null" > , id=#{vo.id}</if>
+		<if test="vo.applyType != null" > , apply_type=#{vo.applyType}</if>
+		<if test="vo.applyTitle != null" > , apply_title=#{vo.applyTitle}</if>
+		<if test="vo.applyState != null" > , apply_state=#{vo.applyState}</if>
+		<if test="vo.applyDate != null" > , apply_date=#{vo.applyDate}</if>
+		<if test="vo.applyId != null" > , apply_id=#{vo.applyId}</if>
+		<if test="vo.policeId != null" > , police_id=#{vo.policeId}</if>
+		<if test="vo.creationDate != null" > , creation_date=#{vo.creationDate}</if>
+		<if test="vo.lastUpdateDate != null" > , last_update_date=#{vo.lastUpdateDate}</if>
+		where id=#{vo.id}
+	</update>
+	<sql id="pageCondition">
+		limit #{page.startRow}, #{page.pageSize}
+	</sql>
+
+	<sql id="condition">
+		<if test="vo.id != null" > and id=#{vo.id}</if>
+		<if test="vo.applyType != null" > and apply_type=#{vo.applyType}</if>
+		<if test="vo.applyTitle != null" > and apply_title=#{vo.applyTitle}</if>
+		<if test="vo.applyState != null" > and apply_state=#{vo.applyState}</if>
+		<if test="vo.applyDate != null" > and apply_date=#{vo.applyDate}</if>
+		<if test="vo.applyId != null" > and apply_id=#{vo.applyId}</if>
+		<if test="vo.policeId != null" > and police_id=#{vo.policeId}</if>
+		<if test="vo.creationDate != null" > and creation_date=#{vo.creationDate}</if>
+		<if test="vo.lastUpdateDate != null" > and last_update_date=#{vo.lastUpdateDate}</if>
+	</sql>
+
+	<select id="getList" resultType="com.chxd.policeDog.vo.TodoVO">
+		select * from t_todo where 1=1
+		<include refid="condition"/>
+		<include refid="pageCondition"/>
+	</select>
+
+	<select id="getListCount" resultType="java.lang.Integer">
+		select count(1) from t_todo where 1=1
+		<include refid="condition"/>
+	</select>
+</mapper>
