@@ -16,7 +16,7 @@ public class BaseVO implements Serializable{
 
     private List<UserRoleVO> roleList;
     private List<DogBaseInfoVO> dogList;
-    private List<MyTodoVO> todoList;
+    private List<TodoVO> todoList;
 
     public List<UserRoleVO> getRoleList() {
         return roleList;
@@ -34,11 +34,11 @@ public class BaseVO implements Serializable{
         this.dogList = dogList;
     }
 
-    public List<MyTodoVO> getTodoList() {
+    public List<TodoVO> getTodoList() {
         return todoList;
     }
 
-    public void setTodoList(List<MyTodoVO> todoList) {
+    public void setTodoList(List<TodoVO> todoList) {
         this.todoList = todoList;
     }
 
