@@ -11,6 +11,7 @@ public class DogBaseInfoVO extends BaseVO {
     private static final long serialVersionUID = -4631461102580927830L;
 
     private String  dogName;	//犬名
+    private String  dogNameLike;	//犬名
     private String nestNo; //窝编号
     private String  chipNo;	//芯片号
     private Date chipNoInject; //芯片注入日期
@@ -53,6 +54,14 @@ public class DogBaseInfoVO extends BaseVO {
 
     public DogBaseInfoVO() {
 
+    }
+
+    public String getDogNameLike() {
+        return dogNameLike;
+    }
+
+    public void setDogNameLike(String dogNameLike) {
+        this.dogNameLike = dogNameLike;
     }
 
     public Long getUid() {

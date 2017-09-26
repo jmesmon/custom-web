@@ -23,7 +23,17 @@ public class DogWorkVO extends BaseVO {
     private String  workResult;	//	使用结果
     private String  workPic;	//	工作图片
 
+    private String dogNameLike;
+
     private DogBaseInfoVO dogInfo;
+
+    public String getDogNameLike() {
+        return dogNameLike;
+    }
+
+    public void setDogNameLike(String dogNameLike) {
+        this.dogNameLike = dogNameLike;
+    }
 
     public DogBaseInfoVO getDogInfo() {
         return dogInfo;

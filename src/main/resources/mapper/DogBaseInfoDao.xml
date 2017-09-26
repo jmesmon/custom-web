@@ -5,6 +5,7 @@
 
 	<sql id="condition">
 		<if test="dogInfo.id != null" > and id=#{dogInfo.id}</if>
+		<if test="dogInfo.dogNameLike != null" > and dog_name like concat('%', #{dogInfo.dogNameLike}, '%')</if>
 		<if test="dogInfo.chipNo != null" > and chip_no=#{dogInfo.chipNo}</if>
 
 		<if test="dogInfo.birthdayStart != null" ><![CDATA[  and birthday>=#{dogInfo.birthdayStart} ]]></if>

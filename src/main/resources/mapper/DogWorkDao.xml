@@ -8,29 +8,38 @@
 	</sql>
 
 	<sql id="condition">
-		<if test="vo.workType != null" > and work_type=#{vo.workType}</if>
-		<if test="vo.workUnit != null" > and work_unit=#{vo.workUnit}</if>
-		<if test="vo.attPerson != null" > and att_person=#{vo.attPerson}</if>
-		<if test="vo.dogChipNo != null" > and dog_chip_no=#{vo.dogChipNo}</if>
-		<if test="vo.caseProperty != null" > and case_property=#{vo.caseProperty}</if>
-		<if test="vo.caseNo != null" > and case_no=#{vo.caseNo}</if>
-		<if test="vo.isWork != null" > and is_work=#{vo.isWork}</if>
-		<if test="vo.securityCheckArea != null" > and security_check_area=#{vo.securityCheckArea}</if>
-		<if test="vo.workResult != null" > and work_result=#{vo.workResult}</if>
-		<if test="vo.workPic != null" > and work_pic=#{vo.workPic}</if>
-		<if test="vo.startTimeStr != null" ><![CDATA[  and start_time >= #{vo.startTimeStr} ]]></if>
-		<if test="vo.endTimeStr != null" ><![CDATA[ and start_time <= #{vo.endTimeStr} ]]></if>
-		order by start_time desc
+		<if test="vo.workType != null" > and t1.work_type=#{vo.workType}</if>
+		<if test="vo.dogNameLike != null" > and t2.dog_name like concat('%', #{vo.dogNameLike}, '%')</if>
+		<if test="vo.workUnit != null" > and t1.work_unit=#{vo.workUnit}</if>
+		<if test="vo.attPerson != null" > and t1.att_person=#{vo.attPerson}</if>
+		<if test="vo.dogChipNo != null" > and t1.dog_chip_no=#{vo.dogChipNo}</if>
+		<if test="vo.caseProperty != null" > and t1.case_property=#{vo.caseProperty}</if>
+		<if test="vo.caseNo != null" > and t1.case_no=#{vo.caseNo}</if>
+		<if test="vo.isWork != null" > and t1.is_work=#{vo.isWork}</if>
+		<if test="vo.securityCheckArea != null" > and t1.security_check_area=#{vo.securityCheckArea}</if>
+		<if test="vo.workResult != null" > and t1.work_result=#{vo.workResult}</if>
+		<if test="vo.workPic != null" > and t1.work_pic=#{vo.workPic}</if>
+		<if test="vo.startTimeStr != null" ><![CDATA[  and t1.start_time >= #{vo.startTimeStr} ]]></if>
+		<if test="vo.endTimeStr != null" ><![CDATA[ and t1.start_time <= #{vo.endTimeStr} ]]></if>
+
+		<if test="vo.dogList != null" >
+			and t2.id in
+			<foreach collection="vo.dogList" item="item" index="index" separator="," open="(" close=")">
+				#{item.id}
+			</foreach>
+		</if>
+
+		order by t1.start_time desc
 	</sql>
 
 	<select id="getList" resultType="com.chxd.policeDog.vo.DogWorkVO">
-		select * from t_dog_work where 1=1
+		select t1.* from t_dog_work t1 join t_dog_base t2 on (t1.dog_chip_no = t2.chip_no) where 1=1
 		<include refid="condition"/>
 		<include refid="pageCondition"/>
 	</select>
 
 	<select id="getListCount" resultType="java.lang.Integer">
-		select count(1) from t_dog_work where 1=1
+		select count(1) from t_dog_work t1 join t_dog_base t2 on (t1.dog_chip_no = t2.chip_no) where 1=1
 		<include refid="condition"/>
 	</select>
 
