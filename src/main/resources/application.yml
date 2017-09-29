@@ -3,6 +3,9 @@
 #   生产环境：java -jar my-spring-boot.jar --spring.profiles.active=prod
 
 spring:
+  http:
+     encoding:
+        charset: utf8
   jackson:
     dateFormat: yyyy-MM-dd HH:mm:ss
     timeZone: GMT+8

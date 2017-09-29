@@ -8,6 +8,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by cheng on 2017/9/26.
@@ -27,6 +28,11 @@ public class BaseController {
         this.request = request;
         this.response = response;
         this.session = request.getSession();
+        try {
+            request.setCharacterEncoding("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setUser(PoliceUserVO user ){
