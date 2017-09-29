@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -43,10 +44,10 @@ public class FileController {
         String suffixName = fileName.substring(fileName.lastIndexOf("."));
         logger.info("上传的后缀名为：" + suffixName);
         // 文件上传后的路径
-        String filePath = "E://test//";
+        String filePath = "E:\\data\\" + new SimpleDateFormat("YYYY-MM-dd").format(System.currentTimeMillis());
         // 解决中文问题，liunx下中文路径，图片显示问题
         fileName = System.currentTimeMillis() + suffixName;
-        File dest = new File(filePath + fileName);
+        File dest = new File(filePath, fileName);
         // 检测是否存在目录
         if (!dest.getParentFile().exists()) {
             dest.getParentFile().mkdirs();

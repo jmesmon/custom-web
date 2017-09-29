@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chxd.policeDog.dao.IPoliceUserDao">
 
-	<insert id="add" parameterType="java.util.List">
-		insert into t_police_user (id, user_role, police_id, password, police_name, sex, police_photo, national, id_nun, birthday, on_face, education, degree, gradu_from, major, contact_info, work_unit, work_type, dept, job_title, job, cert_quali, cert_num, reward_info, creation_date, last_update_date)
+	<insert id="add" parameterType="com.chxd.policeDog.vo.PoliceUserVO">
+		insert into t_police_user (id, user_role, user_role, police_id, password, police_name, sex, police_photo, national, id_nun, birthday, on_face, education, degree, gradu_from, major, contact_info, work_unit, work_type, dept, job_title, job, cert_quali, cert_num, reward_info, creation_date, last_update_date)
 		values
-			(#{vo.id}, #{vo.userRole}, #{vo.policeId}, #{vo.password}, #{vo.policeName}, #{vo.sex}, #{vo.policePhoto}, #{vo.national}, #{vo.idNun}, #{vo.birthday}, #{vo.onFace}, #{vo.education}, #{vo.degree}, #{vo.graduFrom}, #{vo.major}, #{vo.contactInfo}, #{vo.workUnit}, #{vo.workType}, #{vo.dept}, #{vo.jobTitle}, #{vo.job}, #{vo.certQuali}, #{vo.certNum}, #{vo.rewardInfo}, #{vo.creationDate}, #{vo.lastUpdateDate})
+			(#{vo.id}, #{vo.userRole}, #{vo.userRole}, #{vo.policeId}, #{vo.password}, #{vo.policeName}, #{vo.sex}, #{vo.policePhoto}, #{vo.national}, #{vo.idNun}, #{vo.birthday}, #{vo.onFace}, #{vo.education}, #{vo.degree}, #{vo.graduFrom}, #{vo.major}, #{vo.contactInfo}, #{vo.workUnit}, #{vo.workType}, #{vo.dept}, #{vo.jobTitle}, #{vo.job}, #{vo.certQuali}, #{vo.certNum}, #{vo.rewardInfo}, #{vo.creationDate}, #{vo.lastUpdateDate})
 	</insert>
 	<delete id="del">
 		delete from t_police_user where id in
@@ -17,6 +17,7 @@
 		update t_apply_dog set last_update_date=now()
 		<if test="vo.id != null" > , id=#{vo.id}</if>
 		<if test="vo.userRole != null" > , user_role=#{vo.userRole}</if>
+		<if test="vo.approveRole != null" > , approve_role=#{vo.approveRole}</if>
 		<if test="vo.policeId != null" > , police_id=#{vo.policeId}</if>
 		<if test="vo.password != null" > , password=#{vo.password}</if>
 		<if test="vo.policeName != null" > , police_name=#{vo.policeName}</if>
@@ -50,6 +51,7 @@
 	<sql id="condition">
 		<if test="vo.id != null" > and id=#{vo.id}</if>
 		<if test="vo.userRole != null" > and user_role=#{vo.userRole}</if>
+		<if test="vo.approveRole != null" > and approve_role=#{vo.approveRole}</if>
 		<if test="vo.policeId != null" > and police_id=#{vo.policeId}</if>
 		<if test="vo.password != null" > and password=#{vo.password}</if>
 		<if test="vo.policeName != null" > and police_name=#{vo.policeName}</if>

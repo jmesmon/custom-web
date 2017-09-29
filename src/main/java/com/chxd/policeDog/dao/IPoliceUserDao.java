@@ -17,7 +17,7 @@ public interface IPoliceUserDao {
     List<PoliceUserVO> getList(@Param("vo") PoliceUserVO vo, @Param("page") PageVO page);
     Integer getListCount(@Param("vo") PoliceUserVO vo);
 
-    void add(List<PoliceUserVO> list);
+    void add(@Param("vo") PoliceUserVO list);
     void update(@Param("vo") PoliceUserVO vo);
     void del(List<PoliceUserVO> list);
 }

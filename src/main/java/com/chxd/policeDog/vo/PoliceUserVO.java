@@ -32,10 +32,20 @@ public class PoliceUserVO extends BaseVO implements Cloneable {
 
     private String userRole;
 
+    private String approveRole;
+
 
     @Override
     public PoliceUserVO clone() throws CloneNotSupportedException {
         return (PoliceUserVO)super.clone();
+    }
+
+    public String getApproveRole() {
+        return approveRole;
+    }
+
+    public void setApproveRole(String approveRole) {
+        this.approveRole = approveRole;
     }
 
     public String getUserRole() {

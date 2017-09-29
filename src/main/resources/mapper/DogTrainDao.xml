@@ -40,6 +40,14 @@
 		<include refid="condition"/>
 	</select>
 
+	<select id="getStatus" resultType="java.util.HashMap">
+		select train_id as trainId, count(0) as count from t_dog_train where 1=1
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+			#{item.trainId}
+		</foreach>
+		 group by train_id
+	</select>
+
 	<insert id="add" parameterType="java.util.List">
 		insert into t_dog_train (train_result, grow_stage, dog_id, train_id, train_name, train_start_date, train_end_date, train_class_name, train_level, train_stage, train_unit, train_addr, train_user, score_detail, total_score, next_train_date, police_id, main_train_user, police_name)
 		values

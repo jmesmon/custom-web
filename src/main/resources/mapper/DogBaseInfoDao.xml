@@ -13,8 +13,8 @@
 
 		<if test="dogInfo.growthStage != null" > and growth_stage=#{dogInfo.growthStage}</if>
 		<if test="dogInfo.nestNo != null" > and nest_no=#{dogInfo.nestNo}</if>
-		<if test="dogInfo.fatherId != null" > and chip_no=#{dogInfo.fatherId}</if>
-		<if test="dogInfo.motherId != null" > and chip_no=#{dogInfo.motherId}</if>
+		<if test="dogInfo.fatherId != null" > and father_id=#{dogInfo.fatherId}</if>
+		<if test="dogInfo.motherId != null" > and mother_id=#{dogInfo.motherId}</if>
 		<if test="dogInfo.sex != null" > and sex=#{dogInfo.sex}</if>
 		<if test="dogInfo.breed != null" > and breed=#{dogInfo.breed}</if>
 		<if test="dogInfo.dogSource != null" > and dog_source=#{dogInfo.dogSource}</if>

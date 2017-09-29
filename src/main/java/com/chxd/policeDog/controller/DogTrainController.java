@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cheng on 2017/9/3.
@@ -83,6 +84,19 @@ public class DogTrainController {
             for (int i = 0; i < list.size(); i++) {
                 dogTrainDao.update(list.get(i));
             }
+        }catch(Exception e){
+            e.printStackTrace();
+            resultVO.fail(e.getMessage());
+        }
+        return resultVO;
+    }
+
+    @RequestMapping("/getStatus")
+    public ResultVO getStatus(@RequestBody List<DogTrainVO> list){
+        ResultVO resultVO = ResultVO.getInstance();
+        try {
+            List<Map<String, String>> status = dogTrainDao.getStatus(list);
+            resultVO.setResult(status);
         }catch(Exception e){
             e.printStackTrace();
             resultVO.fail(e.getMessage());

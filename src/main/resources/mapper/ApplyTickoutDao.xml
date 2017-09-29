@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chxd.policeDog.dao.IApplyTickoutDao">
+
+	<insert id="add" parameterType="java.util.List">
+		insert into t_dog_tickout (id, apply_unit, belong_to, dog_id, apply_user, tickout_date, tickout_reason, tickout_desc, apply_state, approve_detail, approve_date, apply_date, creation_date)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(#{item.id}, #{item.applyUnit}, #{item.belongTo}, #{item.dogId}, #{item.applyUser}, #{item.tickoutDateStr}, #{item.tickoutReason}, #{item.tickoutDesc}, #{item.applyState}, #{item.approveDetail}, #{item.approveDateStr}, #{item.applyDateStr}, now())
+		</foreach>
+	</insert>
+	<delete id="del">
+		delete from t_dog_tickout where id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+	<update id="update" parameterType="com.chxd.policeDog.vo.ApplyTickoutVO">
+		update t_dog_tickout set last_update_date=now()
+		<if test="vo.id != null" > , id=#{vo.id}</if>
+		<if test="vo.applyUnit != null" > , apply_unit=#{vo.applyUnit}</if>
+		<if test="vo.belongTo != null" > , belong_to=#{vo.belongTo}</if>
+		<if test="vo.dogId != null" > , dog_id=#{vo.dogId}</if>
+		<if test="vo.applyUser != null" > , apply_user=#{vo.applyUser}</if>
+		<if test="vo.tickoutDateStr != null" > , tickout_date=#{vo.tickoutDateStr}</if>
+		<if test="vo.tickoutReason != null" > , tickout_reason=#{vo.tickoutReason}</if>
+		<if test="vo.tickoutDesc != null" > , tickout_desc=#{vo.tickoutDesc}</if>
+		<if test="vo.applyState != null" > , apply_state=#{vo.applyState}</if>
+		<if test="vo.approveDetail != null" > , approve_detail=#{vo.approveDetail}</if>
+		<if test="vo.approveDateStr != null" > , approve_date=#{vo.approveDateStr}</if>
+		<if test="vo.applyDate != null" > , apply_date=#{vo.applyDate}</if>
+		where id=#{vo.id}
+	</update>
+	<sql id="pageCondition">
+		limit #{page.startRow}, #{page.pageSize}
+	</sql>
+
+	<sql id="condition">
+		<if test="vo.id != null" > and id=#{vo.id}</if>
+		<if test="vo.applyUnit != null" > and apply_unit=#{vo.applyUnit}</if>
+		<if test="vo.belongTo != null" > and belong_to=#{vo.belongTo}</if>
+		<if test="vo.dogId != null" > and dog_id=#{vo.dogId}</if>
+		<if test="vo.applyUser != null" > and apply_user=#{vo.applyUser}</if>
+		<if test="vo.tickoutDateStr != null" > and tickout_date=#{vo.tickoutDateStr}</if>
+		<if test="vo.tickoutReason != null" > and tickout_reason=#{vo.tickoutReason}</if>
+		<if test="vo.tickoutDesc != null" > and tickout_desc=#{vo.tickoutDesc}</if>
+		<if test="vo.applyState != null" > and apply_state=#{vo.applyState}</if>
+		<if test="vo.approveDetail != null" > and approve_detail=#{vo.approveDetail}</if>
+		<if test="vo.approveDateStr != null" > and approve_date=#{vo.approveDateStr}</if>
+		<if test="vo.applyDateStr != null" > and apply_date=#{vo.applyDateStr}</if>
+	</sql>
+
+	<select id="getList" resultType="com.chxd.policeDog.vo.ApplyTickoutVO">
+		select * from t_dog_tickout where 1=1
+		<include refid="condition"/>
+		<include refid="pageCondition"/>
+	</select>
+
+	<select id="getListCount" resultType="java.lang.Integer">
+		select count(1) from t_dog_tickout where 1=1
+		<include refid="condition"/>
+	</select>
+</mapper>

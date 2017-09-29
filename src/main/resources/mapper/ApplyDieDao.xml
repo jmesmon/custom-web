@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chxd.policeDog.dao.IApplyDieDao">
+
+	<insert id="add" parameterType="java.util.List">
+		insert into t_dog_die (id, dog_id, apply_unit, sick_reason, apply_date, sick_date, cure_detail, die_date, photos, die_reason, conclus, apply_state, apply_user, approve_date, approve_detail, last_update_date)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(#{item.id}, #{item.dogId}, #{item.applyUnit}, #{item.sickReason}, #{item.applyDateStr}, #{item.sickDateStr}, #{item.cureDetail}, #{item.dieDateStr}, #{item.photos}, #{item.dieReason}, #{item.conclus}, #{item.applyState}, #{item.applyUser}, #{item.approveDateStr}, #{item.approveDetail}, now())
+		</foreach>
+	</insert>
+	<delete id="del">
+		delete from t_dog_die where id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+	<update id="update" parameterType="com.chxd.policeDog.vo.ApplyDieVO">
+		update t_dog_die set last_update_date=now()
+		<if test="vo.id != null" > , id=#{vo.id}</if>
+		<if test="vo.applyUnit != null" > , apply_unit=#{vo.applyUnit}</if>
+		<if test="vo.dogId != null" > , dog_id=#{vo.dogId}</if>
+		<if test="vo.sickReason != null" > , sick_reason=#{vo.sickReason}</if>
+		<if test="vo.applyDateStr != null" > , apply_date=#{vo.applyDateStr}</if>
+		<if test="vo.sickDateStr != null" > , sick_date=#{vo.sickDateStr}</if>
+		<if test="vo.cureDetail != null" > , cure_detail=#{vo.cureDetail}</if>
+		<if test="vo.dieDateStr != null" > , die_date=#{vo.dieDateStr}</if>
+		<if test="vo.photos != null" > , photos=#{vo.photos}</if>
+		<if test="vo.dieReason != null" > , die_reason=#{vo.dieReason}</if>
+		<if test="vo.conclus != null" > , conclus=#{vo.conclus}</if>
+		<if test="vo.applyState != null" > , apply_state=#{vo.applyState}</if>
+		<if test="vo.applyUser != null" > , apply_user=#{vo.applyUser}</if>
+		<if test="vo.approveDateStr != null" > , approve_date=#{vo.approveDateStr}</if>
+		<if test="vo.approveDetail != null" > , approve_detail=#{vo.approveDetail}</if>
+		where id=#{vo.id}
+	</update>
+	<sql id="pageCondition">
+		limit #{page.startRow}, #{page.pageSize}
+	</sql>
+
+	<sql id="condition">
+		<if test="vo.id != null" > and id=#{vo.id}</if>
+		<if test="vo.applyUnit != null" > and apply_unit=#{vo.applyUnit}</if>
+		<if test="vo.dogId != null" > and dog_id=#{vo.dogId}</if>
+		<if test="vo.sickReason != null" > and sick_reason=#{vo.sickReason}</if>
+		<if test="vo.applyDateStr != null" > and apply_date=#{vo.applyDateStr}</if>
+		<if test="vo.sickDateStr != null" > and sick_date=#{vo.sickDateStr}</if>
+		<if test="vo.cureDetail != null" > and cure_detail=#{vo.cureDetail}</if>
+		<if test="vo.dieDateStr != null" > and die_date=#{vo.dieDateStr}</if>
+		<if test="vo.photos != null" > and photos=#{vo.photos}</if>
+		<if test="vo.dieReason != null" > and die_reason=#{vo.dieReason}</if>
+		<if test="vo.conclus != null" > and conclus=#{vo.conclus}</if>
+		<if test="vo.applyState != null" > and apply_state=#{vo.applyState}</if>
+		<if test="vo.applyUser != null" > and apply_user=#{vo.applyUser}</if>
+		<if test="vo.approveDateStr != null" > and approve_date=#{vo.approveDateStr}</if>
+		<if test="vo.approveDetail != null" > and approve_detail=#{vo.approveDetail}</if>
+	</sql>
+
+	<select id="getList" resultType="com.chxd.policeDog.vo.ApplyDieVO">
+		select * from t_dog_die where 1=1
+		<include refid="condition"/>
+		<include refid="pageCondition"/>
+	</select>
+
+	<select id="getListCount" resultType="java.lang.Integer">
+		select count(1) from t_dog_die where 1=1
+		<include refid="condition"/>
+	</select>
+</mapper>

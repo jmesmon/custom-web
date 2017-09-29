@@ -12,6 +12,7 @@ public class UserRoleVO extends BaseVO {
     public static final String FZRY_USER = "FanZhiRenYuan";
     public static final String PXRY_USER = "PeiXunRenYuan";
     public static final String SUPER_USER = "SuperMan";
+    public static final String APPROVER_USER = "Approvor";
 
     private static final long serialVersionUID = 3907950831836557145L;
 

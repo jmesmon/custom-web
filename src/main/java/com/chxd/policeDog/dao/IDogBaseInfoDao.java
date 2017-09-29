@@ -31,4 +31,5 @@ public interface IDogBaseInfoDao {
     List<DogBaseInfoVO> search(String chipNo);
 
     List<DogBaseInfoVO> getListByWorkUnit(@Param("workUnit") String workUnit);
+
 }

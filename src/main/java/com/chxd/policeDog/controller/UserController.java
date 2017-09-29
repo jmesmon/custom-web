@@ -3,7 +3,6 @@ package com.chxd.policeDog.controller;
 import com.chxd.policeDog.dao.IDogBaseInfoDao;
 import com.chxd.policeDog.dao.IPoliceUserDao;
 import com.chxd.policeDog.vo.*;
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +51,24 @@ public class UserController extends  BaseController{
         return resultVO;
     }
 
+    @RequestMapping("/base")
+    public ResultVO base(){
+        ResultVO resultVO = ResultVO.getInstance();
+
+        try {
+            PoliceUserVO currentUser = getCurrentUser();
+            if(currentUser != null){
+                resultVO.setResult(currentUser);
+            }else{
+                resultVO.fail();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO.fail(e.getMessage());
+        }
+        return resultVO;
+    }
+
     private void setUserInfo(PoliceUserVO user){
 
         if (UserRoleVO.NORMAL_USER.equals(user.getUserRole())) {
@@ -93,9 +110,7 @@ public class UserController extends  BaseController{
     @RequestMapping("/add")
     public ResultVO add(@RequestBody PoliceUserVO policeUserVO){
         ResultVO resultVO = ResultVO.getInstance();
-        List<PoliceUserVO> list = Lists.newArrayList();
-        list.add(policeUserVO);
-        policeUserDao.add(list);
+        policeUserDao.add(policeUserVO);
         return resultVO;
     }
 
