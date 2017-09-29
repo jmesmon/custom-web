@@ -32,6 +32,10 @@
 		<if test="vo.applyUser != null" > , apply_user=#{vo.applyUser}</if>
 		<if test="vo.approveDateStr != null" > , approve_date=#{vo.approveDateStr}</if>
 		<if test="vo.approveDetail != null" > , approve_detail=#{vo.approveDetail}</if>
+		<if test="vo.unitApproveDetail != null" > , unit_approve_detail=#{vo.unitApproveDetail}</if>
+		<if test="vo.unitApproveDateStr != null" > , unit_approve_date=#{vo.unitApproveDateStr}</if>
+		<if test="vo.approver != null" > , approver=#{vo.approver}</if>
+		<if test="vo.unitApprover != null" > , unit_approver=#{vo.unitApprover}</if>
 		where id=#{vo.id}
 	</update>
 	<sql id="pageCondition">
@@ -54,6 +58,10 @@
 		<if test="vo.applyUser != null" > and apply_user=#{vo.applyUser}</if>
 		<if test="vo.approveDateStr != null" > and approve_date=#{vo.approveDateStr}</if>
 		<if test="vo.approveDetail != null" > and approve_detail=#{vo.approveDetail}</if>
+		<if test="vo.unitApproveDetail != null" > and unit_approve_detail=#{vo.unitApproveDetail}</if>
+		<if test="vo.unitApproveDateStr != null" > and unit_approve_date=#{vo.unitApproveDateStr}</if>
+		<if test="vo.approver != null" > and approver=#{vo.approver}</if>
+		<if test="vo.unitApprover != null" > and unit_approver=#{vo.unitApprover}</if>
 	</sql>
 
 	<select id="getList" resultType="com.chxd.policeDog.vo.ApplyDieVO">

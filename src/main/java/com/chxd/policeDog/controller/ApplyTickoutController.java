@@ -17,7 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/apply/tickout")
-public class ApplyTickoutController {
+public class ApplyTickoutController extends BaseController {
     @Autowired
     private IApplyTickoutDao applyTickoutDao;
     @Autowired
@@ -26,6 +26,16 @@ public class ApplyTickoutController {
     @RequestMapping("/getList/{pageSize}/{curPage}")
     public PageResultVO getList(@RequestBody ApplyTickoutVO tickoutVO, @PathParam("") PageVO pageVO) {
         PageResultVO page = new PageResultVO();
+        PoliceUserVO currentUser = getCurrentUser();
+        if( UserRoleVO.JZ_USER.equals(currentUser.getUserRole()) && UserRoleVO.APPROVER_USER.equals(currentUser.getApproveRole())){
+            tickoutVO.setApplyUnit(currentUser.getWorkUnit());
+            tickoutVO.setApplyStateGr(1);
+        }else if( UserRoleVO.NORMAL_USER.equals(currentUser.getUserRole()) ){
+            tickoutVO.setApplyUser(currentUser.getPoliceName());
+        }else if( UserRoleVO.JZD_USER.equals(currentUser.getUserRole())){
+            tickoutVO.setApplyStateGr(2);
+        }
+
         List<ApplyTickoutVO> list = applyTickoutDao.getList(tickoutVO, pageVO);
         for(int i = 0; i< list.size(); i++){
             ApplyTickoutVO dp = list.get(i);
@@ -65,7 +75,7 @@ public class ApplyTickoutController {
             for(int i = 0; i<list.size(); i++){
                 ApplyTickoutVO vo = list.get(i);
                 applyTickoutDao.update(list.get(i));
-                if( vo.getApplyState() == 2){
+                if( vo.getApplyState() == 3){
                     //审批通过，修改警犬基本信息
                     DogBaseInfoVO dog = new DogBaseInfoVO();
                     if(vo.getId() == null) continue;;

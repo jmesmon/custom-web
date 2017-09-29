@@ -13,16 +13,72 @@ public class ApplyTickoutVO extends BaseVO {
     private String tickoutDateStr;	//淘汰日期
     private String  tickoutReason;	//淘汰原因
     private String  tickoutDesc;	//备注
-    private Integer  applyState;	//1：待审批，2：通过，3：驳回
+    private Integer  applyState;	//1:等待分局审批，2：等待九支队审批，3: 审批完成，4：驳回
+    private Integer  applyStateGr;
     private String  approveDetail;	//审批意见
     private Date  approveDate;	//
     private String  approveDateStr;	//
     private Date  applyDate;	//申请日期
     private String  applyDateStr;	//申请日期
 
+    private String unitApproveDetail;
+    private Date unitApproveDate;
+    private String unitApproveDateStr;
+
+    private String approver;
+    private String unitApprover;
+
     private String belongTo;
 
     private DogBaseInfoVO dogInfo;
+
+    public Integer getApplyStateGr() {
+        return applyStateGr;
+    }
+
+    public void setApplyStateGr(Integer applyStateGr) {
+        this.applyStateGr = applyStateGr;
+    }
+
+    public String getApprover() {
+        return approver;
+    }
+
+    public void setApprover(String approver) {
+        this.approver = approver;
+    }
+
+    public String getUnitApprover() {
+        return unitApprover;
+    }
+
+    public void setUnitApprover(String unitApprover) {
+        this.unitApprover = unitApprover;
+    }
+
+    public String getUnitApproveDetail() {
+        return unitApproveDetail;
+    }
+
+    public void setUnitApproveDetail(String unitApproveDetail) {
+        this.unitApproveDetail = unitApproveDetail;
+    }
+
+    public Date getUnitApproveDate() {
+        return unitApproveDate;
+    }
+
+    public void setUnitApproveDate(Date unitApproveDate) {
+        this.unitApproveDate = unitApproveDate;
+    }
+
+    public String getUnitApproveDateStr() {
+        return unitApproveDateStr;
+    }
+
+    public void setUnitApproveDateStr(String unitApproveDateStr) {
+        this.unitApproveDateStr = unitApproveDateStr;
+    }
 
     public String getBelongTo() {
         return belongTo;

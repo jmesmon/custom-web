@@ -17,7 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/apply/die")
-public class ApplyDieController {
+public class ApplyDieController extends BaseController {
     @Autowired
     private IApplyDieDao applyDieDao;
     @Autowired
@@ -26,6 +26,16 @@ public class ApplyDieController {
     @RequestMapping("/getList/{pageSize}/{curPage}")
     public PageResultVO getList(@RequestBody ApplyDieVO applyDieVO, @PathParam("") PageVO pageVO) {
         PageResultVO page = new PageResultVO();
+        PoliceUserVO currentUser = getCurrentUser();
+        if( UserRoleVO.JZ_USER.equals(currentUser.getUserRole()) && UserRoleVO.APPROVER_USER.equals(currentUser.getApproveRole())){
+            applyDieVO.setApplyUnit(currentUser.getWorkUnit());
+            applyDieVO.setApplyStateGr(1);
+        }else if( UserRoleVO.NORMAL_USER.equals(currentUser.getUserRole()) ){
+            applyDieVO.setApplyUser(currentUser.getPoliceName());
+        }else if( UserRoleVO.JZD_USER.equals(currentUser.getUserRole())){
+            applyDieVO.setApplyStateGr(2);
+        }
+
         List<ApplyDieVO> list = applyDieDao.getList(applyDieVO, pageVO);
         for(int i = 0; i< list.size(); i++){
             ApplyDieVO dp = list.get(i);
@@ -65,7 +75,7 @@ public class ApplyDieController {
         for(int i = 0; i<list.size(); i++){
             ApplyDieVO vo = list.get(i);
             applyDieDao.update(list.get(i));
-            if( vo.getApplyState() == 2){
+            if( vo.getApplyState() == 3){
                 //审批通过，修改警犬基本信息
                 DogBaseInfoVO dog = new DogBaseInfoVO();
                 if(vo.getId() == null) continue;;

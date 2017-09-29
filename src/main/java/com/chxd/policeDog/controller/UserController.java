@@ -99,7 +99,18 @@ public class UserController extends  BaseController{
     @RequestMapping("/getList/{pageSize}/{curPage}")
     public PageResultVO getList(@RequestBody PoliceUserVO policeUserVO, @PathParam("") PageVO pageVO) {
         PageResultVO page = new PageResultVO();
+        PoliceUserVO currentUser = getCurrentUser();
+        if( UserRoleVO.JZ_USER.equals(currentUser.getUserRole())){
+            policeUserVO.setWorkUnit(currentUser.getWorkUnit());
+        }else if( UserRoleVO.NORMAL_USER.equals(currentUser.getUserRole()) ){
+            policeUserVO.setPoliceId(currentUser.getPoliceId());
+        }else if( UserRoleVO.GLY_USER.equals(currentUser.getUserRole())){
+            policeUserVO.setWorkUnit(currentUser.getWorkUnit());
+        }
         List<PoliceUserVO> list = policeUserDao.getList(policeUserVO, pageVO);
+        for(int i = 0; i<list.size(); i++){
+            list.get(i).setPassword(null);
+        }
         Integer integer = policeUserDao.getListCount(policeUserVO);
         pageVO.setTotalRows(integer);
         page.setResult(list);

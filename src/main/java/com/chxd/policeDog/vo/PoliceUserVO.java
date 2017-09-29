@@ -9,6 +9,7 @@ public class PoliceUserVO extends BaseVO implements Cloneable {
 
     private String  policeId;	//	警号
     private String  policeName;	//	姓名
+    private String  policeNameLike;	//	姓名
     private String  password; // 密码
     private String  sex;	//	性别
     private String  policePhoto;	//	照片
@@ -38,6 +39,14 @@ public class PoliceUserVO extends BaseVO implements Cloneable {
     @Override
     public PoliceUserVO clone() throws CloneNotSupportedException {
         return (PoliceUserVO)super.clone();
+    }
+
+    public String getPoliceNameLike() {
+        return policeNameLike;
+    }
+
+    public void setPoliceNameLike(String policeNameLike) {
+        this.policeNameLike = policeNameLike;
     }
 
     public String getApproveRole() {
