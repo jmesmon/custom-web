@@ -1,5 +1,6 @@
 package com.chxd.policeDog.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.chxd.policeDog.dao.IDogBaseInfoDao;
 import com.chxd.policeDog.dao.IDogWorkDao;
 import com.chxd.policeDog.vo.*;
@@ -25,6 +26,7 @@ public class DogWorkController {
     @RequestMapping("/getList/{pageSize}/{curPage}")
     public PageResultVO getList(@RequestBody DogWorkVO dogWorkVO, @PathParam("") PageVO pageVO) {
         PageResultVO page = new PageResultVO();
+        System.out.println(JSON.toJSONString(dogWorkVO));
         List<DogWorkVO> list = dogWorkDao.getList(dogWorkVO, pageVO);
         Integer integer = dogWorkDao.getListCount(dogWorkVO);
         for(int i = 0; i< list.size(); i++){

@@ -19,7 +19,7 @@ Configuration:
       name: CONSOLE
       target: SYSTEM_OUT
       ThresholdFilter:
-        level: ${main:consoleLevel}
+        level: info
         onMatch: ACCEPT
         onMismatch: DENY
       PatternLayout:
@@ -48,7 +48,7 @@ Configuration:
     Logger: # 为com.xjj包配置特殊的Log级别，方便调试
       - name: com.xjj
         additivity: false
-        level: ${main:xjjLevel}
+        level: info
         AppenderRef:
           - ref: CONSOLE
           - ref: ROLLING_FILE
