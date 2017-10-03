@@ -26,7 +26,6 @@ public class DogWorkController {
     @RequestMapping("/getList/{pageSize}/{curPage}")
     public PageResultVO getList(@RequestBody DogWorkVO dogWorkVO, @PathParam("") PageVO pageVO) {
         PageResultVO page = new PageResultVO();
-        System.out.println(JSON.toJSONString(dogWorkVO));
         List<DogWorkVO> list = dogWorkDao.getList(dogWorkVO, pageVO);
         Integer integer = dogWorkDao.getListCount(dogWorkVO);
         for(int i = 0; i< list.size(); i++){
@@ -48,6 +47,7 @@ public class DogWorkController {
     @RequestMapping("/add")
     public ResultVO add(@RequestBody List<DogWorkVO> list){
         ResultVO resultVO = ResultVO.getInstance();
+        System.out.println(JSON.toJSONString(list));
         dogWorkDao.add(list);
         return resultVO;
     }
