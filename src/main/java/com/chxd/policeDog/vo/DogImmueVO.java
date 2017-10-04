@@ -15,10 +15,19 @@ public class DogImmueVO extends BaseVO {
     private String immueDateStart;
     private String immueDateEnd;
     private Integer immueState;
+    private Integer immueStateSet;
     private Integer policeId;
     private String policeName;
 
     private DogBaseInfoVO dogInfo;
+
+    public Integer getImmueStateSet() {
+        return immueStateSet;
+    }
+
+    public void setImmueStateSet(Integer immueStateSet) {
+        this.immueStateSet = immueStateSet;
+    }
 
     public DogBaseInfoVO getDogInfo() {
         return dogInfo;

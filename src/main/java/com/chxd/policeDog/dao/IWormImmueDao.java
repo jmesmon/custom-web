@@ -32,4 +32,7 @@ public interface IWormImmueDao {
 
     List<DogImmueVO> getImmueList(@Param("immueVO")DogImmueVO immueVO, @Param("page")PageVO page);
     Integer getImmueCount(@Param("immueVO")DogImmueVO immueVO);
+
+    void updateImmueState(@Param("immueVO")DogImmueVO dogImmueVO);
+    void updateWormState(@Param("wormVO")DogWormVO dogWormVO);
 }

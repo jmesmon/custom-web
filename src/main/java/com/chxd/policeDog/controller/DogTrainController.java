@@ -83,6 +83,12 @@ public class DogTrainController {
         try {
             for (int i = 0; i < list.size(); i++) {
                 dogTrainDao.update(list.get(i));
+                DogBaseInfoVO dog = new DogBaseInfoVO();
+                dog.setId(list.get(i).getDogId());
+                dog.setNextTrainDateStr(list.get(i).getNextTrainDateStr());
+                dog.setTrainScore(list.get(i).getTrainResult());
+
+                dogBaseInfoDao.update(dog);
             }
         }catch(Exception e){
             e.printStackTrace();

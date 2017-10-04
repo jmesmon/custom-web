@@ -135,4 +135,18 @@ public class WormImmueController {
         wormImmueDao.delImmue(list);
         return resultVO;
     }
+
+    @RequestMapping("/updateImmueState")
+    public ResultVO updateImmueState(@RequestBody DogImmueVO dogImmueVO){
+        ResultVO resultVO = ResultVO.getInstance();
+        wormImmueDao.updateImmueState(dogImmueVO);
+        return resultVO;
+    }
+
+    @RequestMapping("/updateWormState")
+    public ResultVO updateWormState(@RequestBody DogWormVO dogWormVO){
+        ResultVO resultVO = ResultVO.getInstance();
+        wormImmueDao.updateWormState(dogWormVO);
+        return resultVO;
+    }
 }

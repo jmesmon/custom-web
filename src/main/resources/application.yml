@@ -3,6 +3,8 @@
 #   生产环境：java -jar my-spring-boot.jar --spring.profiles.active=prod
 
 spring:
+  profiles:
+    active: prod
   http:
      encoding:
         force: true
@@ -11,15 +13,6 @@ spring:
   jackson:
     dateFormat: yyyy-MM-dd HH:mm:ss
     timeZone: GMT+8
-  profiles:
-    active: dev
-#  cache:
-#    type: CAFFEINE #指定cache类型
-#    cache-names:
-#      - getPersonById
-#      - name2
-#    caffeine:
-#      spec: maximumSize=500,expireAfterWrite=5s
       
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -44,11 +37,11 @@ spring:
 mybatis:
   mapperLocations: classpath:mapper/*.xml
   configuration:
-          map-underscore-to-camel-case: true
+      map-underscore-to-camel-case: true
 
 server:
   tomcat:
-        uriEncoding: UTF-8
+      uriEncoding: UTF-8
   port: 8088
 management:
   port: 54001
@@ -61,51 +54,4 @@ info:
     description: "@project.description@"
     version: "@project.version@"
     spring-boot-version: "@project.parent.version@"
-      
----
-# 开发环境配置
-spring:
-  profiles: dev
-#  redis:
-#    cluster:
-#      nodes:
-#        - 192.168.0.17:6390
-#        - 192.168.0.17:6391
-#        - 192.168.0.17:6392
-#        - 192.168.0.9:6390
-#        - 192.168.0.9:6391
-#        - 192.168.0.9:6392
-  datasource:
-    url: jdbc:mysql://localhost:3306/police_dog?characterEncoding=utf-8
-#  data:
-#    mongodb:
-#      uri: mongodb://192.168.0.9:27017/test
 
-myProps: #自定义的属性和值
-  simpleProp: simplePropValue
-  arrayProps: 1,2,3,4,5
-  listProp1:
-    - name: abc
-      value: abcValue
-    - name: efg
-      value: efgValue
-  listProp2:
-    - config2Value1
-    - config2Vavlue2
-  mapProps:
-    key1: value1
-    key2: value2
-  
----
-# 测试环境配置
-spring:
-  profiles: test
-  datasource:
-    url: jdbc:mysql://localhost:3306/police_dog?characterEncoding=utf-8
-  
----
-# 生产环境配置
-spring:
-  profiles: prod
-  datasource:
-    url: jdbc:mysql://localhost:3306/police_dog?characterEncoding=utf-8

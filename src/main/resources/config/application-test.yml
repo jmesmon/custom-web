@@ -1,0 +1,8 @@
+# 开发环境配置
+spring:
+  profiles: test
+  datasource:
+    url: jdbc:mysql://139.199.164.184:3302/police_dog?characterEncoding=utf-8
+
+myProps: #自定义的属性和值
+    uploadFilePath: /usr/local/policeDog/resources

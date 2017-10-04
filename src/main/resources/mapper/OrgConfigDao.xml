@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chxd.policeDog.dao.IOrgConfigDao">
+
+	<insert id="add" parameterType="java.util.List">
+		insert into t_org_config (id, org_name, org_leader, org_addr, org_concat, emp_qty, org_area, last_update_date)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(#{item.id}, #{item.orgName}, #{item.orgLeader}, #{item.orgAddr}, #{item.orgConcat}, #{item.empQty}, #{item.orgArea}, #{item.lastUpdateDate})
+		</foreach>
+	</insert>
+	<delete id="del">
+		delete from t_org_config where id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+	<update id="update" parameterType="com.chxd.policeDog.vo.DogWorkVO">
+		update t_apply_dog set last_update_date=now()
+		<if test="vo.id != null" > , id=#{vo.id}</if>
+		<if test="vo.orgName != null" > , org_name=#{vo.orgName}</if>
+		<if test="vo.orgLeader != null" > , org_leader=#{vo.orgLeader}</if>
+		<if test="vo.orgAddr != null" > , org_addr=#{vo.orgAddr}</if>
+		<if test="vo.orgConcat != null" > , org_concat=#{vo.orgConcat}</if>
+		<if test="vo.empQty != null" > , emp_qty=#{vo.empQty}</if>
+		<if test="vo.orgArea != null" > , org_area=#{vo.orgArea}</if>
+		<if test="vo.lastUpdateDate != null" > , last_update_date=#{vo.lastUpdateDate}</if>
+		where id=#{vo.id}
+	</update>
+	<sql id="pageCondition">
+		limit #{page.startRow}, #{page.pageSize}
+	</sql>
+
+	<sql id="condition">
+		<if test="vo.id != null" > and id=#{vo.id}</if>
+		<if test="vo.orgName != null" > and org_name=#{vo.orgName}</if>
+		<if test="vo.orgLeader != null" > and org_leader=#{vo.orgLeader}</if>
+		<if test="vo.orgAddr != null" > and org_addr=#{vo.orgAddr}</if>
+		<if test="vo.orgConcat != null" > and org_concat=#{vo.orgConcat}</if>
+		<if test="vo.empQty != null" > and emp_qty=#{vo.empQty}</if>
+		<if test="vo.orgArea != null" > and org_area=#{vo.orgArea}</if>
+		<if test="vo.lastUpdateDate != null" > and last_update_date=#{vo.lastUpdateDate}</if>
+	</sql>
+
+	<select id="getList" resultType="com.chxd.policeDog.vo.DogWorkVO">
+		select * from t_org_config where 1=1
+		<include refid="condition"/>
+		<include refid="pageCondition"/>
+	</select>
+
+	<select id="getListCount" resultType="java.lang.Integer">
+		select count(1) from t_org_config where 1=1
+		<include refid="condition"/>
+	</select>
+</mapper>

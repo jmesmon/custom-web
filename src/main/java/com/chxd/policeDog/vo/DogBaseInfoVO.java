@@ -34,6 +34,7 @@ public class DogBaseInfoVO extends BaseVO {
     private Date  nextTrainDate;	//下次复训时间（yyyy-mm-dd）
     private String  nextTrainDateStr;	//下次复训时间（yyyy-mm-dd）
     private String  workPlace;	//工作单位（与人员信息关联自动生成）
+    private String  workCity;	//所属片区
     private String  workArea;	//所属片区
     private String  workProvince;	//省区市
     private String  fileNo;	//警犬档案号
@@ -54,6 +55,14 @@ public class DogBaseInfoVO extends BaseVO {
 
     public DogBaseInfoVO() {
 
+    }
+
+    public String getWorkCity() {
+        return workCity;
+    }
+
+    public void setWorkCity(String workCity) {
+        this.workCity = workCity;
     }
 
     public String getDogNameLike() {

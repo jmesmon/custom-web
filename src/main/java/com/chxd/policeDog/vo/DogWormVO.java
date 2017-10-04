@@ -14,11 +14,20 @@ public class DogWormVO extends BaseVO {
     private String wormDateStart;
     private String wormDateEnd;
     private Integer wormState;
+    private Integer wormStateSet;
     private Integer policeId;
     private String wormDesc;
     private String policeName;
 
     private DogBaseInfoVO dogInfo;
+
+    public Integer getWormStateSet() {
+        return wormStateSet;
+    }
+
+    public void setWormStateSet(Integer wormStateSet) {
+        this.wormStateSet = wormStateSet;
+    }
 
     public DogBaseInfoVO getDogInfo() {
         return dogInfo;

@@ -105,4 +105,30 @@
 			#{item.id}
 		</foreach>
 	</delete>
+
+	<update id="updateImmueState" parameterType="com.chxd.policeDog.vo.DogImmueVO">
+		update t_dog_immue set immue_state = #{immueVO.immueStateSet},last_update_date=now()
+		where 1=1
+		<if test="immueVO.id != null" > and id=#{immueVO.id}</if>
+		<if test="immueVO.dogChipNo != null" > and dog_chip_no=#{immueVO.dogChipNo}</if>
+		<if test="immueVO.nestNo != null" > and nest_no=#{immueVO.nestNo}</if>
+		<if test="immueVO.immueDate != null" > and immue_date=#{immueVO.immueDateStr}</if>
+		<if test="immueVO.immueDateStart != null" ><![CDATA[ and immue_date>=#{immueVO.immueDateStart} ]]></if>
+		<if test="immueVO.immueDateEnd != null" ><![CDATA[ and immue_date<=#{immueVO.immueDateEnd} ]]></if>
+		<if test="immueVO.immueName != null" > and immue_name=#{immueVO.immueName}</if>
+		<if test="immueVO.immueState != null" > and immue_state=#{immueVO.immueState}</if>
+	</update>
+
+	<update id="updateWormState" parameterType="com.chxd.policeDog.vo.DogWormVO">
+		update t_dog_worm set worm_state = #{wormVO.wormStateSet},last_update_date=now()
+		where 1=1
+		<if test="wormVO.id != null" > and id=#{wormVO.id}</if>
+		<if test="wormVO.dogChipNo != null" > and dog_chip_no=#{wormVO.dogChipNo}</if>
+		<if test="wormVO.nestNo != null" > and nest_no=#{wormVO.nestNo}</if>
+		<if test="wormVO.wormDate != null" > and worm_date=#{wormVO.wormDateStr}</if>
+		<if test="wormVO.wormDateStart != null" ><![CDATA[ and worm_date>=#{wormVO.wormDateStart} ]]></if>
+		<if test="wormVO.wormDateEnd != null" ><![CDATA[ and worm_date<=#{wormVO.wormDateEnd} ]]></if>
+		<if test="wormVO.wormState != null" > and worm_state=#{wormVO.wormState}</if>
+		<if test="wormVO.wormDesc != null" > and worm_desc=#{wormVO.wormDesc}</if>
+	</update>
 </mapper>

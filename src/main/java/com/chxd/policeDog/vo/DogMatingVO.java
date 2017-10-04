@@ -7,7 +7,9 @@ import java.util.Date;
  */
 public class DogMatingVO extends BaseVO {
     private String fatherDogChipNo;
+    private String fatherDogName;
     private String motherDogChipNo;
+    private String motherDogName;
     private Date mateDate;
     private String mateDateStr;
     private Date bMuDate;
@@ -21,6 +23,22 @@ public class DogMatingVO extends BaseVO {
 
     private DogBaseInfoVO fatherDogInfo;
     private DogBaseInfoVO motherDogInfo;
+
+    public String getFatherDogName() {
+        return fatherDogName;
+    }
+
+    public void setFatherDogName(String fatherDogName) {
+        this.fatherDogName = fatherDogName;
+    }
+
+    public String getMotherDogName() {
+        return motherDogName;
+    }
+
+    public void setMotherDogName(String motherDogName) {
+        this.motherDogName = motherDogName;
+    }
 
     public Integer getMateState() {
         return mateState;

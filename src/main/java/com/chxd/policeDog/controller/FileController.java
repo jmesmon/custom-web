@@ -1,8 +1,10 @@
 package com.chxd.policeDog.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.chxd.policeDog.config.MyProps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +22,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/file")
 public class FileController {
+    @Autowired
+    private MyProps myProps;
+
     @RequestMapping("/greeting")
     public String greeting(@RequestParam(value = "name", required = false, defaultValue = "World") String name, Model model) {
         model.addAttribute("name", name);
@@ -44,7 +49,8 @@ public class FileController {
         String suffixName = fileName.substring(fileName.lastIndexOf("."));
         logger.info("上传的后缀名为：" + suffixName);
         // 文件上传后的路径
-        String filePath = "E:\\data\\" + new SimpleDateFormat("YYYY-MM-dd").format(System.currentTimeMillis());
+        String floder = new SimpleDateFormat("YYYY-MM-dd").format(System.currentTimeMillis());
+        String filePath = myProps.getUploadFilePath() + floder;
         // 解决中文问题，liunx下中文路径，图片显示问题
         fileName = System.currentTimeMillis() + suffixName;
         File dest = new File(filePath, fileName);
@@ -56,7 +62,7 @@ public class FileController {
             file.transferTo(dest);
             json.put("success", true);
             json.put("status", "server");
-            json.put("serverName", fileName);
+            json.put("serverName", "/policeDog/resource/" + floder + "/" + fileName);
         } catch (Exception e) {
             e.printStackTrace();
             json.put("success", false);

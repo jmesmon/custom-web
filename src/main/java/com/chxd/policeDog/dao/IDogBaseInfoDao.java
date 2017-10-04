@@ -32,4 +32,6 @@ public interface IDogBaseInfoDao {
 
     List<DogBaseInfoVO> getListByWorkUnit(@Param("workUnit") String workUnit);
 
+    void update(@Param("dogInfo") DogBaseInfoVO dogInfo);
+
 }

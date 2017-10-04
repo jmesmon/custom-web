@@ -1,6 +1,6 @@
 package com.xjj.web.controller;
 
-import com.xjj.config.MyProps;
+import com.xjj.config.MyProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +11,7 @@ import java.util.Map;
 @RequestMapping("/web")
 public class WebController {
 	@Autowired
-	private MyProps myProps;
+	private MyProperties myProps;
 	
 	@RequestMapping("/hi")
 	public String hi(Map<String, Object> model) {

@@ -1,5 +1,6 @@
 package com.chxd.policeDog.controller;
 
+import com.chxd.policeDog.config.MyProps;
 import com.chxd.policeDog.dao.IDogBaseInfoDao;
 import com.chxd.policeDog.dao.IPoliceUserDao;
 import com.chxd.policeDog.vo.*;
@@ -25,6 +26,8 @@ public class UserController extends  BaseController{
     private IPoliceUserDao policeUserDao;
     @Autowired
     private IDogBaseInfoDao dogBaseInfoDao;
+    @Autowired
+    private MyProps myProps;
 
     @RequestMapping("/login")
     public ResultVO login(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> map){
