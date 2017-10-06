@@ -50,11 +50,39 @@ public class DogBaseInfoVO extends BaseVO {
     private String policeName;
     private Long uid;
 
+    private String isSign;
+    private Date lastSignDate;
+    private String lastSignDateStr;
+
     private List<DogTrainVO> trainInfo;
     private List<WormImmueInfoVO> wormImmueInfo;
 
     public DogBaseInfoVO() {
 
+    }
+
+    public String getIsSign() {
+        return isSign;
+    }
+
+    public void setIsSign(String isSign) {
+        this.isSign = isSign;
+    }
+
+    public Date getLastSignDate() {
+        return lastSignDate;
+    }
+
+    public void setLastSignDate(Date lastSignDate) {
+        this.lastSignDate = lastSignDate;
+    }
+
+    public String getLastSignDateStr() {
+        return lastSignDateStr;
+    }
+
+    public void setLastSignDateStr(String lastSignDateStr) {
+        this.lastSignDateStr = lastSignDateStr;
     }
 
     public String getWorkCity() {

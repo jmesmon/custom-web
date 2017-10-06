@@ -50,10 +50,34 @@ public class DogBaseInfoController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
         return page;
+    }
+
+    @RequestMapping("/getTrainList/{pageSize}/{curPage}")
+    public PageResultVO getTrainList(@RequestBody DogBaseInfoVO dogBaseInfoVO, @PathParam("") PageVO pageVO) {
+        PageResultVO page = new PageResultVO();
+        List<DogBaseInfoVO> list = dogBaseInfoDao.getTrainList(dogBaseInfoVO, pageVO);
+        Integer integer = dogBaseInfoDao.selectAllCount(dogBaseInfoVO);
+
+//        buildWord(list);
+        pageVO.setTotalRows(integer);
+        page.setResult(list);
+        page.setPageVO(pageVO);
+        try {
+//            TimeUnit.SECONDS.sleep(2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return page;
+    }
+
+    @RequestMapping("/update")
+    public ResultVO update(@RequestBody List<DogBaseInfoVO> list){
+        ResultVO resultVO = ResultVO.getInstance();
+        for(int i = 0; i<list.size(); i++) {
+            dogBaseInfoDao.update(list.get(i));
+        }
+        return resultVO;
     }
 
     private void buildWord(List<DogBaseInfoVO> list){

@@ -61,6 +61,15 @@ public class DogTrainController {
     public ResultVO add(@RequestBody List<DogTrainVO> list){
         ResultVO resultVO = ResultVO.getInstance();
         dogTrainDao.add(list);
+        for(int i = 0; i<list.size(); i++) {
+            DogBaseInfoVO dog = new DogBaseInfoVO();
+            dog.setId(list.get(i).getDogId());
+            dog.setNextTrainDateStr(list.get(i).getNextTrainDateStr());
+            dog.setIsSign("");
+            dog.setLastSignDateStr("");
+
+            dogBaseInfoDao.update(dog);
+        }
         return resultVO;
     }
 
@@ -72,9 +81,11 @@ public class DogTrainController {
     }
 
     @RequestMapping("/update")
-    public ResultVO update(@RequestBody DogTrainVO dogTrainVO){
+    public ResultVO update(@RequestBody List<DogTrainVO> list){
         ResultVO resultVO = ResultVO.getInstance();
-        dogTrainDao.update(dogTrainVO);
+        for(int i = 0; i<list.size(); i++) {
+            dogTrainDao.update(list.get(i));
+        }
         return resultVO;
     }
     @RequestMapping("/batchUpdate")

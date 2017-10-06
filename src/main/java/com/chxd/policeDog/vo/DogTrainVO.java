@@ -10,6 +10,7 @@ public class DogTrainVO extends  BaseVO {
 
     private Integer growStage;
     private Integer dogId;
+    private String dogName;
 
     private Integer trainId;
     private String trainName;
@@ -32,6 +33,14 @@ public class DogTrainVO extends  BaseVO {
     private String mainTrainUser;
     private String trainResult;
     private DogBaseInfoVO dogInfo;
+
+    public String getDogName() {
+        return dogName;
+    }
+
+    public void setDogName(String dogName) {
+        this.dogName = dogName;
+    }
 
     public String getTrainResult() {
         return trainResult;

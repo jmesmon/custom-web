@@ -40,6 +40,13 @@
 		<include refid="pageCondition"/>
 	</select>
 
+	<select id="getTrainList" resultType="com.chxd.policeDog.vo.DogBaseInfoVO">
+		select * from t_dog_base where 1=1
+		<include refid="condition"/>
+		order by next_train_date asc
+		<include refid="pageCondition"/>
+	</select>
+
 	<select id="selectAllCount" resultType="java.lang.Integer">
 		select count(1) from t_dog_base where 1=1
 		<include refid="condition"/>

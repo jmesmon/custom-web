@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chxd.policeDog.dao.IMyNoticeDao">
+
+	<insert id="add" parameterType="java.util.List">
+		insert into t_notice (id, title, police_id, is_read, notice_type, creation_date, last_update_date)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(#{item.id}, #{item.title}, #{item.policeId}, #{item.isRead}, #{item.noticeType}, #{item.creationDate}, #{item.lastUpdateDate})
+		</foreach>
+	</insert>
+	<delete id="del">
+		delete from t_notice where id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+	<update id="update" parameterType="com.chxd.policeDog.vo.MyNoticeVO">
+		update t_apply_dog set last_update_date=now()
+		<if test="vo.id != null" > , id=#{vo.id}</if>
+		<if test="vo.title != null" > , title=#{vo.title}</if>
+		<if test="vo.policeId != null" > , police_id=#{vo.policeId}</if>
+		<if test="vo.isRead != null" > , is_read=#{vo.isRead}</if>
+		<if test="vo.noticeType != null" > , notice_type=#{vo.noticeType}</if>
+		<if test="vo.creationDate != null" > , creation_date=#{vo.creationDate}</if>
+		<if test="vo.lastUpdateDate != null" > , last_update_date=#{vo.lastUpdateDate}</if>
+		where id=#{vo.id}
+	</update>
+	<sql id="pageCondition">
+		limit #{page.startRow}, #{page.pageSize}
+	</sql>
+
+	<sql id="condition">
+		<if test="vo.id != null" > and id=#{vo.id}</if>
+		<if test="vo.title != null" > and title=#{vo.title}</if>
+		<if test="vo.policeId != null" > and police_id=#{vo.policeId}</if>
+		<if test="vo.isRead != null" > and is_read=#{vo.isRead}</if>
+		<if test="vo.noticeType != null" > and notice_type=#{vo.noticeType}</if>
+		<if test="vo.creationDate != null" > and creation_date=#{vo.creationDate}</if>
+		<if test="vo.lastUpdateDate != null" > and last_update_date=#{vo.lastUpdateDate}</if>
+	</sql>
+
+	<select id="getList" resultType="com.chxd.policeDog.vo.MyNoticeVO">
+		select * from t_notice where 1=1
+		<include refid="condition"/>
+		<include refid="pageCondition"/>
+	</select>
+
+	<select id="getListCount" resultType="java.lang.Integer">
+		select count(1) from t_notice where 1=1
+		<include refid="condition"/>
+	</select>
+</mapper>
