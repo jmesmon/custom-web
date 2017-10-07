@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -69,6 +70,24 @@ public class DogBaseInfoController {
             e.printStackTrace();
         }
         return page;
+    }
+
+    @RequestMapping("/getAnalysisData")
+    public ResultVO getAnalysisData(){
+        ResultVO resultVO = ResultVO.getInstance();
+        String year = new SimpleDateFormat("YYYY").format(System.currentTimeMillis());
+        List<Map> list = dogBaseInfoDao.getAnalysisData(year + "-01-01", year + "-12-12");
+        resultVO.setResult(list);
+        return resultVO;
+    }
+
+    @RequestMapping("/getWorkData")
+    public ResultVO getWorkData(){
+        ResultVO resultVO = ResultVO.getInstance();
+        String year = new SimpleDateFormat("YYYY").format(System.currentTimeMillis());
+        List<Map> list = dogBaseInfoDao.getWorkData(year + "-01-01", year + "-12-12");
+        resultVO.setResult(list);
+        return resultVO;
     }
 
     @RequestMapping("/update")

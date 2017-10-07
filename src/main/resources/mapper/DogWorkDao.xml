@@ -21,10 +21,13 @@
 		<if test="vo.workPic != null" > and t1.work_pic=#{vo.workPic}</if>
 
 		<if test="vo.attLeader != null" > and t1.att_leader=#{vo.attLeader}</if>
+		<if test="vo.ajPer != null" > and t1.aj_per=#{vo.ajPer}</if>
 		<if test="vo.ajAddr != null" > and t1.aj_addr=#{vor.ajAddr}</if>
 		<if test="vo.ajCar != null" > and t1.aj_car=#{vo.ajCar}</if>
 		<if test="vo.ajLevel != null" > and t1.aj_level=#{vo.ajLevel}</if>
 		<if test="vo.searchWp != null" > and t1.search_wp=#{vo.searchWp}</if>
+		<if test="vo.dogWorkUnit != null" > and t1.dog_work_unit=#{vo.dogWorkUnit}</if>
+		<if test="vo.ajWp != null" > and t1.aj_wp=#{vo.ajWp}</if>
 
 		<if test="vo.startTimeStr != null" ><![CDATA[  and t1.start_time >= #{vo.startTimeStr} ]]></if>
 		<if test="vo.endTimeStr != null" ><![CDATA[ and t1.start_time <= #{vo.endTimeStr} ]]></if>
@@ -51,11 +54,11 @@
 	</select>
 
 	<insert id="add" parameterType="java.util.List">
-		insert into t_dog_work (aj_addr, aj_car, aj_level, search_wp, att_leader, work_type, start_time, end_time, work_unit, att_person, dog_chip_no, case_property, case_no, is_work, security_check_area, work_result, work_pic, creation_date, last_update_date)
+		insert into t_dog_work (dog_work_unit, aj_wp, aj_per, aj_addr, aj_car, aj_level, search_wp, att_leader, work_type, start_time, end_time, work_unit, att_person, dog_chip_no, case_property, case_no, is_work, security_check_area, work_result, work_pic, creation_date, last_update_date)
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
 			(
-			#{item.ajAddr}, #{item.ajCar}, #{item.ajLevel}, #{item.searchWp}, #{item.attLeader}, #{item.workType}, #{item.startTimeStr}, #{item.endTimeStr}, #{item.workUnit}, #{item.attPerson}, #{item.dogChipNo}, #{item.caseProperty}, #{item.caseNo}, #{item.isWork}, #{item.securityCheckArea}, #{item.workResult}, #{item.workPic}, now(), now()
+			#{item.dogWorkUnit}, #{item.ajWp}, #{item.ajPer}, #{item.ajAddr}, #{item.ajCar}, #{item.ajLevel}, #{item.searchWp}, #{item.attLeader}, #{item.workType}, #{item.startTimeStr}, #{item.endTimeStr}, #{item.workUnit}, #{item.attPerson}, #{item.dogChipNo}, #{item.caseProperty}, #{item.caseNo}, #{item.isWork}, #{item.securityCheckArea}, #{item.workResult}, #{item.workPic}, now(), now()
 			)
 		</foreach>
 	</insert>
@@ -83,10 +86,13 @@
 		<if test="vo.endTimeStr != null" ><![CDATA[ , end_time = #{vo.endTimeStr} ]]></if>
 
 		<if test="vo.attLeader != null" > , t1.att_leader=#{vo.attLeader}</if>
+		<if test="vo.ajPer != null" > , t1.aj_per=#{vo.ajPer}</if>
 		<if test="vo.ajAddr != null" > , t1.aj_addr=#{vor.ajAddr}</if>
 		<if test="vo.ajCar != null" > , t1.aj_car=#{vo.ajCar}</if>
 		<if test="vo.ajLevel != null" > , t1.aj_level=#{vo.ajLevel}</if>
 		<if test="vo.searchWp != null" > , t1.search_wp=#{vo.searchWp}</if>
+		<if test="vo.dogWorkUnit != null" > , t1.dog_work_unit=#{vo.dogWorkUnit}</if>
+		<if test="vo.ajWp != null" > , t1.aj_wp=#{vo.ajWp}</if>
 		where id=#{vo.id}
 	</update>
 </mapper>

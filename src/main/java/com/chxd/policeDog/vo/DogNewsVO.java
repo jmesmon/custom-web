@@ -12,6 +12,15 @@ public class DogNewsVO extends BaseVO {
     private String  publisher;	//
     private String  content;	//
     private String  newsType;	//
+    private String workUnit;
+
+    public String getWorkUnit() {
+        return workUnit;
+    }
+
+    public void setWorkUnit(String workUnit) {
+        this.workUnit = workUnit;
+    }
 
     public String getTitle() {
         return title;

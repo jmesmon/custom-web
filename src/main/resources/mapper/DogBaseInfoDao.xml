@@ -157,4 +157,61 @@
 			#{item.id}
 		</foreach>
 	</update>
+
+	<select id="getWorkData" resultType="java.util.HashMap">
+		<![CDATA[
+		select
+			work_type,
+			DATE_FORMAT(start_time, '%Y-%m') as month,
+			sum(aj_per) as perTotal,
+			sum(aj_wp) as wpTotal,
+			sum(aj_car) as catTotal,
+			sum(security_check_area) as areaTotal
+		from t_dog_work
+		where start_time>=#{startDate} and start_time<=#{endDate}
+		group by work_type,DATE_FORMAT(start_time, '%Y-%m')
+		]]>
+	</select>
+	<select id="getAnalysisData" resultType="java.util.HashMap">
+		<![CDATA[
+			select * from (
+				/*警犬总数*/
+				select 'totalDog' as att_name, count(*) as val from t_dog_base
+				union all
+				/*民警总数*/
+				select 'totalEmp' as att_name, count(*) as val from t_police_user
+				union all
+				/*已训练数*/
+				select 'hasTrain' as att_name, count(*) as val from t_dog_train where train_result != '' and train_start_date >= #{startDate}
+				union all
+				/*待训练数*/
+				select 'waitTrain' as att_name, count(*) as val from t_dog_base where next_train_date >= #{startDate} and next_train_date <= #{endDate}
+				union all
+				/*待分配*/
+				select 'waitAllot' as att_name, count(*) as val from t_apply_dog where apply_state!=4
+				union all
+				/*已分配*/
+				select 'hasAllot' as att_name, count(*) as val from t_apply_dog where apply_state=4
+				union all
+				/*人员类型*/
+				select concat('pt_',work_type) as att_name, count(*) as val from t_police_user group by work_type
+				union all
+				/*专业技能*/
+				select concat('pro_', train_name) as att_name, count(*) from (
+					select t1.dog_id,t1.train_name, count(*) from t_dog_train t1 join t_dog_base t2 on(t1.dog_id=t2.id)
+					where t1.train_result != ''
+					group by t1.train_name,t1.dog_id
+				) a group by train_name
+				union all
+				/*繁育数量*/
+				select 'breedCount' as att_name, count(*) from t_dog_base where dog_source='自繁' and birthday>=#{startDate} and birthday<=#{endDate}
+				union all
+				/*淘汰、死亡数量*/
+				select case when work_stage=3 then '淘汰' when work_stage=4 then '死亡' end as att_name, count(*) from t_dog_base
+				where (work_stage=3 or work_stage=4 ) group by work_stage
+
+			) tmp where tmp.att_name != ''
+		]]>
+	</select>
+
 </mapper>

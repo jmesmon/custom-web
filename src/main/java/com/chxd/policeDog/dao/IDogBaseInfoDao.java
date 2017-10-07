@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cheng on 2017/8/27.
@@ -38,5 +39,9 @@ public interface IDogBaseInfoDao {
     void update(@Param("dogInfo") DogBaseInfoVO dogInfo);
 
     void allot(@Param("list") List<DogBaseInfoVO> list, @Param("workUnit") String workUnit);
+
+    List<Map> getAnalysisData(@Param("startDate") String startDate, @Param("endDate") String endDate);
+
+    List<Map> getWorkData(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
 }

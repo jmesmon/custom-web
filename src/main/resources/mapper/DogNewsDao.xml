@@ -3,9 +3,9 @@
 <mapper namespace="com.chxd.policeDog.dao.IDogNewsDao">
 
     <insert id="add" parameterType="java.util.List">
-        insert into t_news (id, title, publish_date, publisher, content, news_type, creation_date, last_update_date)
+        insert into t_news (id, title, work_unit, publish_date, publisher, content, news_type, creation_date, last_update_date)
         values
-            (#{vo.id}, #{vo.title}, #{vo.publishDateStr}, #{vo.publisher}, #{vo.content}, #{vo.newsType}, now(), now())
+            (#{vo.id}, #{vo.title}, #{vo.work_unit}, #{vo.publishDateStr}, #{vo.publisher}, #{vo.content}, #{vo.newsType}, now(), now())
     </insert>
     <delete id="del">
         delete from t_news where id in
@@ -17,6 +17,7 @@
         update t_apply_dog set last_update_date=now()
         <if test="vo.id != null" > , id=#{vo.id}</if>
         <if test="vo.title != null" > , title=#{vo.title}</if>
+        <if test="vo.workUnit != null" > , work_unit=#{vo.workUnit}</if>
         <if test="vo.publishDateStr != null" > , publish_date=#{vo.publishDateStr}</if>
         <if test="vo.publisher != null" > , publisher=#{vo.publisher}</if>
         <if test="vo.content != null" > , content=#{vo.content}</if>
@@ -33,6 +34,7 @@
         <if test="vo.id != null" > and id=#{vo.id}</if>
         <if test="vo.title != null" > and title concat( '%', #{vo.title}, '%')</if>
         <if test="vo.publishDateStr != null" > and publish_date=#{vo.publishDateStr}</if>
+        <if test="vo.workUnit != null" > and work_unit=#{vo.workUnit}</if>
         <if test="vo.publisher != null" > and publisher=#{vo.publisher}</if>
         <if test="vo.content != null" > and content=#{vo.content}</if>
         <if test="vo.newsType != null" > and news_type=#{vo.newsType}</if>
@@ -43,6 +45,7 @@
     <select id="getList" resultType="com.chxd.policeDog.vo.DogNewsVO">
         select * from t_news where 1=1
         <include refid="condition"/>
+        order by creation_date desc
         <include refid="pageCondition"/>
     </select>
 
