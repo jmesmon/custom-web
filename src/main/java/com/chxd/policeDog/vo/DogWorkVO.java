@@ -24,8 +24,53 @@ public class DogWorkVO extends BaseVO {
     private String  workPic;	//	工作图片
 
     private String dogNameLike;
+    private String attLeader;
+    private String ajAddr;
+    private String ajCar;
+    private String ajLevel;
+    private String searchWp;
 
     private DogBaseInfoVO dogInfo;
+
+    public String getAttLeader() {
+        return attLeader;
+    }
+
+    public void setAttLeader(String attLeader) {
+        this.attLeader = attLeader;
+    }
+
+    public String getAjAddr() {
+        return ajAddr;
+    }
+
+    public void setAjAddr(String ajAddr) {
+        this.ajAddr = ajAddr;
+    }
+
+    public String getAjCar() {
+        return ajCar;
+    }
+
+    public void setAjCar(String ajCar) {
+        this.ajCar = ajCar;
+    }
+
+    public String getAjLevel() {
+        return ajLevel;
+    }
+
+    public void setAjLevel(String ajLevel) {
+        this.ajLevel = ajLevel;
+    }
+
+    public String getSearchWp() {
+        return searchWp;
+    }
+
+    public void setSearchWp(String searchWp) {
+        this.searchWp = searchWp;
+    }
 
     public String getDogNameLike() {
         return dogNameLike;

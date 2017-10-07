@@ -37,4 +37,6 @@ public interface IDogBaseInfoDao {
 
     void update(@Param("dogInfo") DogBaseInfoVO dogInfo);
 
+    void allot(@Param("list") List<DogBaseInfoVO> list, @Param("workUnit") String workUnit);
+
 }

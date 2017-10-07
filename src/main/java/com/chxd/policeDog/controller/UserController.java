@@ -4,6 +4,7 @@ import com.chxd.policeDog.config.MyProps;
 import com.chxd.policeDog.dao.IDogBaseInfoDao;
 import com.chxd.policeDog.dao.IPoliceUserDao;
 import com.chxd.policeDog.vo.*;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,7 @@ public class UserController extends  BaseController{
             List<PoliceUserVO> list = policeUserDao.getList(policeUserVO, new PageVO());
             if(list.size() > 0){
                 PoliceUserVO user = list.get(0);
+                session.setAttribute("USER_PWD", user.getPassword());
                 resultVO.setResult(user.clone());
                 user.setPassword(null);
                 setUserInfo(user);
@@ -50,6 +52,26 @@ public class UserController extends  BaseController{
         }catch(Exception e){
             e.printStackTrace();
             resultVO.fail(e.getMessage());
+        }
+        return resultVO;
+    }
+
+    @RequestMapping("/chgPwd")
+    public ResultVO chgPwd(@RequestBody PoliceUserVO policeUserVO){
+        ResultVO resultVO = ResultVO.getInstance();
+        String pwd = (String)session.getAttribute("USER_PWD");
+        if(pwd.equals(policeUserVO.getPassword())){
+            policeUserVO.setPassword(policeUserVO.getPasswordNew());
+            policeUserVO.setId(getCurrentUser().getId());
+            if(policeUserVO.getId() != null) {
+                policeUserDao.update(policeUserVO);
+                resultVO.setMessage("密码修改成功，下次登录生效");
+                session.setAttribute("USER_PWD", policeUserVO.getPassword());
+            }else{
+                resultVO.fail("无法获取当前用户，请重新登录");
+            }
+        }else{
+            resultVO.fail("旧密码输入不正确，请重新输入");
         }
         return resultVO;
     }
@@ -124,6 +146,9 @@ public class UserController extends  BaseController{
     @RequestMapping("/add")
     public ResultVO add(@RequestBody PoliceUserVO policeUserVO){
         ResultVO resultVO = ResultVO.getInstance();
+        if(Strings.isEmpty(policeUserVO.getUserRole())){
+            policeUserVO.setUserRole(UserRoleVO.NORMAL_USER);
+        }
         policeUserDao.add(policeUserVO);
         return resultVO;
     }
@@ -138,6 +163,27 @@ public class UserController extends  BaseController{
     @RequestMapping("/update")
     public ResultVO update(@RequestBody PoliceUserVO policeUserVO){
         ResultVO resultVO = ResultVO.getInstance();
+        policeUserDao.update(policeUserVO);
+        return resultVO;
+    }
+
+    @RequestMapping("/setUserRole")
+    public ResultVO setUserRole(@RequestBody List<PoliceUserVO> list){
+        ResultVO resultVO = ResultVO.getInstance();
+        for(int i =0;i<list.size(); i++) {
+            policeUserDao.update(list.get(i));
+        }
+        return resultVO;
+    }
+
+    @RequestMapping("/updateMyInfo")
+    public ResultVO updateMyInfo(@RequestBody PoliceUserVO policeUserVO){
+        ResultVO resultVO = ResultVO.getInstance();
+        policeUserVO.setId(getCurrentUser().getId());
+        if(getCurrentUser().getId() == null){
+            resultVO.fail("无法获取当前用户信息，请退出重新登录再试");
+            return  resultVO;
+        }
         policeUserDao.update(policeUserVO);
         return resultVO;
     }

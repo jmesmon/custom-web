@@ -5,7 +5,7 @@
 	<insert id="add" parameterType="com.chxd.policeDog.vo.PoliceUserVO">
 		insert into t_police_user (id, approve_role, user_role, police_id, password, police_name, sex, police_photo, national, id_nun, birthday, on_face, education, degree, gradu_from, major, contact_info, work_unit, work_type, dept, job_title, job, cert_quali, cert_num, reward_info, creation_date, last_update_date)
 		values
-			(#{vo.id}, #{vo.approveRole}, #{vo.userRole}, #{vo.policeId}, #{vo.password}, #{vo.policeName}, #{vo.sex}, #{vo.policePhoto}, #{vo.national}, #{vo.idNun}, #{vo.birthday}, #{vo.onFace}, #{vo.education}, #{vo.degree}, #{vo.graduFrom}, #{vo.major}, #{vo.contactInfo}, #{vo.workUnit}, #{vo.workType}, #{vo.dept}, #{vo.jobTitle}, #{vo.job}, #{vo.certQuali}, #{vo.certNum}, #{vo.rewardInfo}, #{vo.creationDate}, #{vo.lastUpdateDate})
+			(#{vo.id}, #{vo.approveRole}, #{vo.userRole}, #{vo.policeId}, #{vo.password}, #{vo.policeName}, #{vo.sex}, #{vo.policePhoto}, #{vo.national}, #{vo.idNun}, #{vo.birthday}, #{vo.onFace}, #{vo.education}, #{vo.degree}, #{vo.graduFrom}, #{vo.major}, #{vo.contactInfo}, #{vo.workUnit}, #{vo.workType}, #{vo.dept}, #{vo.jobTitle}, #{vo.job}, #{vo.certQuali}, #{vo.certNum}, #{vo.rewardInfo}, now(), now())
 	</insert>
 	<delete id="del">
 		delete from t_police_user where id in

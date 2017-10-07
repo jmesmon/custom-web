@@ -12,6 +12,7 @@
 		<if test="dogInfo.birthdayEnd != null" ><![CDATA[  and birthday<=#{dogInfo.birthdayEnd} ]]></if>
 
 		<if test="dogInfo.growthStage != null" > and growth_stage=#{dogInfo.growthStage}</if>
+		<if test="dogInfo.workPlace != null" > and work_place=#{dogInfo.workPlace}</if>
 		<if test="dogInfo.nestNo != null" > and nest_no=#{dogInfo.nestNo}</if>
 		<if test="dogInfo.fatherId != null" > and father_id=#{dogInfo.fatherId}</if>
 		<if test="dogInfo.motherId != null" > and mother_id=#{dogInfo.motherId}</if>
@@ -147,5 +148,13 @@
 		<if test="dogInfo.policeName != null" > , police_name=#{dogInfo.policeName}</if>
 		<if test="dogInfo.uid != null" > , uid=#{dogInfo.uid}</if>
 		where id=#{dogInfo.id}
+	</update>
+
+	<update id="allot">
+		update t_dog_base set work_place = #{workUnit},tutor='', police_id='', police_name=''
+		where id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
 	</update>
 </mapper>

@@ -11,6 +11,7 @@ public class PoliceUserVO extends BaseVO implements Cloneable {
     private String  policeName;	//	姓名
     private String  policeNameLike;	//	姓名
     private String  password; // 密码
+    private String  passwordNew; // 密码
     private String  sex;	//	性别
     private String  policePhoto;	//	照片
     private String  national;	//	民族
@@ -35,6 +36,13 @@ public class PoliceUserVO extends BaseVO implements Cloneable {
 
     private String approveRole;
 
+    public String getPasswordNew() {
+        return passwordNew;
+    }
+
+    public void setPasswordNew(String passwordNew) {
+        this.passwordNew = passwordNew;
+    }
 
     @Override
     public PoliceUserVO clone() throws CloneNotSupportedException {

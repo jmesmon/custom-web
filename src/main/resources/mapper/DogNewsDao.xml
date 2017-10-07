@@ -31,7 +31,7 @@
 
     <sql id="condition">
         <if test="vo.id != null" > and id=#{vo.id}</if>
-        <if test="vo.title != null" > and title=#{vo.title}</if>
+        <if test="vo.title != null" > and title concat( '%', #{vo.title}, '%')</if>
         <if test="vo.publishDateStr != null" > and publish_date=#{vo.publishDateStr}</if>
         <if test="vo.publisher != null" > and publisher=#{vo.publisher}</if>
         <if test="vo.content != null" > and content=#{vo.content}</if>

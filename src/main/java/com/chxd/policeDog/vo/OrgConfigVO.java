@@ -10,6 +10,15 @@ public class OrgConfigVO extends BaseVO {
     private String  orgConcat;	//联系方式
     private Integer  empQty;	//员工数量
     private String  orgArea;	//单位所在区
+    private String orgPic;
+
+    public String getOrgPic() {
+        return orgPic;
+    }
+
+    public void setOrgPic(String orgPic) {
+        this.orgPic = orgPic;
+    }
 
     public String getOrgName() {
         return orgName;

@@ -176,6 +176,13 @@ public class DogBaseInfoController {
         return resultVO;
     }
 
+    @RequestMapping("/allot")
+    public ResultVO allot(@RequestBody List<DogBaseInfoVO> list) {
+        ResultVO resultVO = ResultVO.getInstance();
+        dogBaseInfoDao.allot(list, list.get(0).getWorkPlace());
+        return resultVO;
+    }
+
     @RequestMapping("/initImmueInfo/{nestNo}")
     public ResultVO initImmueInfo(@PathVariable("nestNo") String nestNo) {
         ResultVO resultVO = ResultVO.getInstance();
