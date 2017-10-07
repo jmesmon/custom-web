@@ -169,49 +169,55 @@
 			sum(security_check_area) as areaTotal
 		from t_dog_work
 		where start_time>=#{startDate} and start_time<=#{endDate}
-		group by work_type,DATE_FORMAT(start_time, '%Y-%m')
 		]]>
+		<if test="workUnit != null" > , dog_work_unit=#{workUnit}</if>
+		group by work_type,DATE_FORMAT(start_time, '%Y-%m')
+
 	</select>
 	<select id="getAnalysisData" resultType="java.util.HashMap">
-		<![CDATA[
+
 			select * from (
 				/*警犬总数*/
-				select 'totalDog' as att_name, count(*) as val from t_dog_base
+				select 'totalDog' as att_name, count(*) as val from t_dog_base <if test="workUnit != null" > where work_place=#{workUnit}</if>
 				union all
 				/*民警总数*/
-				select 'totalEmp' as att_name, count(*) as val from t_police_user
+				select 'totalEmp' as att_name, count(*) as val from t_police_user <if test="workUnit != null" > where work_unit=#{workUnit}</if>
 				union all
 				/*已训练数*/
-				select 'hasTrain' as att_name, count(*) as val from t_dog_train where train_result != '' and train_start_date >= #{startDate}
+				<![CDATA[ select 'hasTrain' as att_name, count(*) as val from t_dog_train where train_result != '' and train_start_date >= #{startDate} ]]>
+					<if test="workUnit != null" > and work_unit=#{workUnit}</if>
 				union all
 				/*待训练数*/
-				select 'waitTrain' as att_name, count(*) as val from t_dog_base where next_train_date >= #{startDate} and next_train_date <= #{endDate}
+				<![CDATA[ select 'waitTrain' as att_name, count(*) as val from t_dog_base where next_train_date >= #{startDate} and next_train_date <= #{endDate} ]]>
+					<if test="workUnit != null" > and work_place=#{workUnit}</if>
 				union all
 				/*待分配*/
-				select 'waitAllot' as att_name, count(*) as val from t_apply_dog where apply_state!=4
+				select 'waitAllot' as att_name, count(*) as val from t_apply_dog where apply_state!=4  <if test="workUnit != null" > and work_unit=#{workUnit}</if>
 				union all
 				/*已分配*/
-				select 'hasAllot' as att_name, count(*) as val from t_apply_dog where apply_state=4
+				select 'hasAllot' as att_name, count(*) as val from t_apply_dog where apply_state=4  <if test="workUnit != null" > and work_unit=#{workUnit}</if>
 				union all
 				/*人员类型*/
-				select concat('pt_',work_type) as att_name, count(*) as val from t_police_user group by work_type
+				select concat('pt_',work_type) as att_name, count(*) as val from t_police_user  <if test="workUnit != null" > where work_unit=#{workUnit}</if>  group by work_type
 				union all
 				/*专业技能*/
 				select concat('pro_', train_name) as att_name, count(*) from (
 					select t1.dog_id,t1.train_name, count(*) from t_dog_train t1 join t_dog_base t2 on(t1.dog_id=t2.id)
-					where t1.train_result != ''
+					where t1.train_result != '' <if test="workUnit != null" > and t1.work_unit=#{workUnit}</if>
 					group by t1.train_name,t1.dog_id
 				) a group by train_name
 				union all
 				/*繁育数量*/
-				select 'breedCount' as att_name, count(*) from t_dog_base where dog_source='自繁' and birthday>=#{startDate} and birthday<=#{endDate}
+				<![CDATA[ select 'breedCount' as att_name, count(*) from t_dog_base where dog_source='自繁' and birthday>=#{startDate} and birthday<=#{endDate} ]]>
+					<if test="workUnit != null" > and work_place=#{workUnit}</if>
 				union all
 				/*淘汰、死亡数量*/
 				select case when work_stage=3 then '淘汰' when work_stage=4 then '死亡' end as att_name, count(*) from t_dog_base
-				where (work_stage=3 or work_stage=4 ) group by work_stage
+				where (work_stage=3 or work_stage=4 ) <if test="workUnit != null" > and work_place=#{workUnit}</if>
+				group by work_stage
 
 			) tmp where tmp.att_name != ''
-		]]>
+
 	</select>
 
 </mapper>

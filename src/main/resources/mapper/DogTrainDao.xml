@@ -50,11 +50,11 @@
 	</select>
 
 	<insert id="add" parameterType="java.util.List">
-		insert into t_dog_train (dog_name, train_result, grow_stage, dog_id, train_id, train_name, train_start_date, train_end_date, train_class_name, train_level, train_stage, train_unit, train_addr, train_user, score_detail, total_score, next_train_date, police_id, main_train_user, police_name)
+		insert into t_dog_train (work_unit, dog_name, train_result, grow_stage, dog_id, train_id, train_name, train_start_date, train_end_date, train_class_name, train_level, train_stage, train_unit, train_addr, train_user, score_detail, total_score, next_train_date, police_id, main_train_user, police_name)
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
 			(
-			#{item.dogName}, #{item.trainResult}, #{item.growStage}, #{item.dogId}, #{item.trainId}, #{item.trainName}, #{item.trainStartDateStr}, #{item.trainEndDateStr}, #{item.trainClassName}, #{item.trainLevel}, #{item.trainStage}, #{item.trainUnit}, #{item.trainAddr}, #{item.trainUser}, #{item.scoreDetail}, #{item.totalScore}, #{item.nextTrainDateStr}, #{item.policeId}, #{item.mainTrainUser}, #{item.policeName}
+			#{item.workUnit}, #{item.dogName}, #{item.trainResult}, #{item.growStage}, #{item.dogId}, #{item.trainId}, #{item.trainName}, #{item.trainStartDateStr}, #{item.trainEndDateStr}, #{item.trainClassName}, #{item.trainLevel}, #{item.trainStage}, #{item.trainUnit}, #{item.trainAddr}, #{item.trainUser}, #{item.scoreDetail}, #{item.totalScore}, #{item.nextTrainDateStr}, #{item.policeId}, #{item.mainTrainUser}, #{item.policeName}
 			)
 		</foreach>
 	</insert>

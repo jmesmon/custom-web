@@ -73,19 +73,19 @@ public class DogBaseInfoController {
     }
 
     @RequestMapping("/getAnalysisData")
-    public ResultVO getAnalysisData(){
+    public ResultVO getAnalysisData(@RequestBody PoliceUserVO user){
         ResultVO resultVO = ResultVO.getInstance();
         String year = new SimpleDateFormat("YYYY").format(System.currentTimeMillis());
-        List<Map> list = dogBaseInfoDao.getAnalysisData(year + "-01-01", year + "-12-12");
+        List<Map> list = dogBaseInfoDao.getAnalysisData(year + "-01-01", year + "-12-12", user.getWorkUnit());
         resultVO.setResult(list);
         return resultVO;
     }
 
     @RequestMapping("/getWorkData")
-    public ResultVO getWorkData(){
+    public ResultVO getWorkData(@RequestBody PoliceUserVO user){
         ResultVO resultVO = ResultVO.getInstance();
         String year = new SimpleDateFormat("YYYY").format(System.currentTimeMillis());
-        List<Map> list = dogBaseInfoDao.getWorkData(year + "-01-01", year + "-12-12");
+        List<Map> list = dogBaseInfoDao.getWorkData(year + "-01-01", year + "-12-12", user.getWorkUnit());
         resultVO.setResult(list);
         return resultVO;
     }

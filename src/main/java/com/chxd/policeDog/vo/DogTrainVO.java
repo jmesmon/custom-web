@@ -32,7 +32,16 @@ public class DogTrainVO extends  BaseVO {
     private String policeName;
     private String mainTrainUser;
     private String trainResult;
+    private String workUnit;
     private DogBaseInfoVO dogInfo;
+
+    public String getWorkUnit() {
+        return workUnit;
+    }
+
+    public void setWorkUnit(String workUnit) {
+        this.workUnit = workUnit;
+    }
 
     public String getDogName() {
         return dogName;

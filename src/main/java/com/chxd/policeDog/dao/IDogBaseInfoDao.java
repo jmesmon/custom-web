@@ -40,8 +40,8 @@ public interface IDogBaseInfoDao {
 
     void allot(@Param("list") List<DogBaseInfoVO> list, @Param("workUnit") String workUnit);
 
-    List<Map> getAnalysisData(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<Map> getAnalysisData(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("workUnit") String workUnit);
 
-    List<Map> getWorkData(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<Map> getWorkData(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("workUnit") String workUnit);
 
 }
