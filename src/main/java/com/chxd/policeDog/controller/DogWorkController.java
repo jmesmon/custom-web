@@ -17,7 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/work")
-public class DogWorkController {
+public class DogWorkController extends BaseController{
     @Autowired
     private IDogWorkDao dogWorkDao;
     @Autowired
@@ -26,6 +26,21 @@ public class DogWorkController {
     @RequestMapping("/getList/{pageSize}/{curPage}")
     public PageResultVO getList(@RequestBody DogWorkVO dogWorkVO, @PathParam("") PageVO pageVO) {
         PageResultVO page = new PageResultVO();
+
+        PoliceUserVO user = getCurrentUser();
+        String role = user.getUserRole();
+        if(UserRoleVO.NORMAL_USER.equals(role)){
+            //普通用户
+            dogWorkVO.setAttPerson(user.getPoliceName());
+        }else if(UserRoleVO.GLY_USER.equals(role) || UserRoleVO.FJ_JZ_USER.equals(role) ){
+            //管理员用户
+            dogWorkVO.setDogWorkUnit(user.getWorkUnit());
+        }else if(UserRoleVO.JZD_USER.equals(role) || UserRoleVO.SUPER_USER.equals(role)){
+
+        }else{
+            dogWorkVO.setAttPerson(user.getPoliceName());
+        }
+
         List<DogWorkVO> list = dogWorkDao.getList(dogWorkVO, pageVO);
         Integer integer = dogWorkDao.getListCount(dogWorkVO);
         for(int i = 0; i< list.size(); i++){

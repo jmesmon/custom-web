@@ -2,10 +2,7 @@ package com.chxd.policeDog.controller;
 
 import com.chxd.policeDog.dao.IDogBaseInfoDao;
 import com.chxd.policeDog.dao.IDogNewsDao;
-import com.chxd.policeDog.vo.DogNewsVO;
-import com.chxd.policeDog.vo.PageResultVO;
-import com.chxd.policeDog.vo.PageVO;
-import com.chxd.policeDog.vo.ResultVO;
+import com.chxd.policeDog.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +16,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/news")
-public class DogNewsController {
+public class DogNewsController extends BaseController {
     @Autowired
     private IDogNewsDao dogNewsDao;
     @Autowired
@@ -28,6 +25,21 @@ public class DogNewsController {
     @RequestMapping("/getList/{pageSize}/{curPage}")
     public PageResultVO getList(@RequestBody DogNewsVO dogNewsVO, @PathParam("") PageVO pageVO) {
         PageResultVO page = new PageResultVO();
+
+        PoliceUserVO user = getCurrentUser();
+        String role = user.getUserRole();
+
+        if(UserRoleVO.NORMAL_USER.equals(role)){
+            //普通用户
+            dogNewsVO.setWorkUnit(user.getWorkUnit());
+        }else if(UserRoleVO.GLY_USER.equals(role) || UserRoleVO.FJ_JZ_USER.equals(role) ){
+            //管理员用户
+            dogNewsVO.setWorkUnit(user.getWorkUnit());
+        }else if(UserRoleVO.JZD_USER.equals(role) || UserRoleVO.SUPER_USER.equals(role)){
+
+        }else{
+            dogNewsVO.setWorkUnit(user.getWorkUnit());
+        }
         List<DogNewsVO> list = dogNewsDao.getList(dogNewsVO, pageVO);
         for(int i = 0; i<list.size(); i++){
             list.get(i).setContent(null);

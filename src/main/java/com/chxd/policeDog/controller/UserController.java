@@ -124,14 +124,20 @@ public class UserController extends  BaseController{
     @RequestMapping("/getList/{pageSize}/{curPage}")
     public PageResultVO getList(@RequestBody PoliceUserVO policeUserVO, @PathParam("") PageVO pageVO) {
         PageResultVO page = new PageResultVO();
-        PoliceUserVO currentUser = getCurrentUser();
-        if( UserRoleVO.JZ_USER.equals(currentUser.getUserRole())){
-            policeUserVO.setWorkUnit(currentUser.getWorkUnit());
-        }else if( UserRoleVO.NORMAL_USER.equals(currentUser.getUserRole()) ){
-            policeUserVO.setPoliceId(currentUser.getPoliceId());
-        }else if( UserRoleVO.GLY_USER.equals(currentUser.getUserRole())){
-            policeUserVO.setWorkUnit(currentUser.getWorkUnit());
+        PoliceUserVO user = getCurrentUser();
+        String role = user.getUserRole();
+        if(UserRoleVO.NORMAL_USER.equals(role)){
+            //普通用户
+            policeUserVO.setId(user.getId());
+        }else if(UserRoleVO.GLY_USER.equals(role) || UserRoleVO.FJ_JZ_USER.equals(role) ){
+            //管理员用户
+            policeUserVO.setWorkUnit(user.getWorkUnit());
+        }else if(UserRoleVO.JZD_USER.equals(role) || UserRoleVO.SUPER_USER.equals(role)){
+
+        }else{
+            policeUserVO.setId(user.getId());
         }
+
         List<PoliceUserVO> list = policeUserDao.getList(policeUserVO, pageVO);
         for(int i = 0; i<list.size(); i++){
             list.get(i).setPassword(null);

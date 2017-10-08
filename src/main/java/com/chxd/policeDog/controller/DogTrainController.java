@@ -17,7 +17,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/train")
-public class DogTrainController {
+public class DogTrainController extends BaseController {
     @Autowired
     private IDogTrainDao dogTrainDao;
     @Autowired
@@ -40,6 +40,20 @@ public class DogTrainController {
     @RequestMapping("/getList/{pageSize}/{curPage}")
     public PageResultVO getList(@RequestBody DogTrainVO dogTrainVO, @PathParam("") PageVO pageVO) {
         PageResultVO page = new PageResultVO();
+        PoliceUserVO user = getCurrentUser();
+        String role = user.getUserRole();
+        if(UserRoleVO.NORMAL_USER.equals(role)){
+            //普通用户
+            dogTrainVO.setPoliceId(user.getId());
+        }else if(UserRoleVO.GLY_USER.equals(role)){
+            //管理员用户
+            dogTrainVO.setWorkUnit(user.getWorkUnit());
+        }else if(UserRoleVO.JZD_USER.equals(role) || UserRoleVO.SUPER_USER.equals(role)){
+
+        }else{
+            dogTrainVO.setPoliceId(user.getId());
+        }
+
         List<DogTrainVO> list = dogTrainDao.getList(dogTrainVO, pageVO);
         Integer integer = dogTrainDao.getListCount(dogTrainVO);
         for(int i = 0; i< list.size(); i++){

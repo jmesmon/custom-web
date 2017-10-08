@@ -7,6 +7,7 @@ package com.chxd.policeDog.vo;
 public class UserRoleVO extends BaseVO {
     public static final String NORMAL_USER = "JingYuan";
     public static final String JZ_USER = "JuZhang";
+    public static final String FJ_JZ_USER = "FJ_JuZhang";
     public static final String JZD_USER = "JiuZhiDui";
     public static final String GLY_USER = "GuanLiYuan";
     public static final String FZRY_USER = "FanZhiRenYuan";

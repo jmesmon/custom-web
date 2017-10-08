@@ -27,7 +27,7 @@ public class ApplyTickoutController extends BaseController {
     public PageResultVO getList(@RequestBody ApplyTickoutVO tickoutVO, @PathParam("") PageVO pageVO) {
         PageResultVO page = new PageResultVO();
         PoliceUserVO currentUser = getCurrentUser();
-        if( UserRoleVO.JZ_USER.equals(currentUser.getUserRole()) && UserRoleVO.APPROVER_USER.equals(currentUser.getApproveRole())){
+        if( UserRoleVO.JZ_USER.equals(currentUser.getUserRole()) ){
             tickoutVO.setApplyUnit(currentUser.getWorkUnit());
             tickoutVO.setApplyStateGr(1);
         }else if( UserRoleVO.NORMAL_USER.equals(currentUser.getUserRole()) ){

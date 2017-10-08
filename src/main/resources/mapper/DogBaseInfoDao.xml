@@ -170,7 +170,7 @@
 		from t_dog_work
 		where start_time>=#{startDate} and start_time<=#{endDate}
 		]]>
-		<if test="workUnit != null" > , dog_work_unit=#{workUnit}</if>
+		<if test="workUnit != null" > and dog_work_unit=#{workUnit}</if>
 		group by work_type,DATE_FORMAT(start_time, '%Y-%m')
 
 	</select>

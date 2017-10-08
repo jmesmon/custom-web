@@ -28,7 +28,7 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/dogBaseInfo")
-public class DogBaseInfoController {
+public class DogBaseInfoController extends BaseController{
     @Autowired
     private IDogBaseInfoDao dogBaseInfoDao;
     @Autowired
@@ -39,6 +39,21 @@ public class DogBaseInfoController {
     @RequestMapping("/getAll/{pageSize}/{curPage}")
     public PageResultVO getAll(@RequestBody DogBaseInfoVO dogBaseInfoVO, @PathParam("") PageVO pageVO) {
         PageResultVO page = new PageResultVO();
+
+        PoliceUserVO user = getCurrentUser();
+        String role = user.getUserRole();
+        if(UserRoleVO.NORMAL_USER.equals(role)){
+            //普通用户
+            dogBaseInfoVO.setPoliceId(user.getId() + "");
+        }else if(UserRoleVO.GLY_USER.equals(role) || UserRoleVO.FJ_JZ_USER.equals(role)){
+            //管理员用户
+            dogBaseInfoVO.setWorkPlace(user.getWorkUnit());
+        }else if(UserRoleVO.JZD_USER.equals(role) || UserRoleVO.SUPER_USER.equals(role)|| UserRoleVO.FZRY_USER.equals(role)|| UserRoleVO.PXRY_USER.equals(role)){
+
+        }else{
+            dogBaseInfoVO.setPoliceId(user.getId() + "");
+        }
+
         List<DogBaseInfoVO> list = dogBaseInfoDao.selectAll(dogBaseInfoVO, pageVO);
         Integer integer = dogBaseInfoDao.selectAllCount(dogBaseInfoVO);
 
