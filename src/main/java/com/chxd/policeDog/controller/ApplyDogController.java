@@ -56,6 +56,15 @@ public class ApplyDogController {
         applyDogDao.update(applyDogVO);
         return resultVO;
     }
+
+    @RequestMapping("/updateBath")
+    public ResultVO update(@RequestBody List<ApplyDogVO> list){
+        ResultVO resultVO = ResultVO.getInstance();
+        for(int i = 0;i<list.size(); i++) {
+            applyDogDao.update(list.get(i));
+        }
+        return resultVO;
+    }
     @RequestMapping("/approve")
     public ResultVO approve(@RequestBody List<ApplyDogVO> list){
         ResultVO resultVO = ResultVO.getInstance();

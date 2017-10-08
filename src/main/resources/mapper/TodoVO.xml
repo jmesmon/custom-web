@@ -54,4 +54,28 @@
 		select count(1) from t_todo where 1=1
 		<include refid="condition"/>
 	</select>
+
+	<select id="getMyTodo" resultType="java.util.HashMap">
+		select * from (
+			/*除虫提醒*/
+			select 'worm' as att_name, count(*) as val from t_dog_worm where <![CDATA[ worm_state != 2 and worm_date<=#{next7Day} ]]>
+			union all
+			/*免疫提醒*/
+			select 'immue' as att_name, count(*) as val from t_dog_immue where <![CDATA[ immue_state != 2 and immue_date<=#{next7Day} ]]>
+			union all
+			/*警犬申请*/
+			select 'dogApply' as att_name, count(*) as val from t_apply_dog where apply_state=1
+			union all
+			/*淘汰申请*/
+			select 'tickout' as att_name, count(*) as val from t_dog_tickout where apply_state=#{applyState} /*2*/ <if test="workUnit != null" > and apply_unit=#{workUnit}</if>
+			union all
+			/*死亡申请*/
+			select 'die' as att_name, count(*) as val from t_dog_die where apply_state=#{applyState} /*2*/ <if test="workUnit != null" > and apply_unit=#{workUnit}</if>
+			union all
+			/*培训*/
+			select 'train' as att_name, count(*) as val from t_dog_base where <![CDATA[ next_train_date>=#{nowDay} and next_train_date<=#{nextMonth} ]]>
+				<if test="workUnit != null" > and work_place=#{workUnit}</if>
+				<if test="policeId != null" > and police_id=#{policeId}</if>
+		) tab where tab.val > 0
+	</select>
 </mapper>

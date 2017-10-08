@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -21,6 +22,24 @@ public class DogNewsController extends BaseController {
     private IDogNewsDao dogNewsDao;
     @Autowired
     private IDogBaseInfoDao dogBaseInfoDao;
+
+    @RequestMapping("/getById")
+    public ResultVO getById(@RequestBody DogNewsVO dogNewsVO){
+        ResultVO resultVO = ResultVO.getInstance();
+        List<DogNewsVO> list = dogNewsDao.getList(dogNewsVO, PageVO.getInstance());
+        if(list != null && list.size() > 0){
+            DogNewsVO dog = list.get(0);
+            try {
+                dog.setContent(new String(dog.getContent().getBytes("ISO-8859-1"), "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            resultVO.setResult(list.get(0));
+        }else{
+            resultVO.fail("no data");
+        }
+        return resultVO;
+    }
 
     @RequestMapping("/getList/{pageSize}/{curPage}")
     public PageResultVO getList(@RequestBody DogNewsVO dogNewsVO, @PathParam("") PageVO pageVO) {

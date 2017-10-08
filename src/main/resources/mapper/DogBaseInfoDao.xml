@@ -172,8 +172,8 @@
 		]]>
 		<if test="workUnit != null" > and dog_work_unit=#{workUnit}</if>
 		group by work_type,DATE_FORMAT(start_time, '%Y-%m')
-
 	</select>
+
 	<select id="getAnalysisData" resultType="java.util.HashMap">
 
 			select * from (

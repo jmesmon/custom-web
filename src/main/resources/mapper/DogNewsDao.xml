@@ -5,7 +5,7 @@
     <insert id="add" parameterType="java.util.List">
         insert into t_news (id, title, work_unit, publish_date, publisher, content, news_type, creation_date, last_update_date)
         values
-            (#{vo.id}, #{vo.title}, #{vo.work_unit}, #{vo.publishDateStr}, #{vo.publisher}, #{vo.content}, #{vo.newsType}, now(), now())
+            (#{vo.id}, #{vo.title}, #{vo.workUnit}, #{vo.publishDateStr}, #{vo.publisher}, #{vo.content}, #{vo.newsType}, now(), now())
     </insert>
     <delete id="del">
         delete from t_news where id in
