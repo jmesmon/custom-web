@@ -220,4 +220,10 @@
 
 	</select>
 
+
+	<select id="getOrgCount" resultType="java.util.HashMap">
+		select * from (
+			select work_place as workUnit, count(*) as val from t_dog_base group by work_place
+		) a where a.workUnit is not null
+	</select>
 </mapper>

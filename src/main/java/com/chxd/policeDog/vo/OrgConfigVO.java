@@ -11,6 +11,24 @@ public class OrgConfigVO extends BaseVO {
     private Integer  empQty;	//员工数量
     private String  orgArea;	//单位所在区
     private String orgPic;
+    private String orgDesc;
+    private Integer dogQty;
+
+    public Integer getDogQty() {
+        return dogQty;
+    }
+
+    public void setDogQty(Integer dogQty) {
+        this.dogQty = dogQty;
+    }
+
+    public String getOrgDesc() {
+        return orgDesc;
+    }
+
+    public void setOrgDesc(String orgDesc) {
+        this.orgDesc = orgDesc;
+    }
 
     public String getOrgPic() {
         return orgPic;

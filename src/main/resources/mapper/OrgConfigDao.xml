@@ -3,10 +3,10 @@
 <mapper namespace="com.chxd.policeDog.dao.IOrgConfigDao">
 
 	<insert id="add" parameterType="java.util.List">
-		insert into t_org_config (id, org_pic, org_name, org_leader, org_addr, org_concat, emp_qty, org_area, last_update_date)
+		insert into t_org_config (id, dog_qty, org_desc, org_pic, org_name, org_leader, org_addr, org_concat, emp_qty, org_area, last_update_date)
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
-			(#{item.id}, #{item.orgName}, #{item.orgName}, #{item.orgLeader}, #{item.orgAddr}, #{item.orgConcat}, #{item.empQty}, #{item.orgArea}, now())
+			(#{item.id}, #{item.dogQty}, #{item.orgDesc}, #{item.orgName}, #{item.orgName}, #{item.orgLeader}, #{item.orgAddr}, #{item.orgConcat}, #{item.empQty}, #{item.orgArea}, now())
 		</foreach>
 	</insert>
 	<delete id="del">
@@ -20,6 +20,8 @@
 		<if test="vo.id != null" > , id=#{vo.id}</if>
 		<if test="vo.orgName != null" > , org_name=#{vo.orgName}</if>
 		<if test="vo.orgPic != null" > , org_pic=#{vo.orgPic}</if>
+		<if test="vo.dogQty != null" > , dog_qty=#{vo.dogQty}</if>
+		<if test="vo.orgDesc != null" > , org_desc=#{vo.orgDesc}</if>
 		<if test="vo.orgLeader != null" > , org_leader=#{vo.orgLeader}</if>
 		<if test="vo.orgAddr != null" > , org_addr=#{vo.orgAddr}</if>
 		<if test="vo.orgConcat != null" > , org_concat=#{vo.orgConcat}</if>
@@ -37,6 +39,7 @@
 		<if test="vo.orgName != null" > and org_name=#{vo.orgName}</if>
 		<if test="vo.orgPic != null" > and org_pic=#{vo.orgPic}</if>
 		<if test="vo.orgLeader != null" > and org_leader=#{vo.orgLeader}</if>
+		<if test="vo.dogQty != null" > and dog_qty=#{vo.dogQty}</if>
 		<if test="vo.orgAddr != null" > and org_addr=#{vo.orgAddr}</if>
 		<if test="vo.orgConcat != null" > and org_concat=#{vo.orgConcat}</if>
 		<if test="vo.empQty != null" > and emp_qty=#{vo.empQty}</if>
