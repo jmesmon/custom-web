@@ -13,6 +13,24 @@ public class OrgConfigVO extends BaseVO {
     private String orgPic;
     private String orgDesc;
     private Integer dogQty;
+    private Integer newQty;
+    private Integer workHours;
+
+    public Integer getNewQty() {
+        return newQty;
+    }
+
+    public void setNewQty(Integer newQty) {
+        this.newQty = newQty;
+    }
+
+    public Integer getWorkHours() {
+        return workHours;
+    }
+
+    public void setWorkHours(Integer workHours) {
+        this.workHours = workHours;
+    }
 
     public Integer getDogQty() {
         return dogQty;

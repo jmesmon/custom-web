@@ -140,10 +140,8 @@ public class DogBaseInfoController extends BaseController{
             out.flush();
             out.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (TemplateException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

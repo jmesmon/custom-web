@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cheng on 2017/10/3.
@@ -20,4 +21,7 @@ public interface IOrgConfigDao {
     void add(List<OrgConfigVO> list);
     void update(@Param("vo") OrgConfigVO vo);
     void del(List<OrgConfigVO> list);
+
+    List<Map> getDogAnalysis();
+    List<Map> getUserAnalysis();
 }
