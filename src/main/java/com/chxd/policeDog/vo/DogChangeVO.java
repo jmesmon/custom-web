@@ -15,9 +15,9 @@ public class DogChangeVO extends BaseVO {
     private String  newWorkPlace;	//	变动后作单位
     private String  oldDogName;	//	原犬名
     private String  newDogName;	//	变动后犬名
-    private Integer  oldPoliceId;	//	原带犬民警id
-    private Integer  oldPoliceName;	//	原带犬民警姓名
-    private Integer  newPoliceId;	//	变动后带犬民警id
+    private String  oldPoliceId;	//	原带犬民警id
+    private String  oldPoliceName;	//	原带犬民警姓名
+    private String  newPoliceId;	//	变动后带犬民警id
     private String  newPoliceName;	//	变动后带犬民警姓名
     private String  oldDogType;	//	原类别
     private String  newDogType;	//	变动后类别
@@ -85,27 +85,27 @@ public class DogChangeVO extends BaseVO {
         this.newDogName = newDogName;
     }
 
-    public Integer getOldPoliceId() {
+    public String getOldPoliceId() {
         return oldPoliceId;
     }
 
-    public void setOldPoliceId(Integer oldPoliceId) {
+    public void setOldPoliceId(String oldPoliceId) {
         this.oldPoliceId = oldPoliceId;
     }
 
-    public Integer getOldPoliceName() {
+    public String getOldPoliceName() {
         return oldPoliceName;
     }
 
-    public void setOldPoliceName(Integer oldPoliceName) {
+    public void setOldPoliceName(String oldPoliceName) {
         this.oldPoliceName = oldPoliceName;
     }
 
-    public Integer getNewPoliceId() {
+    public String getNewPoliceId() {
         return newPoliceId;
     }
 
-    public void setNewPoliceId(Integer newPoliceId) {
+    public void setNewPoliceId(String newPoliceId) {
         this.newPoliceId = newPoliceId;
     }
 

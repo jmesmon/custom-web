@@ -232,4 +232,28 @@
 		    <![CDATA[ where start_time>=#{lastMonth} and start_time<#{nowMonth} group by dog_work_unit  ]]>
 		) t1 where workUnit is not null group by workUnit
 	</select>
+
+	<select id="getDogPro" resultType="java.util.HashMap">
+		select concat(train_name, '[', count(*), ']') as trainName,dog_id from t_dog_train
+		where train_result != '' and dog_id in
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+			#{item.id}
+		</foreach>
+		group by train_name,dog_id
+	</select>
+
+	<update id="changePoliceUser">
+		update t_dog_base set
+			last_update_date = now(),
+			tutor=#{dogInfo.policeName},
+			police_id=#{dogInfo.policeId},
+			police_name=#{dogInfo.policeName}
+		where id=#{dogInfo.id}
+	</update>
+
+	<select id="getAdminByTrainId" resultType="com.chxd.policeDog.vo.PoliceUserVO">
+		select * from t_police_user where user_role='GuanLiYuan' and work_unit in (
+		select work_unit from t_police_user where id in (select police_id from t_dog_train where train_id=#{trainId}) group by work_unit
+		)
+	</select>
 </mapper>

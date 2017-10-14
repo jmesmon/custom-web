@@ -17,7 +17,8 @@ public interface IMyNoticeDao {
     List<MyNoticeVO> getList(@Param("vo") MyNoticeVO vo, @Param("page") PageVO page);
     Integer getListCount(@Param("vo") MyNoticeVO vo);
 
-    void add(List<MyNoticeVO> list);
+    void addBatch(List<MyNoticeVO> list);
+    void add(@Param("item") MyNoticeVO noticeVO);
     void update(@Param("vo") MyNoticeVO vo);
     void del(List<MyNoticeVO> list);
 }

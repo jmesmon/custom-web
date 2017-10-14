@@ -14,7 +14,7 @@
         </foreach>
     </delete>
     <update id="update" parameterType="com.chxd.policeDog.vo.DogNewsVO">
-        update t_apply_dog set last_update_date=now()
+        update t_news set last_update_date=now()
         <if test="vo.id != null" > , id=#{vo.id}</if>
         <if test="vo.title != null" > , title=#{vo.title}</if>
         <if test="vo.workUnit != null" > , work_unit=#{vo.workUnit}</if>

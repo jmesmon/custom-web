@@ -93,6 +93,11 @@ public class ConfigController {
     public ResultVO getDogAnalysis(){
         ResultVO resultVO = ResultVO.getInstance();
         List<Map> dogAnalysis = orgConfigDao.getDogAnalysis();
+        for(int i = 0; i<dogAnalysis.size(); i++){
+            Map m = dogAnalysis.get(i);
+            byte[] b = (byte[])m.get("att_name");
+            m.put("att_name", new String(b));
+        }
         resultVO.setResult(dogAnalysis);
         return resultVO;
     }

@@ -90,4 +90,8 @@
 		<if test="vo.trainResult != null" > , train_result=#{vo.trainResult}</if>
 		where id=#{vo.id}
 	</update>
+
+	<select id="getTrainById" resultType="com.chxd.policeDog.vo.DogTrainVO">
+		select * from t_dog_train where train_id=#{trainId}
+	</select>
 </mapper>

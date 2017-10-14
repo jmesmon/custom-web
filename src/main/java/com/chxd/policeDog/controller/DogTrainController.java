@@ -3,12 +3,14 @@ package com.chxd.policeDog.controller;
 import com.chxd.policeDog.dao.IDogBaseInfoDao;
 import com.chxd.policeDog.dao.IDogTrainDao;
 import com.chxd.policeDog.vo.*;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -128,6 +130,47 @@ public class DogTrainController extends BaseController {
         try {
             List<Map<String, String>> status = dogTrainDao.getStatus(list);
             resultVO.setResult(status);
+        }catch(Exception e){
+            e.printStackTrace();
+            resultVO.fail(e.getMessage());
+        }
+        return resultVO;
+    }
+
+    @RequestMapping("/sendNotice")
+    public ResultVO sendNotice(@RequestBody DogTrainVO dogTrainVO){
+        ResultVO resultVO = ResultVO.getInstance();
+        try {
+            List<DogTrainVO> list = dogTrainDao.getTrainById(dogTrainVO.getTrainId());
+            List<MyNoticeVO> noticeList = Lists.newArrayList();
+            String trainName = "";
+            Date trainDate = null;
+            for(int i = 0; i<list.size(); i++){
+                DogTrainVO dt = list.get(i);
+                MyNoticeVO no = new MyNoticeVO();
+                no.setIsRead(1);
+                no.setPoliceId(dt.getPoliceId()+"");
+                no.setTitle("【培训通知】警犬：" + dt.getDogName() +
+                        "，培训科目：" + dt.getTrainName() +
+//                        "，开始时间：" + new SimpleDateFormat("YYYY-MM-dd").format(dt.getTrainStartDate()) +
+                        "，详细请到\"报名培训\"中查看");
+                no.setNoticeType("培训通知");
+                trainName = dt.getTrainName();
+                trainDate = dt.getTrainStartDate();
+                noticeList.add(no);
+            }
+            List<PoliceUserVO> userList = dogBaseInfoDao.getAdminByTrainId(dogTrainVO.getTrainId());
+            for(int i = 0; i<userList.size(); i++){
+                MyNoticeVO no = new MyNoticeVO();
+                no.setIsRead(1);
+                no.setPoliceId(userList.get(i).getPoliceId()+"");
+                no.setTitle("【培训通知】" +
+                        "培训科目：" + trainName +
+                        "，详细请到\"报名培训\"中查看，及时通知本单位参训人员");
+                no.setNoticeType("培训通知");
+                noticeList.add(no);
+            }
+            noticeDao.addBatch(noticeList);
         }catch(Exception e){
             e.printStackTrace();
             resultVO.fail(e.getMessage());

@@ -2,9 +2,7 @@ package com.chxd.policeDog.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.chxd.policeDog.dao.IDogBaseInfoDao;
-import com.chxd.policeDog.dao.IDogTrainDao;
-import com.chxd.policeDog.dao.IWormImmueDao;
+import com.chxd.policeDog.dao.*;
 import com.chxd.policeDog.vo.*;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -35,6 +33,9 @@ public class DogBaseInfoController extends BaseController{
     private IWormImmueDao wormImmueDao;
     @Autowired
     private IDogTrainDao dogTrainDao;
+    @Autowired
+    private IDogChangeDao dogChangeDao;
+
 
     @RequestMapping("/getAll/{pageSize}/{curPage}")
     public PageResultVO getAll(@RequestBody DogBaseInfoVO dogBaseInfoVO, @PathParam("") PageVO pageVO) {
@@ -56,6 +57,24 @@ public class DogBaseInfoController extends BaseController{
 
         List<DogBaseInfoVO> list = dogBaseInfoDao.selectAll(dogBaseInfoVO, pageVO);
         Integer integer = dogBaseInfoDao.selectAllCount(dogBaseInfoVO);
+
+        List<Map> dogPro = dogBaseInfoDao.getDogPro(list);
+        Map<Integer, String> dogProMapping = Maps.newHashMap();
+        for(int i = 0; i<dogPro.size(); i++){
+            Map map = dogPro.get(i);
+            Integer dogId = (Integer)map.get("dog_id");
+            String pros = dogProMapping.get(dogId);
+            if(pros == null){
+                pros = (String)map.get("trainName");
+            }else{
+                pros += "，" + (String)map.get("trainName");
+            }
+            dogProMapping.put(dogId, pros);
+        }
+        for(int i = 0; i<list.size(); i++){
+            DogBaseInfoVO dog = list.get(i);
+            dog.setDogPros(dogProMapping.get(dog.getId()));
+        }
 
 //        buildWord(list);
         pageVO.setTotalRows(integer);
@@ -274,6 +293,42 @@ public class DogBaseInfoController extends BaseController{
         ResultVO resultVO = ResultVO.getInstance();
         try{
             dogBaseInfoDao.died(dogList);
+        }catch (Exception e){
+            e.printStackTrace();
+            resultVO.fail(e.getMessage());
+        }
+        return resultVO;
+    }
+
+    @RequestMapping("/changeUser")
+    public ResultVO changeUser(@RequestBody DogChangeVO dogChangeVO){
+        ResultVO resultVO = ResultVO.getInstance();
+        try{
+            DogBaseInfoVO dog = new DogBaseInfoVO();
+            dog.setId(dogChangeVO.getDogId());
+            dog.setPoliceId(dogChangeVO.getNewPoliceId());
+            dog.setPoliceName(dogChangeVO.getNewPoliceName());
+            dogBaseInfoDao.changePoliceUser(dog);
+
+            List<DogChangeVO> li = Lists.newArrayList();
+            dogChangeVO.setChangeDate(new Date());
+            PoliceUserVO currentUser = getCurrentUser();
+            dogChangeVO.setApplyId(currentUser.getId());
+            dogChangeVO.setAgentName(currentUser.getPoliceName());
+//            dogChangeVO.setChangeState(1);
+            dogChangeVO.setCreationDate(new Date());
+            dogChangeVO.setLastUpdateDate(new Date());
+            li.add(dogChangeVO);
+            dogChangeDao.add(li);
+
+            MyNoticeVO notice = new MyNoticeVO();
+            notice.setNoticeType("变更通知");
+            notice.setIsRead(1);
+            notice.setTitle(currentUser.getPoliceName() + "分配给你一头警犬，请注意查收，可在\"警犬列表\"中查看");
+            notice.setPoliceId(dogChangeVO.getNewPoliceId());
+            notice.setCreationDate(new Date());
+            notice.setLastUpdateDate(new Date());
+            noticeDao.add(notice);
         }catch (Exception e){
             e.printStackTrace();
             resultVO.fail(e.getMessage());

@@ -56,9 +56,18 @@ public class DogBaseInfoVO extends BaseVO {
 
     private List<DogTrainVO> trainInfo;
     private List<WormImmueInfoVO> wormImmueInfo;
+    private String dogPros;
 
     public DogBaseInfoVO() {
 
+    }
+
+    public String getDogPros() {
+        return dogPros;
+    }
+
+    public void setDogPros(String dogPros) {
+        this.dogPros = dogPros;
     }
 
     public String getIsSign() {

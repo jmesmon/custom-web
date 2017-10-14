@@ -1,9 +1,6 @@
 package com.chxd.policeDog.dao;
 
-import com.chxd.policeDog.vo.DogBaseInfoVO;
-import com.chxd.policeDog.vo.DogImmueVO;
-import com.chxd.policeDog.vo.DogWormVO;
-import com.chxd.policeDog.vo.PageVO;
+import com.chxd.policeDog.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -45,4 +42,10 @@ public interface IDogBaseInfoDao {
     List<Map> getWorkData(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("workUnit") String workUnit);
 
     List<Map> getOrgCount(@Param("lastMonth") String lastMonth, @Param("nowMonth") String nowMonth);
+
+    List<Map> getDogPro(@Param("list") List<DogBaseInfoVO> list);
+
+    void changePoliceUser(@Param("dogInfo") DogBaseInfoVO dogInfo);
+
+    List<PoliceUserVO> getAdminByTrainId(@Param("trainId") int trainId);
 }

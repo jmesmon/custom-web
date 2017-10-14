@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chxd.policeDog.dao.IDogChangeDao">
+
+	<insert id="add" parameterType="java.util.List">
+		insert into t_dog_change (id, dog_id, change_date, old_work_place, new_work_place, old_dog_name, new_dog_name, old_police_id, old_police_name, new_police_id, new_police_name, old_dog_type, new_dog_type, change_reason, apply_id, apply_name, approver_id, approver_name, leader_id, leader_name, agent_id, agent_name, receiver_id, reveiver_name, other_info, change_state, change_type, approve_logs, creation_date, last_update_date)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(#{item.id}, #{item.dogId}, #{item.changeDate}, #{item.oldWorkPlace}, #{item.newWorkPlace}, #{item.oldDogName}, #{item.newDogName}, #{item.oldPoliceId}, #{item.oldPoliceName}, #{item.newPoliceId}, #{item.newPoliceName}, #{item.oldDogType}, #{item.newDogType}, #{item.changeReason}, #{item.applyId}, #{item.applyName}, #{item.approverId}, #{item.approverName}, #{item.leaderId}, #{item.leaderName}, #{item.agentId}, #{item.agentName}, #{item.receiverId}, #{item.reveiverName}, #{item.otherInfo}, #{item.changeState}, #{item.changeType}, #{item.approveLogs}, #{item.creationDate}, #{item.lastUpdateDate})
+		</foreach>
+	</insert>
+	<delete id="del">
+		delete from t_dog_change where id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+	<update id="update" parameterType="com.chxd.policeDog.vo.DogChangeVO">
+		update t_dog_change set last_update_date=now()
+		<if test="vo.id != null" > , id=#{vo.id}</if>
+		<if test="vo.dogId != null" > , dog_id=#{vo.dogId}</if>
+		<if test="vo.changeDate != null" > , change_date=#{vo.changeDate}</if>
+		<if test="vo.oldWorkPlace != null" > , old_work_place=#{vo.oldWorkPlace}</if>
+		<if test="vo.newWorkPlace != null" > , new_work_place=#{vo.newWorkPlace}</if>
+		<if test="vo.oldDogName != null" > , old_dog_name=#{vo.oldDogName}</if>
+		<if test="vo.newDogName != null" > , new_dog_name=#{vo.newDogName}</if>
+		<if test="vo.oldPoliceId != null" > , old_police_id=#{vo.oldPoliceId}</if>
+		<if test="vo.oldPoliceName != null" > , old_police_name=#{vo.oldPoliceName}</if>
+		<if test="vo.newPoliceId != null" > , new_police_id=#{vo.newPoliceId}</if>
+		<if test="vo.newPoliceName != null" > , new_police_name=#{vo.newPoliceName}</if>
+		<if test="vo.oldDogType != null" > , old_dog_type=#{vo.oldDogType}</if>
+		<if test="vo.newDogType != null" > , new_dog_type=#{vo.newDogType}</if>
+		<if test="vo.changeReason != null" > , change_reason=#{vo.changeReason}</if>
+		<if test="vo.applyId != null" > , apply_id=#{vo.applyId}</if>
+		<if test="vo.applyName != null" > , apply_name=#{vo.applyName}</if>
+		<if test="vo.approverId != null" > , approver_id=#{vo.approverId}</if>
+		<if test="vo.approverName != null" > , approver_name=#{vo.approverName}</if>
+		<if test="vo.leaderId != null" > , leader_id=#{vo.leaderId}</if>
+		<if test="vo.leaderName != null" > , leader_name=#{vo.leaderName}</if>
+		<if test="vo.agentId != null" > , agent_id=#{vo.agentId}</if>
+		<if test="vo.agentName != null" > , agent_name=#{vo.agentName}</if>
+		<if test="vo.receiverId != null" > , receiver_id=#{vo.receiverId}</if>
+		<if test="vo.reveiverName != null" > , reveiver_name=#{vo.reveiverName}</if>
+		<if test="vo.otherInfo != null" > , other_info=#{vo.otherInfo}</if>
+		<if test="vo.changeState != null" > , change_state=#{vo.changeState}</if>
+		<if test="vo.changeType != null" > , change_type=#{vo.changeType}</if>
+		<if test="vo.approveLogs != null" > , approve_logs=#{vo.approveLogs}</if>
+		<if test="vo.creationDate != null" > , creation_date=#{vo.creationDate}</if>
+		<if test="vo.lastUpdateDate != null" > , last_update_date=#{vo.lastUpdateDate}</if>
+		where id=#{vo.id}
+	</update>
+	<sql id="pageCondition">
+		limit #{page.startRow}, #{page.pageSize}
+	</sql>
+
+	<sql id="condition">
+		<if test="vo.id != null" > and id=#{vo.id}</if>
+		<if test="vo.dogId != null" > and dog_id=#{vo.dogId}</if>
+		<if test="vo.changeDate != null" > and change_date=#{vo.changeDate}</if>
+		<if test="vo.oldWorkPlace != null" > and old_work_place=#{vo.oldWorkPlace}</if>
+		<if test="vo.newWorkPlace != null" > and new_work_place=#{vo.newWorkPlace}</if>
+		<if test="vo.oldDogName != null" > and old_dog_name=#{vo.oldDogName}</if>
+		<if test="vo.newDogName != null" > and new_dog_name=#{vo.newDogName}</if>
+		<if test="vo.oldPoliceId != null" > and old_police_id=#{vo.oldPoliceId}</if>
+		<if test="vo.oldPoliceName != null" > and old_police_name=#{vo.oldPoliceName}</if>
+		<if test="vo.newPoliceId != null" > and new_police_id=#{vo.newPoliceId}</if>
+		<if test="vo.newPoliceName != null" > and new_police_name=#{vo.newPoliceName}</if>
+		<if test="vo.oldDogType != null" > and old_dog_type=#{vo.oldDogType}</if>
+		<if test="vo.newDogType != null" > and new_dog_type=#{vo.newDogType}</if>
+		<if test="vo.changeReason != null" > and change_reason=#{vo.changeReason}</if>
+		<if test="vo.applyId != null" > and apply_id=#{vo.applyId}</if>
+		<if test="vo.applyName != null" > and apply_name=#{vo.applyName}</if>
+		<if test="vo.approverId != null" > and approver_id=#{vo.approverId}</if>
+		<if test="vo.approverName != null" > and approver_name=#{vo.approverName}</if>
+		<if test="vo.leaderId != null" > and leader_id=#{vo.leaderId}</if>
+		<if test="vo.leaderName != null" > and leader_name=#{vo.leaderName}</if>
+		<if test="vo.agentId != null" > and agent_id=#{vo.agentId}</if>
+		<if test="vo.agentName != null" > and agent_name=#{vo.agentName}</if>
+		<if test="vo.receiverId != null" > and receiver_id=#{vo.receiverId}</if>
+		<if test="vo.reveiverName != null" > and reveiver_name=#{vo.reveiverName}</if>
+		<if test="vo.otherInfo != null" > and other_info=#{vo.otherInfo}</if>
+		<if test="vo.changeState != null" > and change_state=#{vo.changeState}</if>
+		<if test="vo.changeType != null" > and change_type=#{vo.changeType}</if>
+		<if test="vo.approveLogs != null" > and approve_logs=#{vo.approveLogs}</if>
+		<if test="vo.creationDate != null" > and creation_date=#{vo.creationDate}</if>
+		<if test="vo.lastUpdateDate != null" > and last_update_date=#{vo.lastUpdateDate}</if>
+	</sql>
+
+	<select id="getList" resultType="com.chxd.policeDog.vo.DogChangeVO">
+		select * from t_dog_change where 1=1
+		<include refid="condition"/>
+		<include refid="pageCondition"/>
+	</select>
+
+	<select id="getListCount" resultType="java.lang.Integer">
+		select count(1) from t_dog_change where 1=1
+		<include refid="condition"/>
+	</select>
+</mapper>

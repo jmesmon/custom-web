@@ -7,7 +7,7 @@ public class MyNoticeVO extends  BaseVO{
     private String  title;	//
     private String  policeId;	//
     private Integer  isRead;	//1：未读，2：已读，
-    private Integer  noticeType;	//
+    private String  noticeType;	//
 
     public String getTitle() {
         return title;
@@ -33,11 +33,11 @@ public class MyNoticeVO extends  BaseVO{
         this.isRead = isRead;
     }
 
-    public Integer getNoticeType() {
+    public String getNoticeType() {
         return noticeType;
     }
 
-    public void setNoticeType(Integer noticeType) {
+    public void setNoticeType(String noticeType) {
         this.noticeType = noticeType;
     }
 }

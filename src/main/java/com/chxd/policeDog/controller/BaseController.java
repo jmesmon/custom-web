@@ -1,5 +1,6 @@
 package com.chxd.policeDog.controller;
 
+import com.chxd.policeDog.dao.IMyNoticeDao;
 import com.chxd.policeDog.vo.PoliceUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,6 +21,9 @@ public class BaseController {
     protected HttpServletRequest request;
     protected HttpServletResponse response;
     protected HttpSession session;
+
+    @Autowired
+    protected IMyNoticeDao noticeDao;
 
     protected final String USER_KEY = "USER";
 

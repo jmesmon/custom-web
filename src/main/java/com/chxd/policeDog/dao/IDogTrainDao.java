@@ -23,4 +23,5 @@ public interface IDogTrainDao {
     void del(List<DogTrainVO> list);
 
     List<Map<String, String>> getStatus(List<DogTrainVO> list);
+    List<DogTrainVO> getTrainById(@Param("trainId") int trainId);
 }
