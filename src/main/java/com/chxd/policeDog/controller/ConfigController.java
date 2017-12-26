@@ -54,9 +54,9 @@ public class ConfigController {
                 OrgConfigVO orgConfigVO = list.get(i);
                 if(map.containsKey(orgConfigVO.getOrgName())){
                     Map val = map.get(orgConfigVO.getOrgName());
-                    orgConfigVO.setDogQty(((BigDecimal)count.get(i).get("dogCount")).intValue());
-                    orgConfigVO.setNewQty(((BigDecimal)count.get(i).get("newsCount")).intValue());
-                    orgConfigVO.setWorkHours(((Double)count.get(i).get("workHours")).intValue());
+                    orgConfigVO.setDogQty(((BigDecimal)val.get("dogCount")).intValue());
+                    orgConfigVO.setNewQty(((BigDecimal)val.get("newsCount")).intValue());
+                    orgConfigVO.setWorkHours(((BigDecimal)val.get("workHours")).intValue());
                 }
             }
             resultVO.setResult(list);
@@ -95,8 +95,14 @@ public class ConfigController {
         List<Map> dogAnalysis = orgConfigDao.getDogAnalysis();
         for(int i = 0; i<dogAnalysis.size(); i++){
             Map m = dogAnalysis.get(i);
-            byte[] b = (byte[])m.get("att_name");
-            m.put("att_name", new String(b));
+            if(m.get("att_name")  == null){
+                continue;
+            }
+            if(!m.get("att_name").getClass().getName().equals("java.lang.String")){
+                byte[] b = (byte[])m.get("att_name");
+                m.put("att_name", new String(b));
+            }
+
         }
         resultVO.setResult(dogAnalysis);
         return resultVO;

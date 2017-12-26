@@ -229,7 +229,7 @@
 		    <![CDATA[ where publish_date>=#{lastMonth} and publish_date<#{nowMonth} group by work_unit  ]]>
 			union all
 			select dog_work_unit as workUnit, 0 as val1, 0 as val2, (end_time-start_time)/10000 as val3 from t_dog_work
-		    <![CDATA[ where start_time>=#{lastMonth} and start_time<#{nowMonth} group by dog_work_unit  ]]>
+		    <![CDATA[ where start_time>=#{lastMonth} and start_time<#{nowMonth} group by dog_work_unit,(end_time-start_time)/10000  ]]>
 		) t1 where workUnit is not null group by workUnit
 	</select>
 
