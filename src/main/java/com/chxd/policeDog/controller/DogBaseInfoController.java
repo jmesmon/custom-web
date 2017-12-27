@@ -2,7 +2,11 @@ package com.chxd.policeDog.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.chxd.policeDog.dao.*;
+import com.chxd.policeDog.config.MyProps;
+import com.chxd.policeDog.dao.IDogBaseInfoDao;
+import com.chxd.policeDog.dao.IDogChangeDao;
+import com.chxd.policeDog.dao.IDogTrainDao;
+import com.chxd.policeDog.dao.IWormImmueDao;
 import com.chxd.policeDog.vo.*;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -532,4 +536,63 @@ public class DogBaseInfoController extends BaseController{
         }
         return resultVO;
     }
+
+
+    @Autowired
+    private MyProps myProps;
+
+    @RequestMapping("/exportWorkData")
+    public ResultVO exportWorkData(@RequestBody Map<String, Object> params){
+        ResultVO resultVO = ResultVO.getInstance();
+        List<Map> list = dogBaseInfoDao.getWorkData4Export((String) params.get("startDate"), (String) params.get("endDate"), (String) params.get("workUnit"));
+        Configuration con = new Configuration();
+        Writer out = null;
+        try {
+            con.setDirectoryForTemplateLoading(new File(myProps.getUploadFilePath() + "/template"));//指定加载模板的位置
+            con.setObjectWrapper(new DefaultObjectWrapper());//指定生产模板的方式
+            con.setDefaultEncoding("utf-8");//设置模板读取的编码方式，用于处理乱码
+            con.setClassicCompatible(true);
+
+            Template template = con.getTemplate("dog_work_data_temp.xml");//模板文件，可以是xml,ftl,html
+            System.out.println(template.getEncoding());
+            template.setEncoding("utf-8");//设置写入模板的编码方式
+
+            Map root = new HashMap();//data数据
+            for (int i = 0; i < list.size(); i++) {
+                Map map = list.get(i);
+                String k = (String)map.get("tName");
+                Object v = map.get("qty");
+                root.put(k, v);
+            }
+            root.put("workUnit", params.get("workUnit"));
+            root.put("shr", "");
+            root.put("tbr", "");
+            String yearMonth = (String)params.get("startDate");
+            yearMonth = yearMonth.replace("-", "").substring(0, 6);
+            root.put("yearMonth", yearMonth);
+
+            String path = "/export/" + new SimpleDateFormat("YYYYMMdd").format(System.currentTimeMillis()) + "/JiShuGongZuo_"+new SimpleDateFormat("YYYYMMddHHmmss").format(System.currentTimeMillis())+".xls";
+            File dist = new File(myProps.getUploadFilePath() + path);
+            dist.getParentFile().mkdirs();
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dist), "utf-8"));//生产文件输出流
+
+            template.process(root, out);//将模板写到文件中
+            out.flush();
+
+            resultVO.setResult("/policeDog/resource" + path);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (TemplateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (Exception e) {
+            }
+        }
+        return resultVO;
+    }
+
 }

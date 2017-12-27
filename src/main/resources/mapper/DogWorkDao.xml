@@ -11,6 +11,7 @@
 		<if test="vo.workType != null" > and t1.work_type=#{vo.workType}</if>
 		<if test="vo.dogNameLike != null" > and t2.dog_name like concat('%', #{vo.dogNameLike}, '%')</if>
 		<if test="vo.workUnit != null" > and t1.work_unit=#{vo.workUnit}</if>
+		<if test="vo.xlNum != null" > and t1.xl_num=#{vo.xlNum}</if>
 		<if test="vo.attPerson != null" > and t1.att_person=#{vo.attPerson}</if>
 		<if test="vo.dogChipNo != null" > and t1.dog_chip_no=#{vo.dogChipNo}</if>
 		<if test="vo.caseProperty != null" > and t1.case_property=#{vo.caseProperty}</if>
@@ -54,11 +55,11 @@
 	</select>
 
 	<insert id="add" parameterType="java.util.List">
-		insert into t_dog_work (dog_work_unit, aj_wp, aj_per, aj_addr, aj_car, aj_level, search_wp, att_leader, work_type, start_time, end_time, work_unit, att_person, dog_chip_no, case_property, case_no, is_work, security_check_area, work_result, work_pic, creation_date, last_update_date)
+		insert into t_dog_work (xl_num,dog_work_unit, aj_wp, aj_per, aj_addr, aj_car, aj_level, search_wp, att_leader, work_type, start_time, end_time, work_unit, att_person, dog_chip_no, case_property, case_no, is_work, security_check_area, work_result, work_pic, creation_date, last_update_date)
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
 			(
-			#{item.dogWorkUnit}, #{item.ajWp}, #{item.ajPer}, #{item.ajAddr}, #{item.ajCar}, #{item.ajLevel}, #{item.searchWp}, #{item.attLeader}, #{item.workType}, #{item.startTimeStr}, #{item.endTimeStr}, #{item.workUnit}, #{item.attPerson}, #{item.dogChipNo}, #{item.caseProperty}, #{item.caseNo}, #{item.isWork}, #{item.securityCheckArea}, #{item.workResult}, #{item.workPic}, now(), now()
+			#{item.xlNum}, #{item.dogWorkUnit}, #{item.ajWp}, #{item.ajPer}, #{item.ajAddr}, #{item.ajCar}, #{item.ajLevel}, #{item.searchWp}, #{item.attLeader}, #{item.workType}, #{item.startTimeStr}, #{item.endTimeStr}, #{item.workUnit}, #{item.attPerson}, #{item.dogChipNo}, #{item.caseProperty}, #{item.caseNo}, #{item.isWork}, #{item.securityCheckArea}, #{item.workResult}, #{item.workPic}, now(), now()
 			)
 		</foreach>
 	</insert>
@@ -73,6 +74,7 @@
 	<update id="update">
 		update t_dog_work set last_update_date=now()
 		<if test="vo.workType != null" > , work_type=#{vo.workType}</if>
+		<if test="vo.xlNum != null" > and t1.xl_num=#{vo.xlNum}</if>
 		<if test="vo.workUnit != null" > , work_unit=#{vo.workUnit}</if>
 		<if test="vo.attPerson != null" > , att_person=#{vo.attPerson}</if>
 		<if test="vo.dogChipNo != null" > , dog_chip_no=#{vo.dogChipNo}</if>

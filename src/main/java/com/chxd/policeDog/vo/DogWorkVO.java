@@ -9,6 +9,7 @@ import java.util.Date;
 public class DogWorkVO extends BaseVO {
     private static final long serialVersionUID = -4631516929841802430L;
     private String workType;
+    private String xlNum;
     private Date startTime;	//	日期
     private String startTimeStr;	//	日期
     private Date  endTime;	//	时间
@@ -27,13 +28,21 @@ public class DogWorkVO extends BaseVO {
     private Integer ajPer;
     private String attLeader;
     private String ajAddr;
-    private String ajCar;
+    private Integer ajCar;
     private Integer ajWp;
     private String ajLevel;
     private String searchWp;
     private String dogWorkUnit;
 
     private DogBaseInfoVO dogInfo;
+
+    public String getXlNum() {
+        return xlNum;
+    }
+
+    public void setXlNum(String xlNum) {
+        this.xlNum = xlNum;
+    }
 
     public String getDogWorkUnit() {
         return dogWorkUnit;
@@ -75,11 +84,11 @@ public class DogWorkVO extends BaseVO {
         this.ajAddr = ajAddr;
     }
 
-    public String getAjCar() {
+    public Integer getAjCar() {
         return ajCar;
     }
 
-    public void setAjCar(String ajCar) {
+    public void setAjCar(Integer ajCar) {
         this.ajCar = ajCar;
     }
 

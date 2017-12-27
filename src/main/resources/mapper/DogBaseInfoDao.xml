@@ -256,4 +256,28 @@
 		select work_unit from t_police_user where id in (select police_id from t_dog_train where train_id=#{trainId}) group by work_unit
 		)
 	</select>
+
+	<select id="getWorkData4Export" resultType="java.util.HashMap">
+		<![CDATA[
+		/*人员*/
+		select concat('ry_', work_type) as tName, count(*) as qty from t_police_user where work_type in('民警', '辅警') and work_unit=#{workUnit} group by work_type
+		union all /*警犬品种*/
+		select concat('pz_', breed) as tName, count(*) as qty from t_dog_base where dog_type=1 and work_place=#{workUnit} and work_stage in (1,2) group by breed
+		union all /*工作犬类别*/
+		select concat('jn_',t1.train_name) as tName, count(1) as qty from t_dog_train t1 join t_dog_base t2 on (t1.dog_id=t2.id)
+		where t2.work_place=#{workUnit} group by t1.train_name
+		union all /*使用次数*/
+		select concat('sy_', work_type) as tName, count(*) as qty from t_dog_work where end_time>=#{startDate} and end_time<=#{endDate} and work_unit=#{workUnit} group by work_type
+		union all /*出勤次数*/
+		select 'cq_安检出勤' as tName, count(*) as qty from (
+		select xl_num, count(*) from t_dog_work  where end_time>=#{startDate} and end_time<=#{endDate} and work_unit=#{workUnit} and work_type='安检' group by xl_num
+		)a
+		union all /*起作用数*/
+		select concat('work_', work_type) as tName, count(*) as qty from t_dog_work  where end_time>=#{startDate} and end_time<=#{endDate} and work_unit=#{workUnit} and is_work='正常' group by work_type
+		union all
+		select 'pa_一般' as tName, count(*) as qty from t_dog_work  where aj_level='一般' and end_time>=#{startDate} and end_time<=#{endDate} and work_unit=#{workUnit}
+		union all
+		select 'pa_重特大' as tName, count(*) as qty from t_dog_work  where aj_level in('严重', '特大', '重大') and end_time>=#{startDate} and end_time<=#{endDate} and work_unit=#{workUnit}
+		]]>
+	</select>
 </mapper>

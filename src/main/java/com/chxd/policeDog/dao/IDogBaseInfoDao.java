@@ -48,4 +48,6 @@ public interface IDogBaseInfoDao {
     void changePoliceUser(@Param("dogInfo") DogBaseInfoVO dogInfo);
 
     List<PoliceUserVO> getAdminByTrainId(@Param("trainId") int trainId);
+
+    List<Map> getWorkData4Export(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("workUnit") String workUnit);
 }

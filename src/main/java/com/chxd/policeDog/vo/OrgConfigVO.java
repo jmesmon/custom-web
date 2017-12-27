@@ -14,7 +14,7 @@ public class OrgConfigVO extends BaseVO {
     private String orgDesc;
     private Integer dogQty;
     private Integer newQty;
-    private Integer workHours;
+    private Object workHours;
 
     public Integer getNewQty() {
         return newQty;
@@ -24,11 +24,11 @@ public class OrgConfigVO extends BaseVO {
         this.newQty = newQty;
     }
 
-    public Integer getWorkHours() {
+    public Object getWorkHours() {
         return workHours;
     }
 
-    public void setWorkHours(Integer workHours) {
+    public void setWorkHours(Object workHours) {
         this.workHours = workHours;
     }
 

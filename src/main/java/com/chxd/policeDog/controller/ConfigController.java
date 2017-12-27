@@ -56,7 +56,7 @@ public class ConfigController {
                     Map val = map.get(orgConfigVO.getOrgName());
                     orgConfigVO.setDogQty(((BigDecimal)val.get("dogCount")).intValue());
                     orgConfigVO.setNewQty(((BigDecimal)val.get("newsCount")).intValue());
-                    orgConfigVO.setWorkHours(((BigDecimal)val.get("workHours")).intValue());
+                    orgConfigVO.setWorkHours(val.get("workHours"));
                 }
             }
             resultVO.setResult(list);
