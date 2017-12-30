@@ -3,10 +3,7 @@ package com.chxd.policeDog.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.chxd.policeDog.config.MyProps;
-import com.chxd.policeDog.dao.IDogBaseInfoDao;
-import com.chxd.policeDog.dao.IDogChangeDao;
-import com.chxd.policeDog.dao.IDogTrainDao;
-import com.chxd.policeDog.dao.IWormImmueDao;
+import com.chxd.policeDog.dao.*;
 import com.chxd.policeDog.vo.*;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -39,6 +36,8 @@ public class DogBaseInfoController extends BaseController{
     private IDogTrainDao dogTrainDao;
     @Autowired
     private IDogChangeDao dogChangeDao;
+    @Autowired
+    private IDogWorkDao dogWorkDao;
 
 
     @RequestMapping("/getAll/{pageSize}/{curPage}")
@@ -53,7 +52,7 @@ public class DogBaseInfoController extends BaseController{
         }else if(UserRoleVO.GLY_USER.equals(role) || UserRoleVO.FJ_JZ_USER.equals(role)){
             //管理员用户
             dogBaseInfoVO.setWorkPlace(user.getWorkUnit());
-        }else if(UserRoleVO.JZD_USER.equals(role) || UserRoleVO.SUPER_USER.equals(role)|| UserRoleVO.FZRY_USER.equals(role)|| UserRoleVO.PXRY_USER.equals(role)){
+        }else if(UserRoleVO.JZ_USER.equals(role) || UserRoleVO.JZD_USER.equals(role) || UserRoleVO.SUPER_USER.equals(role)|| UserRoleVO.FZRY_USER.equals(role)|| UserRoleVO.PXRY_USER.equals(role)){
 
         }else{
             dogBaseInfoVO.setPoliceId(user.getId() + "");
@@ -554,19 +553,59 @@ public class DogBaseInfoController extends BaseController{
             con.setClassicCompatible(true);
 
             Template template = con.getTemplate("dog_work_data_temp.xml");//模板文件，可以是xml,ftl,html
-            System.out.println(template.getEncoding());
             template.setEncoding("utf-8");//设置写入模板的编码方式
 
             Map root = new HashMap();//data数据
+            root.put("ry_民警", 0);
+            root.put("ry_辅警", 0);
+            root.put("pz_德国牧羊犬", 0);
+            root.put("pz_昆明犬", 0);
+            root.put("pz_荷兰牧羊犬", 0);
+            root.put("pz_罗威纳犬", 0);
+            root.put("pz_拉布拉多犬", 0);
+            root.put("pz_马里努阿犬", 0);
+            root.put("pz_史宾格犬", 0);
+            root.put("pz_其他", 0);
+            root.put("jn_追踪", 0);
+            root.put("jn_鉴别", 0);
+            root.put("jn_搜索", 0);
+            root.put("jn_搜捕", 0);
+            root.put("jn_治安防范", 0);
+            root.put("jn_搜爆", 0);
+            root.put("jn_搜毒", 0);
+            root.put("jn_搜救", 0);
+            root.put("jn_其他", 0);
+            root.put("sy_刑侦", 0);
+            root.put("sy_巡逻", 0);
+            root.put("cq_安检出勤", 0);
+            root.put("qt_cq", 0);
+            root.put("sy_刑侦", 0);
+            root.put("sy_巡逻", 0);
+            root.put("sy_安检", 0);
+            root.put("sy_其他", 0);
+            root.put("work_刑侦", 0);
+            root.put("work_巡逻", 0);
+            root.put("work_安检", 0);
+            root.put("work_其他", 0);
+            root.put("pa_一般", 0);
+            root.put("pa_重特大", 0);
+            root.put("workUnit", params.get("workUnit"));
+            root.put("tbrq", new SimpleDateFormat("YYYY-MM-dd").format(System.currentTimeMillis()));
+            root.put("shr", "");
+            root.put("tbr", "");
+            long ry_total = 0;
             for (int i = 0; i < list.size(); i++) {
                 Map map = list.get(i);
                 String k = (String)map.get("tName");
+                if(k.equals("ry_民警") || k.equals("ry_辅警")){
+                    long n = (Long)map.get("qty");
+                    ry_total += n;
+                }
                 Object v = map.get("qty");
                 root.put(k, v);
             }
-            root.put("workUnit", params.get("workUnit"));
-            root.put("shr", "");
-            root.put("tbr", "");
+            root.put("ry_qty", ry_total);
+
             String yearMonth = (String)params.get("startDate");
             yearMonth = yearMonth.replace("-", "").substring(0, 6);
             root.put("yearMonth", yearMonth);
@@ -581,10 +620,47 @@ public class DogBaseInfoController extends BaseController{
 
             resultVO.setResult("/policeDog/resource" + path);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (TemplateException e) {
-            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (Exception e) {
+            }
+        }
+        return resultVO;
+    }
+
+    @RequestMapping("/exportFbAjData")
+    public ResultVO exportFbAjData(@RequestBody DogWorkVO dogWorkVO){
+        ResultVO resultVO = ResultVO.getInstance();
+        Configuration con = new Configuration();
+        Writer out = null;
+        try {
+            List<DogWorkVO> list = dogWorkDao.getList(dogWorkVO, new PageVO());
+            if(list.size() > 0){
+                dogWorkVO = list.get(0);
+            }
+            con.setDirectoryForTemplateLoading(new File(myProps.getUploadFilePath() + "/template"));//指定加载模板的位置
+            con.setObjectWrapper(new DefaultObjectWrapper());//指定生产模板的方式
+            con.setDefaultEncoding("utf-8");//设置模板读取的编码方式，用于处理乱码
+            con.setClassicCompatible(true);
+
+            Template template = con.getTemplate("fb_anjian.xml");//模板文件，可以是xml,ftl,html
+            template.setEncoding("utf-8");//设置写入模板的编码方式
+
+            String path = "/export/" + new SimpleDateFormat("YYYYMMdd").format(System.currentTimeMillis()) + "/FangBaoAnJian_"+new SimpleDateFormat("YYYYMMddHHmmss").format(System.currentTimeMillis())+".xls";
+            File dist = new File(myProps.getUploadFilePath() + path);
+            dist.getParentFile().mkdirs();
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dist), "utf-8"));//生产文件输出流
+
+            template.process(dogWorkVO, out);//将模板写到文件中
+            out.flush();
+            resultVO.setResult("/policeDog/resource" + path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TemplateException e) {
             e.printStackTrace();
         } finally {
             try {

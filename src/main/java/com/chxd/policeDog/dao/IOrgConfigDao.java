@@ -22,6 +22,6 @@ public interface IOrgConfigDao {
     void update(@Param("vo") OrgConfigVO vo);
     void del(List<OrgConfigVO> list);
 
-    List<Map> getDogAnalysis();
-    List<Map> getUserAnalysis();
+    List<Map> getDogAnalysis(@Param("workUnit") String workUnit);
+    List<Map> getUserAnalysis(@Param("workUnit") String workUnit);
 }

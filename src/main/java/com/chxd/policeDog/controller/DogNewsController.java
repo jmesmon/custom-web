@@ -59,6 +59,9 @@ public class DogNewsController extends BaseController {
         }else{
             dogNewsVO.setWorkUnit(user.getWorkUnit());
         }
+        if( "newsType".equals( dogNewsVO.getNewsType() ) ){
+            dogNewsVO.setWorkUnit(null);
+        }
         List<DogNewsVO> list = dogNewsDao.getList(dogNewsVO, pageVO);
         for(int i = 0; i<list.size(); i++){
             list.get(i).setContent(null);

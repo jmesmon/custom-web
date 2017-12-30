@@ -20,6 +20,7 @@
 		<if test="vo.securityCheckArea != null" > and t1.security_check_area=#{vo.securityCheckArea}</if>
 		<if test="vo.workResult != null" > and t1.work_result=#{vo.workResult}</if>
 		<if test="vo.workPic != null" > and t1.work_pic=#{vo.workPic}</if>
+		<if test="vo.dogId != null" > and t1.dog_id=#{vo.dogId}</if>
 
 		<if test="vo.attLeader != null" > and t1.att_leader=#{vo.attLeader}</if>
 		<if test="vo.ajPer != null" > and t1.aj_per=#{vo.ajPer}</if>
@@ -44,22 +45,22 @@
 	</sql>
 
 	<select id="getList" resultType="com.chxd.policeDog.vo.DogWorkVO">
-		select t1.* from t_dog_work t1 join t_dog_base t2 on (t1.dog_chip_no = t2.chip_no) where 1=1
+		select t1.* from t_dog_work t1 left join t_dog_base t2 on (t1.dog_id = t2.id) where 1=1
 		<include refid="condition"/>
 		<include refid="pageCondition"/>
 	</select>
 
 	<select id="getListCount" resultType="java.lang.Integer">
-		select count(1) from t_dog_work t1 join t_dog_base t2 on (t1.dog_chip_no = t2.chip_no) where 1=1
+		select count(1) from t_dog_work t1 left join t_dog_base t2 on (t1.dog_id = t2.id) where 1=1
 		<include refid="condition"/>
 	</select>
 
 	<insert id="add" parameterType="java.util.List">
-		insert into t_dog_work (xl_num,dog_work_unit, aj_wp, aj_per, aj_addr, aj_car, aj_level, search_wp, att_leader, work_type, start_time, end_time, work_unit, att_person, dog_chip_no, case_property, case_no, is_work, security_check_area, work_result, work_pic, creation_date, last_update_date)
+		insert into t_dog_work (dog_id, xl_num,dog_work_unit, aj_wp, aj_per, aj_addr, aj_car, aj_level, search_wp, att_leader, work_type, start_time, end_time, work_unit, att_person, dog_chip_no, case_property, case_no, is_work, security_check_area, work_result, work_pic, creation_date, last_update_date)
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
 			(
-			#{item.xlNum}, #{item.dogWorkUnit}, #{item.ajWp}, #{item.ajPer}, #{item.ajAddr}, #{item.ajCar}, #{item.ajLevel}, #{item.searchWp}, #{item.attLeader}, #{item.workType}, #{item.startTimeStr}, #{item.endTimeStr}, #{item.workUnit}, #{item.attPerson}, #{item.dogChipNo}, #{item.caseProperty}, #{item.caseNo}, #{item.isWork}, #{item.securityCheckArea}, #{item.workResult}, #{item.workPic}, now(), now()
+			#{item.dogId}, #{item.xlNum}, #{item.dogWorkUnit}, #{item.ajWp}, #{item.ajPer}, #{item.ajAddr}, #{item.ajCar}, #{item.ajLevel}, #{item.searchWp}, #{item.attLeader}, #{item.workType}, #{item.startTimeStr}, #{item.endTimeStr}, #{item.workUnit}, #{item.attPerson}, #{item.dogChipNo}, #{item.caseProperty}, #{item.caseNo}, #{item.isWork}, #{item.securityCheckArea}, #{item.workResult}, #{item.workPic}, now(), now()
 			)
 		</foreach>
 	</insert>
@@ -86,15 +87,16 @@
 		<if test="vo.workPic != null" > , work_pic=#{vo.workPic}</if>
 		<if test="vo.startTimeStr != null" ><![CDATA[  , start_time = #{vo.startTimeStr} ]]></if>
 		<if test="vo.endTimeStr != null" ><![CDATA[ , end_time = #{vo.endTimeStr} ]]></if>
+		<if test="vo.dogId != null" >, dog_id=#{vo.dogId}</if>
 
-		<if test="vo.attLeader != null" > , t1.att_leader=#{vo.attLeader}</if>
-		<if test="vo.ajPer != null" > , t1.aj_per=#{vo.ajPer}</if>
-		<if test="vo.ajAddr != null" > , t1.aj_addr=#{vor.ajAddr}</if>
-		<if test="vo.ajCar != null" > , t1.aj_car=#{vo.ajCar}</if>
-		<if test="vo.ajLevel != null" > , t1.aj_level=#{vo.ajLevel}</if>
-		<if test="vo.searchWp != null" > , t1.search_wp=#{vo.searchWp}</if>
-		<if test="vo.dogWorkUnit != null" > , t1.dog_work_unit=#{vo.dogWorkUnit}</if>
-		<if test="vo.ajWp != null" > , t1.aj_wp=#{vo.ajWp}</if>
+		<if test="vo.attLeader != null" > , att_leader=#{vo.attLeader}</if>
+		<if test="vo.ajPer != null" > , aj_per=#{vo.ajPer}</if>
+		<if test="vo.ajAddr != null" > , aj_addr=#{vor.ajAddr}</if>
+		<if test="vo.ajCar != null" > , aj_car=#{vo.ajCar}</if>
+		<if test="vo.ajLevel != null" > , aj_level=#{vo.ajLevel}</if>
+		<if test="vo.searchWp != null" > , search_wp=#{vo.searchWp}</if>
+		<if test="vo.dogWorkUnit != null" > , dog_work_unit=#{vo.dogWorkUnit}</if>
+		<if test="vo.ajWp != null" > , aj_wp=#{vo.ajWp}</if>
 		where id=#{vo.id}
 	</update>
 </mapper>

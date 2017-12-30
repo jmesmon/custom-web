@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/config")
-public class ConfigController {
+public class ConfigController extends BaseController {
     @Autowired
     private IOrgConfigDao orgConfigDao;
     @Autowired
@@ -92,7 +92,7 @@ public class ConfigController {
     @RequestMapping("/getDogAnalysis")
     public ResultVO getDogAnalysis(){
         ResultVO resultVO = ResultVO.getInstance();
-        List<Map> dogAnalysis = orgConfigDao.getDogAnalysis();
+        List<Map> dogAnalysis = orgConfigDao.getDogAnalysis(getCurrentUser().getWorkUnit());
         for(int i = 0; i<dogAnalysis.size(); i++){
             Map m = dogAnalysis.get(i);
             if(m.get("att_name")  == null){
@@ -111,7 +111,7 @@ public class ConfigController {
     @RequestMapping("/getUserAnalysis")
     public ResultVO getUserAnalysis(){
         ResultVO resultVO = ResultVO.getInstance();
-        List<Map> userAnalysis = orgConfigDao.getUserAnalysis();
+        List<Map> userAnalysis = orgConfigDao.getUserAnalysis(getCurrentUser().getWorkUnit());
         resultVO.setResult(userAnalysis);
         return resultVO;
     }

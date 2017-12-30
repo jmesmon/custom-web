@@ -1,6 +1,5 @@
 package com.chxd.policeDog.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.chxd.policeDog.dao.IDogBaseInfoDao;
 import com.chxd.policeDog.dao.IDogWorkDao;
 import com.chxd.policeDog.vo.*;
@@ -62,7 +61,11 @@ public class DogWorkController extends BaseController{
     @RequestMapping("/add")
     public ResultVO add(@RequestBody List<DogWorkVO> list){
         ResultVO resultVO = ResultVO.getInstance();
-        System.out.println(JSON.toJSONString(list));
+        PoliceUserVO user = getCurrentUser();
+        for (int i = 0; i < list.size(); i++) {
+            DogWorkVO dogWorkVO = list.get(i);
+            dogWorkVO.setDogWorkUnit(user.getWorkUnit());
+        }
         dogWorkDao.add(list);
         return resultVO;
     }

@@ -17,6 +17,7 @@ public class DogWorkVO extends BaseVO {
     private String  workUnit;	//	用犬单位
     private String  attPerson;	//	出勤人员
     private String  dogChipNo;	//	警犬芯片号
+    private Integer dogId;
     private String  caseProperty;	//	案件性质
     private Integer  securityCheckArea;	//	安检面积
     private String  caseNo;	//	案件编号
@@ -234,5 +235,13 @@ public class DogWorkVO extends BaseVO {
 
     public void setWorkPic(String workPic) {
         this.workPic = workPic;
+    }
+
+    public Integer getDogId() {
+        return dogId;
+    }
+
+    public void setDogId(Integer dogId) {
+        this.dogId = dogId;
     }
 }
