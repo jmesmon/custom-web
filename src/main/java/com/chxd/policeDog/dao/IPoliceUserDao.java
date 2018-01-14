@@ -20,4 +20,5 @@ public interface IPoliceUserDao {
     void add(@Param("vo") PoliceUserVO list);
     void update(@Param("vo") PoliceUserVO vo);
     void del(List<PoliceUserVO> list);
+    int isExist(@Param("userName") String userName);
 }

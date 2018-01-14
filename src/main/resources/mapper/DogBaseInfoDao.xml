@@ -29,6 +29,7 @@
 		<if test="dogInfo.policeId != null" > and police_id=#{dogInfo.policeId}</if>
 		<if test="dogInfo.policeName != null" > and police_name=#{dogInfo.policeName}</if>
 		<if test="dogInfo.uid != null" > and uid=#{dogInfo.uid}</if>
+		<if test="dogInfo.rewardInfo != null" > and reward_info=#{dogInfo.rewardInfo}</if>
 	</sql>
 
 	<sql id="pageCondition">
@@ -54,7 +55,7 @@
 	</select>
 
 	<insert id="add" parameterType="java.util.List">
-		insert into t_dog_base (dog_name, chip_no, chip_no_inject, sex, birthday,
+		insert into t_dog_base (reward_info,dog_name, chip_no, chip_no_inject, sex, birthday,
 								breed, dog_source, dog_colour, hair_type, dog_type, dog_level,
 								inbreeding, tutor, breeder, train_score, next_train_date, work_place,
 								work_area, work_province, file_no, create_doc_date, dog_photo, nest_no,
@@ -62,7 +63,7 @@
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
 			(
-			  #{item.dogName}, #{item.chipNo}, #{item.chipNoInjectStr}, #{item.sex}, #{item.birthdayStr},
+			#{item.rewardInfo},#{item.dogName}, #{item.chipNo}, #{item.chipNoInjectStr}, #{item.sex}, #{item.birthdayStr},
 			  #{item.breed}, #{item.dogSource}, #{item.dogColour}, #{item.hairType}, #{item.dogType}, #{item.dogLevel},
 			  #{item.inbreeding}, #{item.tutor}, #{item.breeder}, #{item.trainScore}, #{item.nextTrainDate}, #{item.workPlace},
 			  #{item.workArea}, #{item.workProvince}, #{item.fileNo}, #{item.createDocDate}, #{item.dogPhoto}, #{item.nestNo},
@@ -147,6 +148,7 @@
 		<if test="dogInfo.policeId != null" > , police_id=#{dogInfo.policeId}</if>
 		<if test="dogInfo.policeName != null" > , police_name=#{dogInfo.policeName}</if>
 		<if test="dogInfo.uid != null" > , uid=#{dogInfo.uid}</if>
+		<if test="dogInfo.rewardInfo != null" > , reward_info=#{dogInfo.rewardInfo}</if>
 		where id=#{dogInfo.id}
 	</update>
 
@@ -262,10 +264,34 @@
 		/*人员*/
 		select concat('ry_', work_type) as tName, count(*) as qty from t_police_user where work_type in('民警', '辅警') and work_unit=#{workUnit} group by work_type
 		union all /*警犬品种*/
-		select concat('pz_', breed) as tName, count(*) as qty from t_dog_base where dog_type=1 and work_place=#{workUnit} and work_stage in (1,2) group by breed
+
+		select concat('pz_', breed) as tName, count(*) as qty from (
+		select case
+			WHEN breed='德国牧羊犬' THEN '德国牧羊犬'
+			WHEN breed='昆明犬' THEN '昆明犬'
+			WHEN breed='荷兰牧羊犬' THEN '荷兰牧羊犬'
+			WHEN breed='罗维纳犬' THEN '罗维纳犬'
+			WHEN breed='拉布拉多犬' THEN '拉布拉多犬'
+			WHEN breed='马里努阿犬' THEN '马里努阿犬'
+			WHEN breed='史宾格犬' THEN '史宾格犬'
+		else '其他' end as breed from t_dog_base where work_place=#{workUnit} and work_stage in (1,2)
+		) a group by breed
+
 		union all /*工作犬类别*/
-		select concat('jn_',t1.train_name) as tName, count(1) as qty from t_dog_train t1 join t_dog_base t2 on (t1.dog_id=t2.id)
-		where t2.work_place=#{workUnit} group by t1.train_name
+		select case when concat('jn_',t1.train_name) is null then 'jn_其他' else concat('jn_',t1.train_name) end as tName, count(1) as qty from (select dog_id,
+		case
+			WHEN train_name='追踪' THEN '追踪'
+			WHEN train_name='鉴别' THEN '鉴别'
+			WHEN train_name='物证搜索' THEN '搜索'
+			WHEN train_name='搜捕' THEN '搜捕'
+			WHEN train_name='治安防范' THEN '治安防范'
+			WHEN train_name='搜爆' THEN '搜爆'
+			WHEN train_name='搜毒' THEN '搜毒'
+			WHEN train_name='救援' THEN '救援'
+		else '其他' end as train_name from t_dog_train) t1
+		right join
+		t_dog_base t2 on (t1.dog_id=t2.id)
+		where t2.work_place=#{workUnit} and t2.dog_type=1 group by t1.train_name
 		union all /*使用次数*/
 		select concat('sy_', work_type) as tName, count(*) as qty from t_dog_work where end_time>=#{startDate} and end_time<=#{endDate} and work_unit=#{workUnit} group by work_type
 		union all /*出勤次数*/

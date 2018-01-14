@@ -58,6 +58,8 @@ public class DogBaseInfoVO extends BaseVO {
     private List<WormImmueInfoVO> wormImmueInfo;
     private String dogPros;
 
+    private String rewardInfo; //立功受奖信息
+
     public DogBaseInfoVO() {
 
     }
@@ -425,5 +427,13 @@ public class DogBaseInfoVO extends BaseVO {
 
     public void setBreeder(String breeder) {
         this.breeder = breeder;
+    }
+
+    public String getRewardInfo() {
+        return rewardInfo;
+    }
+
+    public void setRewardInfo(String rewardInfo) {
+        this.rewardInfo = rewardInfo;
     }
 }

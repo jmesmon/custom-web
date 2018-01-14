@@ -30,6 +30,7 @@
 		<if test="vo.searchWp != null" > and t1.search_wp=#{vo.searchWp}</if>
 		<if test="vo.dogWorkUnit != null" > and t1.dog_work_unit=#{vo.dogWorkUnit}</if>
 		<if test="vo.ajWp != null" > and t1.aj_wp=#{vo.ajWp}</if>
+		<if test="vo.id != null" > and t1.id=#{vo.id}</if>
 
 		<if test="vo.startTimeStr != null" ><![CDATA[  and t1.start_time >= #{vo.startTimeStr} ]]></if>
 		<if test="vo.endTimeStr != null" ><![CDATA[ and t1.start_time <= #{vo.endTimeStr} ]]></if>

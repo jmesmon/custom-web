@@ -41,6 +41,9 @@ public class UserController extends  BaseController{
             List<PoliceUserVO> list = policeUserDao.getList(policeUserVO, new PageVO());
             if(list.size() > 0){
                 PoliceUserVO user = list.get(0);
+                if(UserRoleVO.JZ_USER.equals(user.getUserRole()) || UserRoleVO.JZD_USER.equals(user.getUserRole())){
+                    user.setWorkUnit(null);
+                }
                 session.setAttribute("USER_PWD", user.getPassword());
                 resultVO.setResult(user.clone());
                 user.setPassword(null);
@@ -86,6 +89,27 @@ public class UserController extends  BaseController{
                 resultVO.setResult(currentUser);
             }else{
                 resultVO.fail();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO.fail(e.getMessage());
+        }
+        return resultVO;
+    }
+
+    @RequestMapping("/isExist")
+    public ResultVO isExist(@RequestBody PoliceUserVO policeUserVO){
+        ResultVO resultVO = ResultVO.getInstance();
+//        if(getCurrentUser().getPoliceId().equals(policeUserVO.getPoliceId())){
+//            return resultVO;
+//        }
+        try {
+            int count = policeUserDao.isExist(policeUserVO.getPoliceId());
+            resultVO.setSuccess(true);
+            if(count > 0){
+                resultVO.setSuccess(false);
+            }else {
+                resultVO.setResult(count);
             }
         } catch (Exception e) {
             e.printStackTrace();

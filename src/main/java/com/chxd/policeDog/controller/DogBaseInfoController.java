@@ -83,11 +83,6 @@ public class DogBaseInfoController extends BaseController{
         pageVO.setTotalRows(integer);
         page.setResult(list);
         page.setPageVO(pageVO);
-        try {
-//            TimeUnit.SECONDS.sleep(2);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return page;
     }
 
@@ -101,11 +96,6 @@ public class DogBaseInfoController extends BaseController{
         pageVO.setTotalRows(integer);
         page.setResult(list);
         page.setPageVO(pageVO);
-        try {
-//            TimeUnit.SECONDS.sleep(2);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return page;
     }
 

@@ -11,12 +11,21 @@ public class TrainConfigVO extends BaseVO {
     private String trainDesc;
     private String trainUnit;
     private String trainAddr;
+    private String trainLevel;
     private Date startDate;
     private String startDateStr;
     private Date endDate;
     private String endDateStr;
     private Integer total;
     private String trainUser;
+
+    public String getTrainLevel() {
+        return trainLevel;
+    }
+
+    public void setTrainLevel(String trainLevel) {
+        this.trainLevel = trainLevel;
+    }
 
     public String getTrainUser() {
         return trainUser;
