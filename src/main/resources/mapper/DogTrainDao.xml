@@ -8,6 +8,7 @@
 	</sql>
 
 	<sql id="condition">
+		and train_stage != -2
 		<if test="vo.growStage != null" > and grow_stage=#{vo.growStage}</if>
 		<if test="vo.dogName != null" > and dog_name like concat('%', #{vo.dogName}, '%')</if>
 		<if test="vo.dogId != null" > and dog_id=#{vo.dogId}</if>
