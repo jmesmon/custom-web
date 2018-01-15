@@ -55,7 +55,7 @@
 	</select>
 
 	<insert id="add" parameterType="java.util.List">
-		insert into t_dog_base (reward_info,dog_name, chip_no, chip_no_inject, sex, birthday,
+		insert into t_dog_base (reward_info, dog_name, chip_no, chip_no_inject, sex, birthday,
 								breed, dog_source, dog_colour, hair_type, dog_type, dog_level,
 								inbreeding, tutor, breeder, train_score, next_train_date, work_place,
 								work_area, work_province, file_no, create_doc_date, dog_photo, nest_no,
@@ -63,11 +63,11 @@
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
 			(
-			#{item.rewardInfo},#{item.dogName}, #{item.chipNo}, #{item.chipNoInjectStr}, #{item.sex}, #{item.birthdayStr},
+			  #{item.rewardInfo}, #{item.dogName}, #{item.chipNo}, #{item.chipNoInjectStr}, #{item.sex}, #{item.birthdayStr},
 			  #{item.breed}, #{item.dogSource}, #{item.dogColour}, #{item.hairType}, #{item.dogType}, #{item.dogLevel},
 			  #{item.inbreeding}, #{item.tutor}, #{item.breeder}, #{item.trainScore}, #{item.nextTrainDate}, #{item.workPlace},
 			  #{item.workArea}, #{item.workProvince}, #{item.fileNo}, #{item.createDocDate}, #{item.dogPhoto}, #{item.nestNo},
-			  #{item.fatherId}, #{item.motherId}, #{item.growthStage}, #{item.workStage}, #{item.belonging}, #{item.creationDate}, #{item.lastUpdateDate}, #{item.uid}
+			  #{item.fatherId}, #{item.motherId}, #{item.growthStage}, #{item.workStage, jdbcType=INTEGER}, #{item.belonging}, #{item.creationDate}, #{item.lastUpdateDate}, #{item.uid}
 			)
 		</foreach>
 	</insert>

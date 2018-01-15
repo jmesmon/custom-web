@@ -60,8 +60,19 @@ public class DogBaseInfoVO extends BaseVO {
 
     private String rewardInfo; //立功受奖信息
 
+    private String dogPro;
+
+
     public DogBaseInfoVO() {
 
+    }
+
+    public String getDogPro() {
+        return dogPro;
+    }
+
+    public void setDogPro(String dogPro) {
+        this.dogPro = dogPro;
     }
 
     public String getDogPros() {
