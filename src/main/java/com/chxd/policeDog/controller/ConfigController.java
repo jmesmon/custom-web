@@ -2,9 +2,7 @@ package com.chxd.policeDog.controller;
 
 import com.chxd.policeDog.dao.IDogBaseInfoDao;
 import com.chxd.policeDog.dao.IOrgConfigDao;
-import com.chxd.policeDog.vo.OrgConfigVO;
-import com.chxd.policeDog.vo.PageVO;
-import com.chxd.policeDog.vo.ResultVO;
+import com.chxd.policeDog.vo.*;
 import com.google.common.collect.Maps;
 import com.xjj.util.XDateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +48,19 @@ public class ConfigController extends BaseController {
                     e.printStackTrace();
                 }
             }
+
+            List<Map> userCount = orgConfigDao.getUserCount();
+            Map<String, Map> map2 = Maps.newHashMap();
+            for(int i = 0; i<userCount.size(); i++){
+                try {
+                    String workUnit = (String)userCount.get(i).get("workUnit");
+//                    Long val = (Long)count.get(i).get("val");
+                    map2.put(workUnit, userCount.get(i));
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+
             for(int i = 0; i<list.size(); i++){
                 OrgConfigVO orgConfigVO = list.get(i);
                 if(map.containsKey(orgConfigVO.getOrgName())){
@@ -57,6 +68,13 @@ public class ConfigController extends BaseController {
                     orgConfigVO.setDogQty(((BigDecimal)val.get("dogCount")).intValue());
                     orgConfigVO.setNewQty(((BigDecimal)val.get("newsCount")).intValue());
                     orgConfigVO.setWorkHours(val.get("workHours"));
+                }
+                if("通州分局".equals(orgConfigVO.getOrgName())){
+                    Map val = map2.get("通州巡警支队警犬队");
+                    orgConfigVO.setPoliceCount(((Long)val.get("userQty")).intValue());
+                }else if(map2.containsKey(orgConfigVO.getOrgName())){
+                    Map val = map2.get(orgConfigVO.getOrgName());
+                    orgConfigVO.setPoliceCount(((Long)val.get("userQty")).intValue());
                 }
             }
             resultVO.setResult(list);
@@ -92,7 +110,14 @@ public class ConfigController extends BaseController {
     @RequestMapping("/getDogAnalysis")
     public ResultVO getDogAnalysis(){
         ResultVO resultVO = ResultVO.getInstance();
-        List<Map> dogAnalysis = orgConfigDao.getDogAnalysis(getCurrentUser().getWorkUnit());
+        String workUnit = null;
+        PoliceUserVO user = getCurrentUser();
+        String role = user.getUserRole();
+        workUnit = user.getWorkUnit();
+        if(UserRoleVO.JZ_USER.equals(role) || UserRoleVO.JZD_USER.equals(role) || UserRoleVO.SUPER_USER.equals(role)){
+            workUnit = null;
+        }
+        List<Map> dogAnalysis = orgConfigDao.getDogAnalysis(workUnit);
         for(int i = 0; i<dogAnalysis.size(); i++){
             Map m = dogAnalysis.get(i);
             if(m.get("att_name")  == null){
@@ -111,7 +136,14 @@ public class ConfigController extends BaseController {
     @RequestMapping("/getUserAnalysis")
     public ResultVO getUserAnalysis(){
         ResultVO resultVO = ResultVO.getInstance();
-        List<Map> userAnalysis = orgConfigDao.getUserAnalysis(getCurrentUser().getWorkUnit());
+        String workUnit = null;
+        PoliceUserVO user = getCurrentUser();
+        String role = user.getUserRole();
+        workUnit = user.getWorkUnit();
+        if(UserRoleVO.JZ_USER.equals(role) || UserRoleVO.JZD_USER.equals(role) || UserRoleVO.SUPER_USER.equals(role)){
+            workUnit = null;
+        }
+        List<Map> userAnalysis = orgConfigDao.getUserAnalysis(workUnit);
         resultVO.setResult(userAnalysis);
         return resultVO;
     }

@@ -60,23 +60,24 @@ public class DogBaseInfoController extends BaseController{
 
         List<DogBaseInfoVO> list = dogBaseInfoDao.selectAll(dogBaseInfoVO, pageVO);
         Integer integer = dogBaseInfoDao.selectAllCount(dogBaseInfoVO);
-
-        List<Map> dogPro = dogBaseInfoDao.getDogPro(list);
-        Map<Integer, String> dogProMapping = Maps.newHashMap();
-        for(int i = 0; i<dogPro.size(); i++){
-            Map map = dogPro.get(i);
-            Integer dogId = (Integer)map.get("dog_id");
-            String pros = dogProMapping.get(dogId);
-            if(pros == null){
-                pros = (String)map.get("trainName");
-            }else{
-                pros += "，" + (String)map.get("trainName");
+        if(list.size() > 0) {
+            List<Map> dogPro = dogBaseInfoDao.getDogPro(list);
+            Map<Integer, String> dogProMapping = Maps.newHashMap();
+            for (int i = 0; i < dogPro.size(); i++) {
+                Map map = dogPro.get(i);
+                Integer dogId = (Integer) map.get("dog_id");
+                String pros = dogProMapping.get(dogId);
+                if (pros == null) {
+                    pros = (String) map.get("trainName");
+                } else {
+                    pros += "，" + (String) map.get("trainName");
+                }
+                dogProMapping.put(dogId, pros);
             }
-            dogProMapping.put(dogId, pros);
-        }
-        for(int i = 0; i<list.size(); i++){
-            DogBaseInfoVO dog = list.get(i);
-            dog.setDogPros(dogProMapping.get(dog.getId()));
+            for(int i = 0; i<list.size(); i++){
+                DogBaseInfoVO dog = list.get(i);
+                dog.setDogPros(dogProMapping.get(dog.getId()));
+            }
         }
 
 //        buildWord(list);

@@ -205,7 +205,7 @@
 				/*专业技能*/
 				select concat('pro_', train_name) as att_name, count(*) from (
 					select t1.dog_id,t1.train_name, count(*) from t_dog_train t1 join t_dog_base t2 on(t1.dog_id=t2.id)
-					where t1.train_result != '' <if test="workUnit != null" > and t1.work_unit=#{workUnit}</if>
+					where t1.train_result != '' <if test="workUnit != null" > and t2.work_place=#{workUnit}</if>
 					group by t1.train_name,t1.dog_id
 				) a group by train_name
 				union all

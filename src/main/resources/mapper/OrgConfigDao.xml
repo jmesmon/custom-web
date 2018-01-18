@@ -62,11 +62,12 @@
 		select * from (
 		select 'sex' as ctype, sex as att_name, count(*) as val from t_police_user <if test="workUnit != null" > where work_unit=#{workUnit}</if> group by sex
 		union all
-		select 'degree' as ctype, degree as att_name, count(*) as val from t_police_user <if test="workUnit != null" > where work_unit=#{workUnit}</if> group by degree
+		select 'degree' as ctype, case when degree = '' then '其他' else degree end as att_name, count(*) as val from t_police_user <if test="workUnit != null" > where work_unit=#{workUnit}</if> group by degree
 		union all
 		select 'work_type' as ctype, work_type as att_name, count(*) as val from t_police_user <if test="workUnit != null" > where work_unit=#{workUnit}</if> group by work_type
 		union all
-		select 'job_title' as ctype, job_title as att_name, count(*) as val from t_police_user <if test="workUnit != null" > where work_unit=#{workUnit}</if> group by job_title
+		select 'job_title' as ctype, case when job_title='' then '其他' else job_title end as att_name,
+		count(*) as val from t_police_user <if test="workUnit != null" > where work_unit=#{workUnit}</if> group by job_title
 		union all
 		select 'job' as ctype, job as att_name, count(*) as val from t_police_user <if test="workUnit != null" > where work_unit=#{workUnit}</if> group by job
 		union all
@@ -118,5 +119,9 @@
 			   SELECT TIMESTAMPDIFF(YEAR, birthday, CURDATE()) as age from t_dog_base <if test="workUnit != null" > where work_place=#{workUnit}</if>
 			) tb group by att_name
 		) tab where att_name != ''
+	</select>
+
+	<select id="getUserCount" resultType="java.util.HashMap">
+		select work_unit as workUnit,count(*) as userQty from t_police_user group by work_unit
 	</select>
 </mapper>

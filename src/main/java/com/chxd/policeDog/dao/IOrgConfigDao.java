@@ -24,4 +24,5 @@ public interface IOrgConfigDao {
 
     List<Map> getDogAnalysis(@Param("workUnit") String workUnit);
     List<Map> getUserAnalysis(@Param("workUnit") String workUnit);
+    List<Map> getUserCount();
 }

@@ -15,6 +15,7 @@ public class OrgConfigVO extends BaseVO {
     private Integer dogQty;
     private Integer newQty;
     private Object workHours;
+    private Integer policeCount;
 
     public Integer getNewQty() {
         return newQty;
@@ -102,5 +103,13 @@ public class OrgConfigVO extends BaseVO {
 
     public void setOrgArea(String orgArea) {
         this.orgArea = orgArea;
+    }
+
+    public Integer getPoliceCount() {
+        return policeCount;
+    }
+
+    public void setPoliceCount(Integer policeCount) {
+        this.policeCount = policeCount;
     }
 }
