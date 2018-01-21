@@ -47,8 +47,10 @@ public class DogWorkController extends BaseController{
             DogBaseInfoVO dogInfo = new DogBaseInfoVO();
             dogInfo.setId(dp.getDogId());
             List<DogBaseInfoVO> dog = dogBaseInfoDao.selectAll(dogInfo, PageVO.getInstance());
-            if(dog.size() > 0) {
+            if(dog.size() == 1) {
                 dp.setDogInfo(dog.get(0));
+            }else{
+                dp.setDogInfo(new DogBaseInfoVO());
             }
         }
         pageVO.setTotalRows(integer);

@@ -39,7 +39,7 @@ public interface IDogBaseInfoDao {
 
     List<Map> getAnalysisData(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("workUnit") String workUnit);
 
-    List<Map> getWorkData(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("workUnit") String workUnit);
+    List<Map> getWorkData(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("workUnit") String workUnit, @Param("workState") String workState);
 
     List<Map> getOrgCount(@Param("lastMonth") String lastMonth, @Param("nowMonth") String nowMonth);
 

@@ -129,7 +129,7 @@ public class DogBaseInfoController extends BaseController{
     public ResultVO getWorkData(@RequestBody PoliceUserVO user){
         ResultVO resultVO = ResultVO.getInstance();
         String year = new SimpleDateFormat("YYYY").format(System.currentTimeMillis());
-        List<Map> list = dogBaseInfoDao.getWorkData(year + "-01-01", year + "-12-12", user.getWorkUnit());
+        List<Map> list = dogBaseInfoDao.getWorkData(year + "-01-01", year + "-12-12", user.getWorkUnit(), "通过");
         resultVO.setResult(list);
         return resultVO;
     }

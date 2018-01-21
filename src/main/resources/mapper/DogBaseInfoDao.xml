@@ -61,7 +61,7 @@
 								breed, dog_source, dog_colour, hair_type, dog_type, dog_level,
 								inbreeding, tutor, breeder, train_score, next_train_date, work_place,
 								work_area, work_province, file_no, create_doc_date, dog_photo, nest_no,
-								father_id, mother_id, growth_stage, work_stage, belonging, creation_date, last_update_date, uid)
+								father_id, mother_id, growth_stage, work_stage, belonging, creation_date, last_update_date, uid, police_id, police_name)
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
 			(
@@ -69,7 +69,7 @@
 			  #{item.breed}, #{item.dogSource}, #{item.dogColour}, #{item.hairType}, #{item.dogType}, #{item.dogLevel},
 			  #{item.inbreeding}, #{item.tutor}, #{item.breeder}, #{item.trainScore}, #{item.nextTrainDate}, #{item.workPlace},
 			  #{item.workArea}, #{item.workProvince}, #{item.fileNo}, #{item.createDocDate}, #{item.dogPhoto}, #{item.nestNo},
-			  #{item.fatherId}, #{item.motherId}, #{item.growthStage}, #{item.workStage, jdbcType=INTEGER}, #{item.belonging}, now(), now(), #{item.uid}
+			  #{item.fatherId}, #{item.motherId}, #{item.growthStage}, #{item.workStage, jdbcType=INTEGER}, #{item.belonging}, now(), now(), #{item.uid}, #{item.policeId}, #{item.policeName},
 			)
 		</foreach>
 	</insert>
@@ -172,7 +172,7 @@
 			sum(aj_car) as catTotal,
 			sum(security_check_area) as areaTotal
 		from t_dog_work
-		where start_time>=#{startDate} and start_time<=#{endDate}
+		where start_time>=#{startDate} and start_time<=#{endDate} and work_state = #{workState}
 		]]>
 		<if test="workUnit != null" > and dog_work_unit=#{workUnit}</if>
 		group by work_type,DATE_FORMAT(start_time, '%Y-%m')
