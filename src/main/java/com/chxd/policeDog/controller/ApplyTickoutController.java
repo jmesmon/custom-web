@@ -34,6 +34,13 @@ public class ApplyTickoutController extends BaseController {
             tickoutVO.setApplyUser(currentUser.getPoliceName());
         }else if( UserRoleVO.JZD_USER.equals(currentUser.getUserRole())){
             tickoutVO.setApplyStateGr(2);
+            tickoutVO.setApplyState(2);
+        }else if( UserRoleVO.FJ_JZ_USER.equals(currentUser.getUserRole())){
+            //分局
+//            tickoutVO.setApplyState(1);
+            tickoutVO.setApplyUnit(currentUser.getWorkUnit());
+        }else{
+            tickoutVO.setApplyUnit(currentUser.getWorkUnit());
         }
 
         List<ApplyTickoutVO> list = applyTickoutDao.getList(tickoutVO, pageVO);

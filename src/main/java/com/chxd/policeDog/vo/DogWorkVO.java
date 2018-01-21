@@ -34,6 +34,8 @@ public class DogWorkVO extends BaseVO {
     private String ajLevel;
     private String searchWp;
     private String dogWorkUnit;
+    private String workState;
+    private String approve;
 
     private DogBaseInfoVO dogInfo;
 
@@ -243,5 +245,21 @@ public class DogWorkVO extends BaseVO {
 
     public void setDogId(Integer dogId) {
         this.dogId = dogId;
+    }
+
+    public String getWorkState() {
+        return workState;
+    }
+
+    public void setWorkState(String workState) {
+        this.workState = workState;
+    }
+
+    public String getApprove() {
+        return approve;
+    }
+
+    public void setApprove(String approve) {
+        this.approve = approve;
     }
 }

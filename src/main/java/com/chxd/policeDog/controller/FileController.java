@@ -50,7 +50,7 @@ public class FileController {
         logger.info("上传的后缀名为：" + suffixName);
         // 文件上传后的路径
         String floder = new SimpleDateFormat("YYYY-MM-dd").format(System.currentTimeMillis());
-        String filePath = myProps.getUploadFilePath() + floder;
+        String filePath = myProps.getUploadFilePath() + "/" + floder;
         // 解决中文问题，liunx下中文路径，图片显示问题
         fileName = System.currentTimeMillis() + suffixName;
         File dest = new File(filePath, fileName);
@@ -58,8 +58,18 @@ public class FileController {
         if (!dest.getParentFile().exists()) {
             dest.getParentFile().mkdirs();
         }
+        InputStream inputStream = null;
+        FileOutputStream fos = null;
         try {
-            file.transferTo(dest);
+            inputStream = file.getInputStream();
+
+            fos = new FileOutputStream(dest);
+            byte[] b = new byte[1024];
+            int len = 0;
+            while((len = inputStream.read(b)) != -1){
+                fos.write(b, 0, len);
+            }
+            fos.flush();
             json.put("success", true);
             json.put("status", "server");
             json.put("serverName", "/policeDog/resource/" + floder + "/" + fileName);
@@ -68,6 +78,13 @@ public class FileController {
             json.put("success", false);
             json.put("status", "fail");
             json.put("msg", e.getLocalizedMessage());
+        } finally {
+            try {
+                fos.close();
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return json.toJSONString();
     }

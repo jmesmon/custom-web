@@ -45,7 +45,7 @@ public class DogWorkController extends BaseController{
         for(int i = 0; i< list.size(); i++){
             DogWorkVO dp = list.get(i);
             DogBaseInfoVO dogInfo = new DogBaseInfoVO();
-            dogInfo.setChipNo(dp.getDogChipNo());
+            dogInfo.setId(dp.getDogId());
             List<DogBaseInfoVO> dog = dogBaseInfoDao.selectAll(dogInfo, PageVO.getInstance());
             if(dog.size() > 0) {
                 dp.setDogInfo(dog.get(0));
@@ -81,6 +81,16 @@ public class DogWorkController extends BaseController{
     public ResultVO update(@RequestBody DogWorkVO dogWorkVO){
         ResultVO resultVO = ResultVO.getInstance();
         dogWorkDao.update(dogWorkVO);
+        return resultVO;
+    }
+
+    @RequestMapping("/approve")
+    public ResultVO approve(@RequestBody List<DogWorkVO> list){
+        ResultVO resultVO = ResultVO.getInstance();
+        for (int i = 0; i < list.size(); i++) {
+            DogWorkVO dogWorkVO = list.get(i);
+            dogWorkDao.update(dogWorkVO);
+        }
         return resultVO;
     }
 }
