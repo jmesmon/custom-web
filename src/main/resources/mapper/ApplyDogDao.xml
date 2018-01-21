@@ -9,7 +9,7 @@
 
     <sql id="condition">
         <if test="vo.id != null" > and id=#{vo.id}</if>
-        <if test="vo.workUnit != null" > and work_unit= concat('%', #{vo.workUnit}, '%'</if>
+        <if test="vo.workUnit != null" > and work_unit= #{vo.workUnit}</if>
         <if test="vo.applyAmount != null" > and apply_amount=#{vo.applyAmount}</if>
         <if test="vo.dogId != null" > and dog_id=#{vo.dogId}</if>
         <if test="vo.policeMan != null" > and police_man=#{vo.policeMan}</if>

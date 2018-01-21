@@ -6,6 +6,7 @@
 	<sql id="condition">
 		<if test="dogInfo.id != null" > and id=#{dogInfo.id}</if>
 		<if test="dogInfo.dogNameLike != null" > and dog_name like concat('%', #{dogInfo.dogNameLike}, '%')</if>
+		<if test="dogInfo.dogName != null" > and dog_name = #{dogInfo.dogName}</if>
 		<if test="dogInfo.chipNo != null" > and chip_no=#{dogInfo.chipNo}</if>
 
 		<if test="dogInfo.birthdayStart != null" ><![CDATA[  and birthday>=#{dogInfo.birthdayStart} ]]></if>
@@ -30,6 +31,7 @@
 		<if test="dogInfo.policeName != null" > and police_name=#{dogInfo.policeName}</if>
 		<if test="dogInfo.uid != null" > and uid=#{dogInfo.uid}</if>
 		<if test="dogInfo.rewardInfo != null" > and reward_info=#{dogInfo.rewardInfo}</if>
+		<if test="dogInfo.workStage != null" > and work_stage=#{dogInfo.workStage}</if>
 	</sql>
 
 	<sql id="pageCondition">
@@ -67,7 +69,7 @@
 			  #{item.breed}, #{item.dogSource}, #{item.dogColour}, #{item.hairType}, #{item.dogType}, #{item.dogLevel},
 			  #{item.inbreeding}, #{item.tutor}, #{item.breeder}, #{item.trainScore}, #{item.nextTrainDate}, #{item.workPlace},
 			  #{item.workArea}, #{item.workProvince}, #{item.fileNo}, #{item.createDocDate}, #{item.dogPhoto}, #{item.nestNo},
-			  #{item.fatherId}, #{item.motherId}, #{item.growthStage}, #{item.workStage, jdbcType=INTEGER}, #{item.belonging}, #{item.creationDate}, #{item.lastUpdateDate}, #{item.uid}
+			  #{item.fatherId}, #{item.motherId}, #{item.growthStage}, #{item.workStage, jdbcType=INTEGER}, #{item.belonging}, now(), now(), #{item.uid}
 			)
 		</foreach>
 	</insert>

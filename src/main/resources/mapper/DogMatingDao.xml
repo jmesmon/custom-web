@@ -10,6 +10,8 @@
 	<sql id="condition">
 		<if test="vo.fatherDogChipNo != null" > and father_dog_chip_no=#{vo.fatherDogChipNo}</if>
 		<if test="vo.motherDogChipNo != null" > and mother_dog_chip_no=#{vo.motherDogChipNo}</if>
+		<if test="vo.fatherDogId != null" > and father_dog_id=#{vo.fatherDogId}</if>
+		<if test="vo.motherDogId != null" > and mother_dog_id=#{vo.motherDogId}</if>
 		<if test="vo.fatherDogName != null" > and father_dog_name like concat('%', #{vo.fatherDogName}, '%')</if>
 		<if test="vo.motherDogName != null" > and mother_dog_name like concat('%', #{vo.motherDogName}, '%')</if>
 		<if test="vo.mateDateStr != null" > and mate_date=#{vo.mateDateStr}</if>
@@ -34,11 +36,11 @@
 	</select>
 
 	<insert id="add" parameterType="java.util.List">
-		insert into t_dog_mating (father_dog_name, mother_dog_name, mate_state, father_dog_chip_no, mother_dog_chip_no, mate_date, b_mu_date, expect_date, breed_count, live_count_7, live_count_21, last_update_date)
+		insert into t_dog_mating (father_dog_id, mother_dog_id, father_dog_name, mother_dog_name, mate_state, father_dog_chip_no, mother_dog_chip_no, mate_date, b_mu_date, expect_date, breed_count, live_count_7, live_count_21, last_update_date)
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
 			(
-				 #{item.motherDogName}, #{item.fatherDogName}, #{item.mateState}, #{item.fatherDogChipNo}, #{item.motherDogChipNo}, #{item.mateDateStr}, #{item.bMuDateStr}, #{item.expectDateStr}, #{item.breedCount}, #{item.liveCount7}, #{item.liveCount21}, #{item.lastUpdateDate}
+			#{item.fatherDogId}, #{item.motherDogId}, #{item.motherDogName}, #{item.fatherDogName}, #{item.mateState}, #{item.fatherDogChipNo}, #{item.motherDogChipNo}, #{item.mateDateStr}, #{item.bMuDateStr}, #{item.expectDateStr}, #{item.breedCount}, #{item.liveCount7}, #{item.liveCount21}, #{item.lastUpdateDate}
 			)
 		</foreach>
 	</insert>
@@ -63,6 +65,8 @@
 		<if test="vo.mateState != null" > , mate_state=#{vo.mateState}</if>
 		<if test="vo.liveCount7 != null" > , live_count_7=#{vo.liveCount7}</if>
 		<if test="vo.liveCount21 != null" > , live_count_21=#{vo.liveCount21}</if>
+		<if test="vo.fatherDogId != null" > , father_dog_id=#{vo.fatherDogId}</if>
+		<if test="vo.motherDogId != null" > , mother_dog_id=#{vo.motherDogId}</if>
 		where id=#{vo.id}
 	</update>
 </mapper>

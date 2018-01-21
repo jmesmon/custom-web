@@ -29,6 +29,7 @@
 		<if test="vo.policeId != null" > and police_id=#{vo.policeId}</if>
 		<if test="vo.policeName != null" > and police_name=#{vo.policeName}</if>
 		<if test="vo.mainTrainUser != null" > and main_train_user=#{vo.mainTrainUser}</if>
+		<if test="vo.workUnit != null" > and work_unit=#{vo.workUnit}</if>
 	</sql>
 
 	<select id="getList" resultType="com.chxd.policeDog.vo.DogTrainVO">

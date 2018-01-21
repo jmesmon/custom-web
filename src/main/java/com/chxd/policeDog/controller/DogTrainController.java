@@ -47,11 +47,12 @@ public class DogTrainController extends BaseController {
         if(UserRoleVO.NORMAL_USER.equals(role)){
             //普通用户
             dogTrainVO.setPoliceId(user.getId());
-        }else if(UserRoleVO.GLY_USER.equals(role)){
-            //管理员用户
+        }else if(UserRoleVO.GLY_USER.equals(role) || UserRoleVO.FJ_JZ_USER.equals(role)){
+            //分局局长、分局管理员，只看本局下的数据
             dogTrainVO.setWorkUnit(user.getWorkUnit());
-        }else if(UserRoleVO.JZD_USER.equals(role) || UserRoleVO.SUPER_USER.equals(role)){
-
+        }else if(UserRoleVO.JZD_USER.equals(role) || UserRoleVO.SUPER_USER.equals(role) || UserRoleVO.PXRY_USER.equals(role)){
+            dogTrainVO.setWorkUnit(null);
+            dogTrainVO.setPoliceId(null);
         }else{
             dogTrainVO.setPoliceId(user.getId());
         }

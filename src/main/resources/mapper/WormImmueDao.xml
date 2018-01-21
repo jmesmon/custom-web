@@ -47,7 +47,7 @@
 
 	<sql id="worm_condition">
 		<if test="wormVO.id != null" > and id=#{wormVO.id}</if>
-		<if test="wormVO.dogChipNo != null" > and dog_chip_no=#{wormVO.dogChipNo}</if>
+		<if test="wormVO.dogId != null" > and dog_id=#{wormVO.dogId}</if>
 		<if test="wormVO.nestNo != null" > and nest_no=#{wormVO.nestNo}</if>
 		<if test="wormVO.wormDate != null" > and worm_date=#{wormVO.wormDateStr}</if>
 		<if test="wormVO.wormDateStart != null" ><![CDATA[ and worm_date>=#{wormVO.wormDateStart} ]]></if>
@@ -71,7 +71,7 @@
 	<!-- immue seelct  -->
 	<sql id="immue_condition">
 		<if test="immueVO.id != null" > and id=#{immueVO.id}</if>
-		<if test="immueVO.dogChipNo != null" > and dog_chip_no=#{immueVO.dogChipNo}</if>
+		<if test="immueVO.dogId != null" > and dog_id=#{immueVO.dogId}</if>
 		<if test="immueVO.nestNo != null" > and nest_no=#{immueVO.nestNo}</if>
 		<if test="immueVO.immueDate != null" > and immue_date=#{immueVO.immueDateStr}</if>
 		<if test="immueVO.immueDateStart != null" ><![CDATA[ and immue_date>=#{immueVO.immueDateStart} ]]></if>
@@ -110,7 +110,7 @@
 		update t_dog_immue set immue_state = #{immueVO.immueStateSet},last_update_date=now()
 		where 1=1
 		<if test="immueVO.id != null" > and id=#{immueVO.id}</if>
-		<if test="immueVO.dogChipNo != null" > and dog_chip_no=#{immueVO.dogChipNo}</if>
+		<if test="immueVO.dogId != null" > and dog_id=#{immueVO.dogId}</if>
 		<if test="immueVO.nestNo != null" > and nest_no=#{immueVO.nestNo}</if>
 		<if test="immueVO.immueDate != null" > and immue_date=#{immueVO.immueDateStr}</if>
 		<if test="immueVO.immueDateStart != null" ><![CDATA[ and immue_date>=#{immueVO.immueDateStart} ]]></if>
@@ -123,7 +123,7 @@
 		update t_dog_worm set worm_state = #{wormVO.wormStateSet},last_update_date=now()
 		where 1=1
 		<if test="wormVO.id != null" > and id=#{wormVO.id}</if>
-		<if test="wormVO.dogChipNo != null" > and dog_chip_no=#{wormVO.dogChipNo}</if>
+		<if test="wormVO.dogId != null" > and dog_id=#{wormVO.dogId}</if>
 		<if test="wormVO.nestNo != null" > and nest_no=#{wormVO.nestNo}</if>
 		<if test="wormVO.wormDate != null" > and worm_date=#{wormVO.wormDateStr}</if>
 		<if test="wormVO.wormDateStart != null" ><![CDATA[ and worm_date>=#{wormVO.wormDateStart} ]]></if>

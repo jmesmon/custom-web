@@ -48,8 +48,9 @@ public class BaseVO implements Serializable{
         return id;
     }
 
-    public void setId(Integer id) {
+    public BaseVO setId(Integer id) {
         this.id = id;
+        return this;
     }
 
     public Date getCreationDate() {

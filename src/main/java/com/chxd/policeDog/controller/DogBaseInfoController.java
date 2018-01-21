@@ -104,6 +104,22 @@ public class DogBaseInfoController extends BaseController{
     public ResultVO getAnalysisData(@RequestBody PoliceUserVO user){
         ResultVO resultVO = ResultVO.getInstance();
         String year = new SimpleDateFormat("YYYY").format(System.currentTimeMillis());
+
+        PoliceUserVO policeUser = getCurrentUser();
+        String role = policeUser.getUserRole();
+        if(UserRoleVO.NORMAL_USER.equals(role)){
+            //普通用户
+            user.setWorkUnit(policeUser.getWorkUnit());
+        }else if(UserRoleVO.GLY_USER.equals(role) || UserRoleVO.FJ_JZ_USER.equals(role)){
+            //分局局长、分局管理员，只看本局下的数据
+            user.setWorkUnit(policeUser.getWorkUnit());
+        }else if(UserRoleVO.JZD_USER.equals(role) || UserRoleVO.SUPER_USER.equals(role) || UserRoleVO.JZ_USER.equals(role)){
+            //局长 九支队 管理员  查看全部数据
+            user.setWorkUnit(null);
+        }else{
+            user.setWorkUnit(policeUser.getWorkUnit());
+        }
+
         List<Map> list = dogBaseInfoDao.getAnalysisData(year + "-01-01", year + "-12-12", user.getWorkUnit());
         resultVO.setResult(list);
         return resultVO;
@@ -123,6 +139,17 @@ public class DogBaseInfoController extends BaseController{
         ResultVO resultVO = ResultVO.getInstance();
         for(int i = 0; i<list.size(); i++) {
             dogBaseInfoDao.update(list.get(i));
+        }
+        return resultVO;
+    }
+
+    @RequestMapping("/isNameDump")
+    public ResultVO isNameDump(@RequestBody DogBaseInfoVO dogBaseInfoVO){
+        ResultVO resultVO = ResultVO.getInstance();
+        Integer integer = dogBaseInfoDao.selectAllCount(dogBaseInfoVO);
+        if(integer != null && integer > 0){
+            resultVO.setResult(integer);
+            resultVO.setSuccess(false);
         }
         return resultVO;
     }
@@ -205,7 +232,7 @@ public class DogBaseInfoController extends BaseController{
                     localDate = localDate.plusDays(cfg.getPeriod());
 
                     worm.setNestNo(nestNo);
-                    worm.setDogChipNo(dog.getChipNo());
+                    worm.setDogId(dog.getId());
                     worm.setWormState(1);
                     worm.setWormDesc(cfg.getDescription());
                     worm.setWormDate(XDateUtils.localDateToDate(localDate));
@@ -254,7 +281,7 @@ public class DogBaseInfoController extends BaseController{
                     localDate = localDate.plusDays(cfg.getPeriod());
 
                     vo.setNestNo(nestNo);
-                    vo.setDogChipNo(dog.getChipNo());
+                    vo.setDogId(dog.getId());
                     vo.setImmueState(1);
                     vo.setImmueDate(XDateUtils.localDateToDate(localDate));
                     vo.setImmueName(cfg.getDescription());
@@ -330,17 +357,17 @@ public class DogBaseInfoController extends BaseController{
         return resultVO;
     }
     @RequestMapping("/relativeCheck/{boy}/{girl}")
-    public ResultVO relativeCheck(@PathVariable("boy")String boy, @PathVariable("girl")String girl){
+    public ResultVO relativeCheck(@PathVariable("boy")int boy, @PathVariable("girl")int girl){
         ResultVO resultVO = ResultVO.getInstance();
         List<String> msgList = Lists.newArrayList();
         resultVO.setResult(msgList);
 
-        DogBaseInfoVO boyDog = getDogByChipNo(new DogBaseInfoVO().setChipNo(boy)); // 公犬
+        DogBaseInfoVO boyDog = getDogByDogId(new DogBaseInfoVO(boy)); // 公犬
         if(boyDog.getId() == null){
             resultVO.fail("公犬芯片号不存在");
             return resultVO;
         }
-        DogBaseInfoVO girlDog = getDogByChipNo(new DogBaseInfoVO().setChipNo(girl)); // 母犬
+        DogBaseInfoVO girlDog = getDogByDogId(new DogBaseInfoVO(girl)); // 母犬
         if(girlDog.getId() == null){
             resultVO.fail("母犬芯片号不存在");
             return resultVO;
@@ -349,51 +376,51 @@ public class DogBaseInfoController extends BaseController{
         List<DogBaseInfoVO> listA = Lists.newArrayList();
         List<DogBaseInfoVO> listB = Lists.newArrayList();
         //公犬三代亲属部分
-        DogBaseInfoVO fatherA = getDogByChipNo(new DogBaseInfoVO().setChipNo(boyDog.getFatherId())); // 父亲
+        DogBaseInfoVO fatherA = getDogByDogId(new DogBaseInfoVO(boyDog.getId())); // 父亲
         fatherA.setDogSource("父亲");
         listA.add(fatherA);
 
-        DogBaseInfoVO motherA = getDogByChipNo(new DogBaseInfoVO().setChipNo(boyDog.getMotherId())); // 母亲
+        DogBaseInfoVO motherA = getDogByDogId(new DogBaseInfoVO(boyDog.getId())); // 母亲
         motherA.setDogSource("母亲");
         listA.add(motherA);
 
-        DogBaseInfoVO grandfatherA = getDogByChipNo(new DogBaseInfoVO().setChipNo(fatherA.getFatherId())); // 爷爷
+        DogBaseInfoVO grandfatherA = getDogByDogId(new DogBaseInfoVO(fatherA.getId())); // 爷爷
         grandfatherA.setDogSource("爷爷");
         listA.add(grandfatherA);
 
-        DogBaseInfoVO grandmotherA = getDogByChipNo(new DogBaseInfoVO().setChipNo(fatherA.getMotherId())); // 奶奶
+        DogBaseInfoVO grandmotherA = getDogByDogId(new DogBaseInfoVO(fatherA.getId())); // 奶奶
         grandmotherA.setDogSource("奶奶");
         listA.add(grandmotherA);
 
-        DogBaseInfoVO grandpaA = getDogByChipNo(new DogBaseInfoVO().setChipNo(motherA.getFatherId())); // 姥爷
+        DogBaseInfoVO grandpaA = getDogByDogId(new DogBaseInfoVO(motherA.getId())); // 姥爷
         grandpaA.setDogSource("姥爷");
         listA.add(grandpaA);
-        DogBaseInfoVO grandmaA = getDogByChipNo(new DogBaseInfoVO().setChipNo(motherA.getMotherId())); // 姥姥
+        DogBaseInfoVO grandmaA = getDogByDogId(new DogBaseInfoVO(motherA.getId())); // 姥姥
         grandmaA.setDogSource("姥姥");
         listA.add(grandmaA);
 
         //母犬三代亲属部分
-        DogBaseInfoVO fatherB = getDogByChipNo(new DogBaseInfoVO().setChipNo(girlDog.getFatherId())); // 父亲
+        DogBaseInfoVO fatherB = getDogByDogId(new DogBaseInfoVO(girlDog.getFatherId())); // 父亲
         fatherB.setDogSource("父亲");
         listB.add(fatherB);
 
-        DogBaseInfoVO motherB = getDogByChipNo(new DogBaseInfoVO().setChipNo(girlDog.getMotherId())); // 母亲
+        DogBaseInfoVO motherB = getDogByDogId(new DogBaseInfoVO(girlDog.getMotherId())); // 母亲
         motherB.setDogSource("母亲");
         listB.add(motherB);
 
-        DogBaseInfoVO grandfatherB = getDogByChipNo(new DogBaseInfoVO().setChipNo(fatherB.getFatherId())); // 爷爷
+        DogBaseInfoVO grandfatherB = getDogByDogId(new DogBaseInfoVO(fatherB.getFatherId())); // 爷爷
         grandfatherB.setDogSource("爷爷");
         listB.add(grandfatherB);
 
-        DogBaseInfoVO grandmotherB = getDogByChipNo(new DogBaseInfoVO().setChipNo(fatherB.getMotherId())); // 奶奶
+        DogBaseInfoVO grandmotherB = getDogByDogId(new DogBaseInfoVO(fatherB.getMotherId())); // 奶奶
         grandmotherB.setDogSource("奶奶");
         listB.add(grandmotherB);
 
-        DogBaseInfoVO grandpaB = getDogByChipNo(new DogBaseInfoVO().setChipNo(motherB.getFatherId())); // 姥爷
+        DogBaseInfoVO grandpaB = getDogByDogId(new DogBaseInfoVO(motherB.getFatherId())); // 姥爷
         grandpaB.setDogSource("姥爷");
         listB.add(grandpaB);
 
-        DogBaseInfoVO grandmaB = getDogByChipNo(new DogBaseInfoVO().setChipNo(motherB.getMotherId())); // 姥姥
+        DogBaseInfoVO grandmaB = getDogByDogId(new DogBaseInfoVO(motherB.getMotherId())); // 姥姥
         grandmaB.setDogSource("姥姥");
         listB.add(grandmaB);
 
@@ -441,15 +468,12 @@ public class DogBaseInfoController extends BaseController{
         return new ArrayList<DogBaseInfoVO>();
     }
 
-    private DogBaseInfoVO getDogByChipNo(DogBaseInfoVO vo){
-        if(vo == null || Strings.isEmpty(vo.getChipNo())){
-            return new DogBaseInfoVO();
-        }
+    private DogBaseInfoVO getDogByDogId(DogBaseInfoVO vo){
         List<DogBaseInfoVO> list1 = dogBaseInfoDao.selectAll(vo, PageVO.getInstance());
         if(list1.size() > 0){
             return list1.get(0);
         }else{
-           return new DogBaseInfoVO();
+            return new DogBaseInfoVO();
         }
     }
 
@@ -489,7 +513,7 @@ public class DogBaseInfoController extends BaseController{
                     WormImmueInfoVO wormImmueInfoVO = wormImmueList.get(i);
                     try {
                         DogWormVO worm = new DogWormVO();
-                        worm.setDogChipNo(dogInfo.getChipNo());
+                        worm.setDogId(dogInfo.getId());
                         worm.setWormDateStr(wormImmueInfoVO.getDate());
                         worm.setWormDesc(wormImmueInfoVO.getName());
                         worm.setWormState(2);
@@ -501,7 +525,7 @@ public class DogBaseInfoController extends BaseController{
 
                     try {
                         DogImmueVO imu = new DogImmueVO();
-                        imu.setDogChipNo(dogInfo.getChipNo());
+                        imu.setDogId(dogInfo.getId());
                         imu.setImmueDateStr(wormImmueInfoVO.getDate());
                         imu.setImmueName(wormImmueInfoVO.getName());
                         imu.setImmueState(2);

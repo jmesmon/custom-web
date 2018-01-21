@@ -27,6 +27,7 @@ public class ApplyDieController extends BaseController {
     public PageResultVO getList(@RequestBody ApplyDieVO applyDieVO, @PathParam("") PageVO pageVO) {
         PageResultVO page = new PageResultVO();
         PoliceUserVO currentUser = getCurrentUser();
+        applyDieVO.setApplyUnit(currentUser.getWorkUnit());
         if( UserRoleVO.JZ_USER.equals(currentUser.getUserRole()) && UserRoleVO.APPROVER_USER.equals(currentUser.getApproveRole())){
             applyDieVO.setApplyUnit(currentUser.getWorkUnit());
             applyDieVO.setApplyStateGr(1);

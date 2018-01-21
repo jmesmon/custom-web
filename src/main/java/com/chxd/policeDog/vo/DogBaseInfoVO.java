@@ -67,6 +67,10 @@ public class DogBaseInfoVO extends BaseVO {
 
     }
 
+    public DogBaseInfoVO(int id) {
+        this.id = id;
+    }
+
     public String getDogPro() {
         return dogPro;
     }

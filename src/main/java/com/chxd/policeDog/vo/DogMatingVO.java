@@ -6,6 +6,8 @@ import java.util.Date;
  * Created by cheng on 2017/9/13.
  */
 public class DogMatingVO extends BaseVO {
+    private Integer fatherDogId;
+    private Integer motherDogId;
     private String fatherDogChipNo;
     private String fatherDogName;
     private String motherDogChipNo;
@@ -151,5 +153,21 @@ public class DogMatingVO extends BaseVO {
 
     public void setMateState(Integer mateState) {
         this.mateState = mateState;
+    }
+
+    public Integer getFatherDogId() {
+        return fatherDogId;
+    }
+
+    public void setFatherDogId(Integer fatherDogId) {
+        this.fatherDogId = fatherDogId;
+    }
+
+    public Integer getMotherDogId() {
+        return motherDogId;
+    }
+
+    public void setMotherDogId(Integer motherDogId) {
+        this.motherDogId = motherDogId;
     }
 }

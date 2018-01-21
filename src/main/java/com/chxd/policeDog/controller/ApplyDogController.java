@@ -2,10 +2,7 @@ package com.chxd.policeDog.controller;
 
 import com.chxd.policeDog.dao.IApplyDogDao;
 import com.chxd.policeDog.dao.IDogBaseInfoDao;
-import com.chxd.policeDog.vo.ApplyDogVO;
-import com.chxd.policeDog.vo.PageResultVO;
-import com.chxd.policeDog.vo.PageVO;
-import com.chxd.policeDog.vo.ResultVO;
+import com.chxd.policeDog.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +16,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/apply/dog")
-public class ApplyDogController {
+public class ApplyDogController extends BaseController {
     @Autowired
     private IApplyDogDao applyDogDao;
     @Autowired
@@ -28,6 +25,12 @@ public class ApplyDogController {
     @RequestMapping("/getList/{pageSize}/{curPage}")
     public PageResultVO getList(@RequestBody ApplyDogVO applyDogVO, @PathParam("") PageVO pageVO) {
         PageResultVO page = new PageResultVO();
+        PoliceUserVO currentUser = getCurrentUser();
+        applyDogVO.setWorkUnit(currentUser.getWorkUnit());
+        if( UserRoleVO.JZ_USER.equals(currentUser.getUserRole()) && UserRoleVO.APPROVER_USER.equals(currentUser.getApproveRole()) || UserRoleVO.JZD_USER.equals(currentUser.getUserRole()) || UserRoleVO.SUPER_USER.equals(currentUser.getUserRole())){
+            applyDogVO.setWorkUnit(null);
+        }
+
         List<ApplyDogVO> list = applyDogDao.getList(applyDogVO, pageVO);
         Integer integer = applyDogDao.getListCount(applyDogVO);
         pageVO.setTotalRows(integer);
@@ -39,6 +42,7 @@ public class ApplyDogController {
     @RequestMapping("/add")
     public ResultVO add(@RequestBody ApplyDogVO applyDogVO){
         ResultVO resultVO = ResultVO.getInstance();
+        applyDogVO.setWorkUnit(getCurrentUser().getWorkUnit());
         applyDogDao.add(applyDogVO);
         return resultVO;
     }

@@ -7,7 +7,7 @@ import java.util.Date;
  */
 public class DogImmueVO extends BaseVO {
     private static final long serialVersionUID = -7025306881688939614L;
-    private String dogChipNo;
+    private Integer dogId;
     private String nestNo;
     private Date immueDate;
     private String immueName;
@@ -53,12 +53,12 @@ public class DogImmueVO extends BaseVO {
         this.immueName = immueName;
     }
 
-    public String getDogChipNo() {
-        return dogChipNo;
+    public Integer getDogId() {
+        return dogId;
     }
 
-    public void setDogChipNo(String dogChipNo) {
-        this.dogChipNo = dogChipNo;
+    public void setDogId(Integer dogId) {
+        this.dogId = dogId;
     }
 
     public String getNestNo() {
