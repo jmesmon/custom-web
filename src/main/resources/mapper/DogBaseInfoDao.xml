@@ -69,7 +69,7 @@
 			  #{item.breed}, #{item.dogSource}, #{item.dogColour}, #{item.hairType}, #{item.dogType}, #{item.dogLevel},
 			  #{item.inbreeding}, #{item.tutor}, #{item.breeder}, #{item.trainScore}, #{item.nextTrainDate}, #{item.workPlace},
 			  #{item.workArea}, #{item.workProvince}, #{item.fileNo}, #{item.createDocDate}, #{item.dogPhoto}, #{item.nestNo},
-			  #{item.fatherId}, #{item.motherId}, #{item.growthStage}, #{item.workStage, jdbcType=INTEGER}, #{item.belonging}, now(), now(), #{item.uid}, #{item.policeId}, #{item.policeName},
+			  #{item.fatherId}, #{item.motherId}, #{item.growthStage}, #{item.workStage, jdbcType=INTEGER}, #{item.belonging}, now(), now(), #{item.uid}, #{item.policeId}, #{item.policeName}
 			)
 		</foreach>
 	</insert>
