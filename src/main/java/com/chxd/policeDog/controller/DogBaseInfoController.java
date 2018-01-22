@@ -336,6 +336,7 @@ public class DogBaseInfoController extends BaseController{
             dog.setId(dogChangeVO.getDogId());
             dog.setPoliceId(dogChangeVO.getNewPoliceId());
             dog.setPoliceName(dogChangeVO.getNewPoliceName());
+            dog.setWorkPlace(dogChangeVO.getNewWorkPlace());
             dogBaseInfoDao.changePoliceUser(dog);
 
             List<DogChangeVO> li = Lists.newArrayList();

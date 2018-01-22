@@ -2,7 +2,9 @@ package com.chxd.policeDog.controller;
 
 import com.chxd.policeDog.dao.IDogBaseInfoDao;
 import com.chxd.policeDog.dao.IDogWorkDao;
+import com.chxd.policeDog.dao.IMyNoticeDao;
 import com.chxd.policeDog.vo.*;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,8 @@ public class DogWorkController extends BaseController{
     private IDogWorkDao dogWorkDao;
     @Autowired
     private IDogBaseInfoDao dogBaseInfoDao;
+    @Autowired
+    private IMyNoticeDao noticeDao;
 
     @RequestMapping("/getList/{pageSize}/{curPage}")
     public PageResultVO getList(@RequestBody DogWorkVO dogWorkVO, @PathParam("") PageVO pageVO) {
@@ -64,6 +68,7 @@ public class DogWorkController extends BaseController{
     public ResultVO add(@RequestBody List<DogWorkVO> list){
         ResultVO resultVO = ResultVO.getInstance();
         PoliceUserVO user = getCurrentUser();
+        List<MyNoticeVO> noticeList = Lists.newArrayList();
         for (int i = 0; i < list.size(); i++) {
             DogWorkVO dogWorkVO = list.get(i);
             dogWorkVO.setDogWorkUnit(user.getWorkUnit());

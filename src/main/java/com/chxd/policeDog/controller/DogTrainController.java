@@ -95,8 +95,7 @@ public class DogTrainController extends BaseController {
             notice.setTitle("【培训通知】" + list.get(i).getTrainName() + "，请到培训管理->警犬培训<a class='gotoProcess' href='#!/app/train.trainSocre'>查看详细</a>");
             notice.setPoliceId(list.get(i).getPoliceId() + "");
             notice.setIsRead(1);
-            notice.setNoticeType("train");
-            notice.setNoticeType("train");
+            notice.setNoticeType("培训通知");
             todoList.add(notice);
         }
         noticeDao.addBatch(todoList);

@@ -179,6 +179,7 @@ public class UserController extends  BaseController{
         if(Strings.isEmpty(policeUserVO.getUserRole())){
             policeUserVO.setUserRole(UserRoleVO.NORMAL_USER);
         }
+        policeUserVO.setPassword("123456");
         policeUserDao.add(policeUserVO);
         return resultVO;
     }
