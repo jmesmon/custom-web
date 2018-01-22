@@ -16,6 +16,7 @@ import java.util.Map;
 public interface IDogBaseInfoDao {
     public List<DogBaseInfoVO> selectAll(@Param("dogInfo") DogBaseInfoVO dogInfo, @Param("page") PageVO page);
 
+    void del(List<DogBaseInfoVO> list);
 
     public List<DogBaseInfoVO> getTrainList(@Param("dogInfo") DogBaseInfoVO dogInfo, @Param("page") PageVO page);
 

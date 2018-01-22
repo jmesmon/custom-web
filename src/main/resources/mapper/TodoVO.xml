@@ -5,8 +5,8 @@
 	<insert id="add" parameterType="java.util.List">
 		insert into t_todo (id, apply_type, apply_title, apply_state, apply_date, apply_id, police_id, creation_date, last_update_date)
 		values
-		<foreach collection="list" item="item" index="index" separator="," >
-			(#{vo.id}, #{vo.applyType}, #{vo.applyTitle}, #{vo.applyState}, #{vo.applyDate}, #{vo.applyId}, #{vo.policeId}, now(), now())
+		<foreach collection="list" item="vo" index="index" separator="," >
+			(null, #{vo.applyType}, #{vo.applyTitle}, #{vo.applyState}, #{vo.applyDate}, #{vo.applyId}, #{vo.policeId}, now(), now())
 		</foreach>
 	</insert>
 	<delete id="del">
@@ -71,6 +71,9 @@
 			union all
 			/*死亡申请*/
 			select 'die' as att_name, count(*) as val from t_dog_die where apply_state=#{applyState} /*2*/ <if test="workUnit != null" > and apply_unit=#{workUnit}</if>
+			union all
+		    /*工作申请*/
+		    select 'work' as att_name, count(*) as val from t_dog_work where work_state='待审批' <if test="workUnit != null" > and dog_work_unit=#{workUnit}</if>
 			union all
 			/*培训*/
 			select 'train' as att_name, count(*) as val from t_dog_base where <![CDATA[ next_train_date>=#{nowDay} and next_train_date<=#{nextMonth} ]]>

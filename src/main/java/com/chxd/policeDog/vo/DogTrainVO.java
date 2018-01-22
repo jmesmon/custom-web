@@ -28,7 +28,7 @@ public class DogTrainVO extends  BaseVO {
     private Integer totalScore;
     private Date nextTrainDate;
     private String nextTrainDateStr;
-    private Integer policeId;
+    private String policeId;
     private String policeName;
     private String mainTrainUser;
     private String trainResult;
@@ -219,11 +219,11 @@ public class DogTrainVO extends  BaseVO {
         this.nextTrainDate = nextTrainDate;
     }
 
-    public Integer getPoliceId() {
+    public String getPoliceId() {
         return policeId;
     }
 
-    public void setPoliceId(Integer policeId) {
+    public void setPoliceId(String policeId) {
         this.policeId = policeId;
     }
 

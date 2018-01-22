@@ -2,6 +2,7 @@ package com.chxd.policeDog.controller;
 
 import com.chxd.policeDog.dao.IDogBaseInfoDao;
 import com.chxd.policeDog.dao.IDogTrainDao;
+import com.chxd.policeDog.dao.IMyNoticeDao;
 import com.chxd.policeDog.vo.*;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class DogTrainController extends BaseController {
     private IDogTrainDao dogTrainDao;
     @Autowired
     private IDogBaseInfoDao dogBaseInfoDao;
+    @Autowired
+    private IMyNoticeDao noticeDao;
 
     @RequestMapping("/getById/{id}")
     public ResultVO getById(@PathParam("id") int id){
@@ -46,7 +49,7 @@ public class DogTrainController extends BaseController {
         String role = user.getUserRole();
         if(UserRoleVO.NORMAL_USER.equals(role)){
             //普通用户
-            dogTrainVO.setPoliceId(user.getId());
+            dogTrainVO.setPoliceId(user.getId() + "" );
         }else if(UserRoleVO.GLY_USER.equals(role) || UserRoleVO.FJ_JZ_USER.equals(role)){
             //分局局长、分局管理员，只看本局下的数据
             dogTrainVO.setWorkUnit(user.getWorkUnit());
@@ -54,7 +57,7 @@ public class DogTrainController extends BaseController {
             dogTrainVO.setWorkUnit(null);
             dogTrainVO.setPoliceId(null);
         }else{
-            dogTrainVO.setPoliceId(user.getId());
+            dogTrainVO.setPoliceId(user.getId() + "");
         }
 
         List<DogTrainVO> list = dogTrainDao.getList(dogTrainVO, pageVO);
@@ -78,6 +81,7 @@ public class DogTrainController extends BaseController {
     public ResultVO add(@RequestBody List<DogTrainVO> list){
         ResultVO resultVO = ResultVO.getInstance();
         dogTrainDao.add(list);
+        List<MyNoticeVO> todoList = Lists.newArrayList();
         for(int i = 0; i<list.size(); i++) {
             DogBaseInfoVO dog = new DogBaseInfoVO();
             dog.setId(list.get(i).getDogId());
@@ -86,7 +90,16 @@ public class DogTrainController extends BaseController {
             dog.setLastSignDateStr("");
 
             dogBaseInfoDao.update(dog);
+
+            MyNoticeVO notice = new MyNoticeVO();
+            notice.setTitle("【培训通知】" + list.get(i).getTrainName() + "，请到培训管理->警犬培训<a class='gotoProcess' href='#!/app/train.trainSocre'>查看详细</a>");
+            notice.setPoliceId(list.get(i).getPoliceId() + "");
+            notice.setIsRead(1);
+            notice.setNoticeType("train");
+            notice.setNoticeType("train");
+            todoList.add(notice);
         }
+        noticeDao.addBatch(todoList);
         return resultVO;
     }
 

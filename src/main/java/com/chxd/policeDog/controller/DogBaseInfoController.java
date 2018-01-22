@@ -154,6 +154,13 @@ public class DogBaseInfoController extends BaseController{
         return resultVO;
     }
 
+    @RequestMapping("/delete")
+    public ResultVO delete(@RequestBody List<DogBaseInfoVO> list){
+        ResultVO resultVO = ResultVO.getInstance();
+        dogBaseInfoDao.del(list);
+        return resultVO;
+    }
+
     private void buildWord(List<DogBaseInfoVO> list){
         Configuration con = new Configuration();
         try {

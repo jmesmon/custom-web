@@ -56,6 +56,13 @@
 		<include refid="condition"/>
 	</select>
 
+	<delete id="del">
+		delete from t_dog_base where id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+
 	<insert id="add" parameterType="java.util.List">
 		insert into t_dog_base (reward_info, dog_name, chip_no, chip_no_inject, sex, birthday,
 								breed, dog_source, dog_colour, hair_type, dog_type, dog_level,

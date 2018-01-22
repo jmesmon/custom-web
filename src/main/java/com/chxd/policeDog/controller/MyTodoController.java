@@ -47,8 +47,10 @@ public class MyTodoController extends BaseController {
             }else if(UserRoleVO.GLY_USER.equals(role) || UserRoleVO.FJ_JZ_USER.equals(role)){
                 //管理员用户
                 workUnit = user.getWorkUnit();
-            }else if(UserRoleVO.JZD_USER.equals(role) || UserRoleVO.SUPER_USER.equals(role)|| UserRoleVO.FZRY_USER.equals(role)|| UserRoleVO.PXRY_USER.equals(role)){
-
+                applyState = 1;
+            }else if(UserRoleVO.JZD_USER.equals(role) || UserRoleVO.SUPER_USER.equals(role)) {
+                applyState = 2;
+            }else if(UserRoleVO.FZRY_USER.equals(role)|| UserRoleVO.PXRY_USER.equals(role)){
             }else{
                 policeId = user.getPoliceId();
             }
