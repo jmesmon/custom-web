@@ -32,6 +32,8 @@
 		<if test="dogInfo.uid != null" > and uid=#{dogInfo.uid}</if>
 		<if test="dogInfo.rewardInfo != null" > and reward_info=#{dogInfo.rewardInfo}</if>
 		<if test="dogInfo.workStage != null" > and work_stage=#{dogInfo.workStage}</if>
+		<if test="dogInfo.mainPro != null" > and main_pro=#{dogInfo.mainPro}</if>
+		<if test="dogInfo.dogPro != null" > and main_pro like concat('%', #{dogInfo.dogPro}, '%')</if>
 	</sql>
 
 	<sql id="pageCondition">
@@ -64,7 +66,7 @@
 	</delete>
 
 	<insert id="add" parameterType="java.util.List">
-		insert into t_dog_base (reward_info, dog_name, chip_no, chip_no_inject, sex, birthday,
+		insert into t_dog_base (main_pro,reward_info, dog_name, chip_no, chip_no_inject, sex, birthday,
 								breed, dog_source, dog_colour, hair_type, dog_type, dog_level,
 								inbreeding, tutor, breeder, train_score, next_train_date, work_place,
 								work_area, work_province, file_no, create_doc_date, dog_photo, nest_no,
@@ -72,7 +74,7 @@
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
 			(
-			  #{item.rewardInfo}, #{item.dogName}, #{item.chipNo}, #{item.chipNoInjectStr}, #{item.sex}, #{item.birthdayStr},
+			  #{item.mainPro}, #{item.rewardInfo}, #{item.dogName}, #{item.chipNo}, #{item.chipNoInjectStr}, #{item.sex}, #{item.birthdayStr},
 			  #{item.breed}, #{item.dogSource}, #{item.dogColour}, #{item.hairType}, #{item.dogType}, #{item.dogLevel},
 			  #{item.inbreeding}, #{item.tutor}, #{item.breeder}, #{item.trainScore}, #{item.nextTrainDate}, #{item.workPlace},
 			  #{item.workArea}, #{item.workProvince}, #{item.fileNo}, #{item.createDocDate}, #{item.dogPhoto}, #{item.nestNo},
@@ -158,6 +160,7 @@
 		<if test="dogInfo.policeName != null" > , police_name=#{dogInfo.policeName}</if>
 		<if test="dogInfo.uid != null" > , uid=#{dogInfo.uid}</if>
 		<if test="dogInfo.rewardInfo != null" > , reward_info=#{dogInfo.rewardInfo}</if>
+		<if test="dogInfo.mainPro != null" > , main_pro=#{dogInfo.mainPro}</if>
 		where id=#{dogInfo.id}
 	</update>
 
@@ -247,6 +250,15 @@
 	<select id="getDogPro" resultType="java.util.HashMap">
 		select concat(train_name, '(', count(*), '次)') as trainName,dog_id from t_dog_train
 		where train_result != '' and dog_id in
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+			#{item.id}
+		</foreach>
+		group by train_name,dog_id
+	</select>
+
+	<select id="getDogMainPro" resultType="java.util.HashMap">
+		select train_name as trainName,dog_id from t_dog_train
+		where train_unit = 'MAIN' and dog_id in
 		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
 			#{item.id}
 		</foreach>

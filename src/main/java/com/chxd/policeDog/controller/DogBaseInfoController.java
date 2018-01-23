@@ -62,6 +62,7 @@ public class DogBaseInfoController extends BaseController{
         Integer integer = dogBaseInfoDao.selectAllCount(dogBaseInfoVO);
         if(list.size() > 0) {
             List<Map> dogPro = dogBaseInfoDao.getDogPro(list);
+
             Map<Integer, String> dogProMapping = Maps.newHashMap();
             for (int i = 0; i < dogPro.size(); i++) {
                 Map map = dogPro.get(i);

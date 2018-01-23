@@ -61,6 +61,7 @@ public class DogBaseInfoVO extends BaseVO {
     private String rewardInfo; //立功受奖信息
 
     private String dogPro;
+    private String mainPro;
 
 
     public DogBaseInfoVO() {
@@ -125,6 +126,14 @@ public class DogBaseInfoVO extends BaseVO {
 
     public void setDogNameLike(String dogNameLike) {
         this.dogNameLike = dogNameLike;
+    }
+
+    public String getMainPro() {
+        return mainPro;
+    }
+
+    public void setMainPro(String mainPro) {
+        this.mainPro = mainPro;
     }
 
     public Long getUid() {
