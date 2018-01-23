@@ -131,7 +131,7 @@
 		<if test="dogInfo.chipNo != null" > , chip_no=#{dogInfo.chipNo}</if>
 		<if test="dogInfo.chipNoInject != null" > , chip_no_inject=#{dogInfo.chipNoInject}</if>
 		<if test="dogInfo.sex != null" > , sex=#{dogInfo.sex}</if>
-		<if test="dogInfo.birthday != null" > , birthday=#{dogInfo.birthday}</if>
+		<if test="dogInfo.birthdayStr != null" > , birthday=#{dogInfo.birthdayStr}</if>
 		<if test="dogInfo.breed != null" > , breed=#{dogInfo.breed}</if>
 		<if test="dogInfo.dogSource != null" > , dog_source=#{dogInfo.dogSource}</if>
 		<if test="dogInfo.dogColour != null" > , dog_colour=#{dogInfo.dogColour}</if>
