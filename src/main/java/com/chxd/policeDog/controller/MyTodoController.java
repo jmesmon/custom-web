@@ -35,6 +35,9 @@ public class MyTodoController extends BaseController {
             localDate = XDateUtils.dateToLocalDate(new Date()).plusMonths(1);
             String nextMonth = new SimpleDateFormat("YYYY-MM-dd").format(XDateUtils.localDateToDate(localDate));
 
+            localDate = XDateUtils.dateToLocalDate(new Date()).plusYears(-8);
+            String eightYearsOld = new SimpleDateFormat("YYYY-MM-dd").format(XDateUtils.localDateToDate(localDate));
+
             String workUnit = null;
             String policeId = null;
             Integer applyState = null;
@@ -55,7 +58,7 @@ public class MyTodoController extends BaseController {
                 policeId = user.getPoliceId();
             }
 
-            List<Map> myTodo = todoDao.getMyTodo(nowDay, next7Day, nextMonth, workUnit, policeId, applyState);
+            List<Map> myTodo = todoDao.getMyTodo(nowDay, next7Day, nextMonth, workUnit, policeId, applyState, eightYearsOld);
             resultVO.setResult(myTodo);
         } catch (Exception e) {
             e.printStackTrace();

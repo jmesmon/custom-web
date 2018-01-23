@@ -78,7 +78,7 @@
 	<update id="update">
 		update t_dog_work set last_update_date=now()
 		<if test="vo.workType != null" > , work_type=#{vo.workType}</if>
-		<if test="vo.xlNum != null" > and t1.xl_num=#{vo.xlNum}</if>
+		<if test="vo.xlNum != null" > , xl_num=#{vo.xlNum}</if>
 		<if test="vo.workUnit != null" > , work_unit=#{vo.workUnit}</if>
 		<if test="vo.attPerson != null" > , att_person=#{vo.attPerson}</if>
 		<if test="vo.dogChipNo != null" > , dog_chip_no=#{vo.dogChipNo}</if>
@@ -94,7 +94,7 @@
 
 		<if test="vo.attLeader != null" > , att_leader=#{vo.attLeader}</if>
 		<if test="vo.ajPer != null" > , aj_per=#{vo.ajPer}</if>
-		<if test="vo.ajAddr != null" > , aj_addr=#{vor.ajAddr}</if>
+		<if test="vo.ajAddr != null" > , aj_addr=#{vo.ajAddr}</if>
 		<if test="vo.ajCar != null" > , aj_car=#{vo.ajCar}</if>
 		<if test="vo.ajLevel != null" > , aj_level=#{vo.ajLevel}</if>
 		<if test="vo.searchWp != null" > , search_wp=#{vo.searchWp}</if>

@@ -30,13 +30,13 @@
 	</update>
 
 	<insert id="addWorm" parameterType="com.chxd.policeDog.vo.DogWormVO">
-		insert into t_dog_worm(dog_chip_no, nest_no, worm_date, worm_state, worm_desc, police_name, police_id, last_update_date)
-		values ( #{dogChipNo}, #{nestNo}, #{wormDateStr}, #{wormState}, #{wormDesc}, #{policeName}, #{policeId}, now() )
+		insert into t_dog_worm(dog_id, nest_no, worm_date, worm_state, worm_desc, police_name, police_id, last_update_date)
+		values ( #{dogId}, #{nestNo}, #{wormDateStr}, #{wormState}, #{wormDesc}, #{policeName}, #{policeId}, now() )
 	</insert>
 
 	<insert id="addImmue" parameterType="com.chxd.policeDog.vo.DogImmueVO">
-		insert into t_dog_immue(dog_chip_no, nest_no, immue_date, immue_name, immue_state, police_name, police_id, last_update_date)
-		values ( #{dogChipNo}, #{nestNo}, #{immueDateStr}, #{immueName}, #{immueState}, #{policeName}, #{policeId}, now() )
+		insert into t_dog_immue(dog_id, nest_no, immue_date, immue_name, immue_state, police_name, police_id, last_update_date)
+		values ( #{dogId}, #{nestNo}, #{immueDateStr}, #{immueName}, #{immueState}, #{policeName}, #{policeId}, now() )
 	</insert>
 
 	<!-- worm seelct  -->

@@ -23,5 +23,5 @@ public interface ITodoDao {
     void del(List<TodoVO> list);
 
     List<Map> getMyTodo(@Param("nowDay") String nowDay, @Param("next7Day") String next7Day, @Param("nextMonth") String nextMonth,
-                        @Param("workUnit") String workUnit, @Param("policeId") String policeId, @Param("applyState") Integer applyState);
+                        @Param("workUnit") String workUnit, @Param("policeId") String policeId, @Param("applyState") Integer applyState, @Param("eightYearsOld") String eightYearsOld);
 }

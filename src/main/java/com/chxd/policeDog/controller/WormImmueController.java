@@ -31,7 +31,7 @@ public class WormImmueController {
             Integer integer = wormImmueDao.getWormCount(dogWormVO);
             for(int i = 0; i<list.size(); i++){
                 DogWormVO w = list.get(i);
-                List<DogBaseInfoVO> dog = dogBaseInfoDao.selectAll(new DogBaseInfoVO(w.getId()), PageVO.getInstance());
+                List<DogBaseInfoVO> dog = dogBaseInfoDao.selectAll(new DogBaseInfoVO(w.getDogId()), PageVO.getInstance());
                 if(dog.size() > 0) {
                     w.setDogInfo(dog.get(0));
                 }
@@ -54,7 +54,7 @@ public class WormImmueController {
             Integer integer = wormImmueDao.getImmueCount(dogImmueVO);
             for(int i = 0; i<list.size(); i++){
                 DogImmueVO w = list.get(i);
-                List<DogBaseInfoVO> dog = dogBaseInfoDao.selectAll(new DogBaseInfoVO(w.getId()), PageVO.getInstance());
+                List<DogBaseInfoVO> dog = dogBaseInfoDao.selectAll(new DogBaseInfoVO(w.getDogId()), PageVO.getInstance());
                 if(dog.size() > 0) {
                     w.setDogInfo(dog.get(0));
                 }
