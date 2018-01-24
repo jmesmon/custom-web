@@ -38,6 +38,8 @@ public class DogBaseInfoController extends BaseController{
     private IDogChangeDao dogChangeDao;
     @Autowired
     private IDogWorkDao dogWorkDao;
+    @Autowired
+    private IPoliceUserDao userDao;
 
 
     @RequestMapping("/getAll/{pageSize}/{curPage}")
@@ -159,6 +161,8 @@ public class DogBaseInfoController extends BaseController{
     public ResultVO delete(@RequestBody List<DogBaseInfoVO> list){
         ResultVO resultVO = ResultVO.getInstance();
         dogBaseInfoDao.del(list);
+        wormImmueDao.delImmueByDogId(list);
+        wormImmueDao.delWormByDogId(list);
         return resultVO;
     }
 
@@ -259,7 +263,34 @@ public class DogBaseInfoController extends BaseController{
     @RequestMapping("/allot")
     public ResultVO allot(@RequestBody List<DogBaseInfoVO> list) {
         ResultVO resultVO = ResultVO.getInstance();
+        PoliceUserVO currentUser = getCurrentUser();
+
         dogBaseInfoDao.allot(list, list.get(0).getWorkPlace());
+        try {
+            List<MyNoticeVO> noticeList = Lists.newArrayList();
+            for (int i = 0; i < list.size(); i++) {
+                DogBaseInfoVO dogBaseInfoVO = list.get(i);
+                PoliceUserVO user = new PoliceUserVO();
+                user.setUserRole(UserRoleVO.GLY_USER);
+                user.setWorkUnit(dogBaseInfoVO.getWorkPlace());
+                List<PoliceUserVO> list1 = userDao.getList(user, new PageVO());
+                for (int j = 0; j < list1.size(); j++) {
+                    PoliceUserVO policeUserVO = list1.get(j);
+                    MyNoticeVO notice = new MyNoticeVO();
+                    notice.setNoticeType("变更通知");
+                    notice.setIsRead(1);
+                    notice.setTitle(currentUser.getPoliceName() + "分配给你一头警犬，请注意查收，可在\"警犬列表\"中查看");
+                    notice.setPoliceId(policeUserVO.getId() + "");
+                    notice.setCreationDate(new Date());
+                    notice.setLastUpdateDate(new Date());
+                    noticeList.add(notice);
+                }
+
+            }
+            noticeDao.addBatch(noticeList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return resultVO;
     }
 

@@ -1,9 +1,6 @@
 package com.chxd.policeDog.dao;
 
-import com.chxd.policeDog.vo.DogImmueVO;
-import com.chxd.policeDog.vo.DogWormVO;
-import com.chxd.policeDog.vo.PageVO;
-import com.chxd.policeDog.vo.WormImmueCfgVO;
+import com.chxd.policeDog.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -26,6 +23,9 @@ public interface IWormImmueDao {
 
     void delWorm(List<DogWormVO> list);
     void delImmue(List<DogImmueVO> list);
+
+    void delWormByDogId(List<DogBaseInfoVO> list);
+    void delImmueByDogId(List<DogBaseInfoVO> list);
 
     List<DogWormVO> getWormList(@Param("wormVO")DogWormVO wormVO, @Param("page")PageVO page);
     Integer getWormCount(@Param("wormVO")DogWormVO wormVO);

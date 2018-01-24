@@ -21,6 +21,13 @@ public class DogWormVO extends BaseVO {
 
     private DogBaseInfoVO dogInfo;
 
+    public DogWormVO() {
+    }
+
+    public DogWormVO(Integer dogId) {
+        this.dogId = dogId;
+    }
+
     public Integer getWormStateSet() {
         return wormStateSet;
     }

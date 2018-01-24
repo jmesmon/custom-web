@@ -106,6 +106,20 @@
 		</foreach>
 	</delete>
 
+	<delete id="delWormByDogId">
+		delete from t_dog_worm where dog_id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+
+	<delete id="delImmueByDogId">
+		delete from t_dog_immue where dog_id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+
 	<update id="updateImmueState" parameterType="com.chxd.policeDog.vo.DogImmueVO">
 		update t_dog_immue set immue_state = #{immueVO.immueStateSet},last_update_date=now()
 		where 1=1

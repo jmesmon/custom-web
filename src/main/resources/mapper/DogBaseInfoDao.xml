@@ -271,6 +271,7 @@
 			tutor=#{dogInfo.policeName},
 			police_id=#{dogInfo.policeId},
 			police_name=#{dogInfo.policeName}
+			<if test="dogInfo.workPlace != null" >, work_place=#{dogInfo.workPlace}</if>
 		where id=#{dogInfo.id}
 	</update>
 
