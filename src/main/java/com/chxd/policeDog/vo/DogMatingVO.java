@@ -19,12 +19,21 @@ public class DogMatingVO extends BaseVO {
     private Date expectDate;
     private String expectDateStr;
     private Integer breedCount;
+    private Integer liveCount;
     private Integer liveCount7;
     private Integer liveCount21;
     private Integer mateState;
 
     private DogBaseInfoVO fatherDogInfo;
     private DogBaseInfoVO motherDogInfo;
+
+    public Integer getLiveCount() {
+        return liveCount;
+    }
+
+    public void setLiveCount(Integer liveCount) {
+        this.liveCount = liveCount;
+    }
 
     public String getFatherDogName() {
         return fatherDogName;

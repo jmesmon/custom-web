@@ -35,6 +35,7 @@
 	<select id="getList" resultType="com.chxd.policeDog.vo.DogTrainVO">
 		select * from t_dog_train where 1=1
 		<include refid="condition"/>
+		order by train_start_date asc
 		<include refid="pageCondition"/>
 	</select>
 

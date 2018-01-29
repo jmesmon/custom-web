@@ -46,49 +46,51 @@
 	</sql>
 
 	<sql id="worm_condition">
-		<if test="wormVO.id != null" > and id=#{wormVO.id}</if>
-		<if test="wormVO.dogId != null" > and dog_id=#{wormVO.dogId}</if>
-		<if test="wormVO.nestNo != null" > and nest_no=#{wormVO.nestNo}</if>
-		<if test="wormVO.wormDate != null" > and worm_date=#{wormVO.wormDateStr}</if>
-		<if test="wormVO.wormDateStart != null" ><![CDATA[ and worm_date>=#{wormVO.wormDateStart} ]]></if>
-		<if test="wormVO.wormDateEnd != null" ><![CDATA[ and worm_date<=#{wormVO.wormDateEnd} ]]></if>
-		<if test="wormVO.wormState != null" > and worm_state=#{wormVO.wormState}</if>
-		<if test="wormVO.wormDesc != null" > and worm_desc=#{wormVO.wormDesc}</if>
+		<if test="wormVO.id != null" > and t1.id=#{wormVO.id}</if>
+		<if test="wormVO.dogId != null" > and t1.dog_id=#{wormVO.dogId}</if>
+		<if test="wormVO.nestNo != null" > and t1.nest_no=#{wormVO.nestNo}</if>
+		<if test="wormVO.wormDate != null" > and t1.worm_date=#{wormVO.wormDateStr}</if>
+		<if test="wormVO.wormDateStart != null" ><![CDATA[ and t1.worm_date>=#{wormVO.wormDateStart} ]]></if>
+		<if test="wormVO.wormDateEnd != null" ><![CDATA[ and t1.worm_date<=#{wormVO.wormDateEnd} ]]></if>
+		<if test="wormVO.wormState != null" > and t1.worm_state=#{wormVO.wormState}</if>
+		<if test="wormVO.wormDesc != null" > and t1.worm_desc=#{wormVO.wormDesc}</if>
+		<if test="wormVO.dogNameLike != null" > and t2.dog_name like concat('%', #{wormVO.dogNameLike}, '%')</if>
 		order by worm_date desc
 	</sql>
 
 	<select id="getWormList" resultType="com.chxd.policeDog.vo.DogWormVO">
-		select * from t_dog_worm where 1=1
+		select t1.* from t_dog_worm t1 join t_dog_base t2 on(t1.dog_id=t2.id) where 1=1
 		<include refid="worm_condition"/>
 		<include refid="pageCondition"/>
 	</select>
 
 	<select id="getWormCount" resultType="java.lang.Integer">
-		select count(1) from t_dog_worm where 1=1
+		select count(1) from t_dog_worm t1 join t_dog_base t2 on(t1.dog_id=t2.id) where 1=1
 		<include refid="worm_condition"/>
 	</select>
 
 	<!-- immue seelct  -->
 	<sql id="immue_condition">
-		<if test="immueVO.id != null" > and id=#{immueVO.id}</if>
-		<if test="immueVO.dogId != null" > and dog_id=#{immueVO.dogId}</if>
-		<if test="immueVO.nestNo != null" > and nest_no=#{immueVO.nestNo}</if>
-		<if test="immueVO.immueDate != null" > and immue_date=#{immueVO.immueDateStr}</if>
-		<if test="immueVO.immueDateStart != null" ><![CDATA[ and immue_date>=#{immueVO.immueDateStart} ]]></if>
-		<if test="immueVO.immueDateEnd != null" ><![CDATA[ and immue_date<=#{immueVO.immueDateEnd} ]]></if>
-		<if test="immueVO.immueName != null" > and immue_name=#{immueVO.immueName}</if>
-		<if test="immueVO.immueState != null" > and immue_state=#{immueVO.immueState}</if>
+		<if test="immueVO.id != null" > and t1.id=#{immueVO.id}</if>
+		<if test="immueVO.dogId != null" > and t1.dog_id=#{immueVO.dogId}</if>
+		<if test="immueVO.nestNo != null" > and t1.nest_no=#{immueVO.nestNo}</if>
+		<if test="immueVO.immueDate != null" > and t1.immue_date=#{immueVO.immueDateStr}</if>
+		<if test="immueVO.immueDateStart != null" ><![CDATA[ and t1.immue_date>=#{immueVO.immueDateStart} ]]></if>
+		<if test="immueVO.immueDateEnd != null" ><![CDATA[ and t1.immue_date<=#{immueVO.immueDateEnd} ]]></if>
+		<if test="immueVO.immueName != null" > and t1.immue_name=#{immueVO.immueName}</if>
+		<if test="immueVO.immueState != null" > and t1.immue_state=#{immueVO.immueState}</if>
+		<if test="immueVO.dogNameLike != null" > and t2.dog_name like concat('%', #{immueVO.dogNameLike}, '%')</if>
 		order by immue_date desc
 	</sql>
 
 	<select id="getImmueList" resultType="com.chxd.policeDog.vo.DogImmueVO">
-		select * from t_dog_immue where 1=1
+		select t1.* from t_dog_immue t1 join t_dog_base t2 on(t1.dog_id=t2.id) where 1=1
 		<include refid="immue_condition"/>
 		<include refid="pageCondition"/>
 	</select>
 
 	<select id="getImmueCount" resultType="java.lang.Integer">
-		select count(1) from t_dog_immue where 1=1
+		select count(1) from t_dog_immue  t1 join t_dog_base t2 on(t1.dog_id=t2.id) where 1=1
 		<include refid="immue_condition"/>
 	</select>
 

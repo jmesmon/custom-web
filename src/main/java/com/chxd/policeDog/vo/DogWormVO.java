@@ -7,6 +7,7 @@ import java.util.Date;
  */
 public class DogWormVO extends BaseVO {
     private static final long serialVersionUID = -2736738083441059870L;
+    private String dogNameLike;
     private String nestNo;
     private Date wormDate;
     private String wormDateStr;
@@ -20,6 +21,14 @@ public class DogWormVO extends BaseVO {
     private Integer dogId;
 
     private DogBaseInfoVO dogInfo;
+
+    public String getDogNameLike() {
+        return dogNameLike;
+    }
+
+    public void setDogNameLike(String dogNameLike) {
+        this.dogNameLike = dogNameLike;
+    }
 
     public DogWormVO() {
     }

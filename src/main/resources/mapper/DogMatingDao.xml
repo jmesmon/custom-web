@@ -19,6 +19,7 @@
 		<if test="vo.expectDateStr != null" > and expect_date=#{vo.expectDateStr}</if>
 		<if test="vo.breedCount != null" > and breed_count=#{vo.breedCount}</if>
 		<if test="vo.mateState != null" > and mate_state=#{vo.mateState}</if>
+		<if test="vo.liveCount != null" > and live_count=#{vo.liveCount}</if>
 		<if test="vo.liveCount7 != null" > and live_count_7=#{vo.liveCount7}</if>
 		<if test="vo.liveCount21 != null" > and live_count_21=#{vo.liveCount21}</if>
 		order by mate_date desc
@@ -36,11 +37,11 @@
 	</select>
 
 	<insert id="add" parameterType="java.util.List">
-		insert into t_dog_mating (father_dog_id, mother_dog_id, father_dog_name, mother_dog_name, mate_state, father_dog_chip_no, mother_dog_chip_no, mate_date, b_mu_date, expect_date, breed_count, live_count_7, live_count_21, last_update_date)
+		insert into t_dog_mating (live_count, father_dog_id, mother_dog_id, father_dog_name, mother_dog_name, mate_state, father_dog_chip_no, mother_dog_chip_no, mate_date, b_mu_date, expect_date, breed_count, live_count_7, live_count_21, last_update_date)
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
 			(
-			#{item.fatherDogId}, #{item.motherDogId}, #{item.fatherDogName}, #{item.motherDogName}, #{item.mateState}, #{item.fatherDogChipNo}, #{item.motherDogChipNo}, #{item.mateDateStr}, #{item.bMuDateStr}, #{item.expectDateStr}, #{item.breedCount}, #{item.liveCount7}, #{item.liveCount21}, #{item.lastUpdateDate}
+			#{item.liveCount}, #{item.fatherDogId}, #{item.motherDogId}, #{item.fatherDogName}, #{item.motherDogName}, #{item.mateState}, #{item.fatherDogChipNo}, #{item.motherDogChipNo}, #{item.mateDateStr}, #{item.bMuDateStr}, #{item.expectDateStr}, #{item.breedCount}, #{item.liveCount7}, #{item.liveCount21}, #{item.lastUpdateDate}
 			)
 		</foreach>
 	</insert>
@@ -54,15 +55,16 @@
 
 	<update id="update" parameterType="com.chxd.policeDog.vo.DogMatingVO">
 		update t_dog_mating set last_update_date=now()
-		<if test="vo.fatherDogChipNo != null" > , father_dog_chip_no=#{vo.fatherDogChipNo}</if>
-		<if test="vo.motherDogChipNo != null" > , mother_dog_chip_no=#{vo.motherDogChipNo}</if>
-		<if test="vo.fatherDogName != null" > ， father_dog_name=#{vo.fatherDogName}</if>
-		<if test="vo.motherDogName != null" > ， mother_dog_name=#{vo.motherDogName}</if>
+		<if test="vo.fatherDogId != null" > , father_dog_id=#{vo.fatherDogId}</if>
+		<if test="vo.motherDogId != null" > , mother_dog_id=#{vo.motherDogId}</if>
+		<if test="vo.fatherDogName != null" > , father_dog_name=#{vo.fatherDogName}</if>
+		<if test="vo.motherDogName != null" > , mother_dog_name=#{vo.motherDogName}</if>
 		<if test="vo.mateDateStr != null" > , mate_date=#{vo.mateDateStr}</if>
 		<if test="vo.bMuDateStr != null" > , b_mu_date=#{vo.bMuDateStr}</if>
 		<if test="vo.expectDateStr != null" > , expect_date=#{vo.expectDateStr}</if>
 		<if test="vo.breedCount != null" > , breed_count=#{vo.breedCount}</if>
 		<if test="vo.mateState != null" > , mate_state=#{vo.mateState}</if>
+		<if test="vo.liveCount != null" > , live_count=#{vo.liveCount}</if>
 		<if test="vo.liveCount7 != null" > , live_count_7=#{vo.liveCount7}</if>
 		<if test="vo.liveCount21 != null" > , live_count_21=#{vo.liveCount21}</if>
 		<if test="vo.fatherDogId != null" > , father_dog_id=#{vo.fatherDogId}</if>
