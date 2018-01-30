@@ -173,6 +173,20 @@ public class UserController extends  BaseController{
         return page;
     }
 
+    @RequestMapping("/getListByRole/{pageSize}/{curPage}")
+    public PageResultVO getListByRole(@RequestBody PoliceUserVO policeUserVO, @PathParam("") PageVO pageVO) {
+        PageResultVO page = new PageResultVO();
+        List<PoliceUserVO> list = policeUserDao.getList(policeUserVO, pageVO);
+        for(int i = 0; i<list.size(); i++){
+            list.get(i).setPassword(null);
+        }
+        Integer integer = policeUserDao.getListCount(policeUserVO);
+        pageVO.setTotalRows(integer);
+        page.setResult(list);
+        page.setPageVO(pageVO);
+        return page;
+    }
+
     @RequestMapping("/add")
     public ResultVO add(@RequestBody PoliceUserVO policeUserVO){
         ResultVO resultVO = ResultVO.getInstance();

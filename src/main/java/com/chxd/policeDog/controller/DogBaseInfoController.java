@@ -108,20 +108,20 @@ public class DogBaseInfoController extends BaseController{
         ResultVO resultVO = ResultVO.getInstance();
         String year = new SimpleDateFormat("YYYY").format(System.currentTimeMillis());
 
-        PoliceUserVO policeUser = getCurrentUser();
-        String role = policeUser.getUserRole();
-        if(UserRoleVO.NORMAL_USER.equals(role)){
-            //普通用户
-            user.setWorkUnit(policeUser.getWorkUnit());
-        }else if(UserRoleVO.GLY_USER.equals(role) || UserRoleVO.FJ_JZ_USER.equals(role)){
-            //分局局长、分局管理员，只看本局下的数据
-            user.setWorkUnit(policeUser.getWorkUnit());
-        }else if(UserRoleVO.JZD_USER.equals(role) || UserRoleVO.SUPER_USER.equals(role) || UserRoleVO.JZ_USER.equals(role)){
-            //局长 九支队 管理员  查看全部数据
-            user.setWorkUnit(null);
-        }else{
-            user.setWorkUnit(policeUser.getWorkUnit());
-        }
+//        PoliceUserVO policeUser = getCurrentUser();
+//        String role = policeUser.getUserRole();
+//        if(UserRoleVO.NORMAL_USER.equals(role)){
+//            //普通用户
+//            user.setWorkUnit(policeUser.getWorkUnit());
+//        }else if(UserRoleVO.GLY_USER.equals(role) || UserRoleVO.FJ_JZ_USER.equals(role)){
+//            //分局局长、分局管理员，只看本局下的数据
+//            user.setWorkUnit(policeUser.getWorkUnit());
+//        }else if(UserRoleVO.JZD_USER.equals(role) || UserRoleVO.SUPER_USER.equals(role) || UserRoleVO.JZ_USER.equals(role)){
+//            //局长 九支队 管理员  查看全部数据
+//            user.setWorkUnit(null);
+//        }else{
+//            user.setWorkUnit(policeUser.getWorkUnit());
+//        }
 
         List<Map> list = dogBaseInfoDao.getAnalysisData(year + "-01-01", year + "-12-12", user.getWorkUnit());
         resultVO.setResult(list);
@@ -277,9 +277,9 @@ public class DogBaseInfoController extends BaseController{
                 for (int j = 0; j < list1.size(); j++) {
                     PoliceUserVO policeUserVO = list1.get(j);
                     MyNoticeVO notice = new MyNoticeVO();
-                    notice.setNoticeType("变更通知");
+                    notice.setNoticeType("配发通知");
                     notice.setIsRead(1);
-                    notice.setTitle(currentUser.getPoliceName() + "分配给你一头警犬，请注意查收，可在\"警犬列表\"中查看");
+                    notice.setTitle("您有一头新配发的警犬，犬名：" + dogBaseInfoVO.getDogName() + "，请到警犬列表搜索后分配至带犬人员");
                     notice.setPoliceId(policeUserVO.getId() + "");
                     notice.setCreationDate(new Date());
                     notice.setLastUpdateDate(new Date());
@@ -392,9 +392,9 @@ public class DogBaseInfoController extends BaseController{
             dogChangeDao.add(li);
 
             MyNoticeVO notice = new MyNoticeVO();
-            notice.setNoticeType("变更通知");
+            notice.setNoticeType("配发通知");
             notice.setIsRead(1);
-            notice.setTitle(currentUser.getPoliceName() + "分配给你一头警犬，请注意查收，可在\"警犬列表\"中查看");
+            notice.setTitle("您收到一头新配发的警犬，犬名：" + dogName + "，请到警犬列表查看");
             notice.setPoliceId(dogChangeVO.getNewPoliceId());
             notice.setCreationDate(new Date());
             notice.setLastUpdateDate(new Date());

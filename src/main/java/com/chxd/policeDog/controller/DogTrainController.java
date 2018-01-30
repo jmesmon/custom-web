@@ -3,6 +3,7 @@ package com.chxd.policeDog.controller;
 import com.chxd.policeDog.dao.IDogBaseInfoDao;
 import com.chxd.policeDog.dao.IDogTrainDao;
 import com.chxd.policeDog.dao.IMyNoticeDao;
+import com.chxd.policeDog.dao.IPoliceUserDao;
 import com.chxd.policeDog.vo.*;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class DogTrainController extends BaseController {
     private IDogBaseInfoDao dogBaseInfoDao;
     @Autowired
     private IMyNoticeDao noticeDao;
+    @Autowired
+    private IPoliceUserDao userDao;
 
     @RequestMapping("/getById/{id}")
     public ResultVO getById(@PathParam("id") int id){
@@ -92,11 +95,27 @@ public class DogTrainController extends BaseController {
             dogBaseInfoDao.update(dog);
 
             MyNoticeVO notice = new MyNoticeVO();
-            notice.setTitle("【培训通知】" + list.get(i).getTrainName() + "，请到培训管理->警犬培训<a class='gotoProcess' href='#!/app/train.trainSocre'>查看详细</a>");
+            notice.setTitle("【培训通知】警犬名称：" + list.get(i).getDogName() + "，科目：" + list.get(i).getTrainName() + "，请到培训管理->警犬培训<a class='gotoProcess' href='#!/app/train.trainSocre'>查看</a>");
             notice.setPoliceId(list.get(i).getPoliceId() + "");
             notice.setIsRead(1);
             notice.setNoticeType("培训通知");
             todoList.add(notice);
+
+            PoliceUserVO user = new PoliceUserVO();
+            user.setUserRole(UserRoleVO.GLY_USER);
+            user.setWorkUnit(list.get(i).getWorkUnit());
+            List<PoliceUserVO> list1 = userDao.getList(user, new PageVO());
+            for (int j = 0; j < list1.size(); j++) {
+                PoliceUserVO policeUserVO = list1.get(j);
+                MyNoticeVO notice2 = new MyNoticeVO();
+                notice2.setNoticeType("培训通知");
+                notice2.setIsRead(1);
+                notice2.setTitle("【培训通知】警犬名称：" + list.get(i).getDogName() + "，科目：" + list.get(i).getTrainName() + "，请到培训管理->警犬培训<a class='gotoProcess' href='#!/app/train.trainSocre'>查看</a>");
+                notice2.setPoliceId(policeUserVO.getId() + "");
+                notice2.setCreationDate(new Date());
+                notice2.setLastUpdateDate(new Date());
+                todoList.add(notice2);
+            }
         }
         noticeDao.addBatch(todoList);
         return resultVO;

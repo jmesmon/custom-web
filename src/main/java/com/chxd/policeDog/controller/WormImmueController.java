@@ -16,7 +16,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/wormImmue")
-public class WormImmueController {
+public class WormImmueController extends BaseController {
     @Autowired
     private IDogBaseInfoDao dogBaseInfoDao;
     @Autowired
@@ -26,6 +26,11 @@ public class WormImmueController {
     @RequestMapping("/list/worm/{pageSize}/{curPage}")
     public PageResultVO getWormList(@RequestBody DogWormVO dogWormVO, @PathParam("") PageVO pageVO) {
         PageResultVO page = new PageResultVO();
+        PoliceUserVO currentUser = getCurrentUser();
+        String userRole = currentUser.getUserRole();
+        if(UserRoleVO.NORMAL_USER.equals(userRole)){
+            dogWormVO.setPoliceId(currentUser.getId());
+        }
         try {
             List<DogWormVO> list = wormImmueDao.getWormList(dogWormVO, pageVO);
             Integer integer = wormImmueDao.getWormCount(dogWormVO);
@@ -49,6 +54,11 @@ public class WormImmueController {
     @RequestMapping("/list/immue/{pageSize}/{curPage}")
     public PageResultVO getImmueList(@RequestBody DogImmueVO dogImmueVO, @PathParam("") PageVO pageVO) {
         PageResultVO page = new PageResultVO();
+        PoliceUserVO currentUser = getCurrentUser();
+        String userRole = currentUser.getUserRole();
+        if(UserRoleVO.NORMAL_USER.equals(userRole)){
+            dogImmueVO.setPoliceId(currentUser.getId());
+        }
         try {
             List<DogImmueVO> list = wormImmueDao.getImmueList(dogImmueVO, pageVO);
             Integer integer = wormImmueDao.getImmueCount(dogImmueVO);
