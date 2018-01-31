@@ -177,19 +177,28 @@
 	</update>
 
 	<select id="getWorkData" resultType="java.util.HashMap">
-		<![CDATA[
-		select
-			work_type,
-			DATE_FORMAT(start_time, '%Y-%m') as month,
-			sum(aj_per) as perTotal,
-			sum(aj_wp) as wpTotal,
-			sum(aj_car) as catTotal,
-			sum(security_check_area) as areaTotal
-		from t_dog_work
-		where start_time>=#{startDate} and start_time<=#{endDate} and work_state = #{workState}
-		]]>
-		<if test="workUnit != null" > and dog_work_unit=#{workUnit}</if>
-		group by work_type,DATE_FORMAT(start_time, '%Y-%m')
+		select work_type, mth as month,
+		sum(perTotal) as perTotal,
+		sum(wpTotal) as wpTotal,
+		sum(catTotal) as catTotal,
+		sum(areaTotal) as areaTotal,
+		count(num) as num
+		from (
+			<![CDATA[
+			select
+				work_type,
+				DATE_FORMAT(start_time, '%Y-%m') as mth,
+				sum(aj_per) as perTotal,
+				sum(aj_wp) as wpTotal,
+				sum(aj_car) as catTotal,
+				sum(security_check_area) as areaTotal,
+				xl_num as num
+			from t_dog_work
+			where start_time>=#{startDate} and start_time<=#{endDate} and work_state = #{workState}
+			]]>
+			<if test="workUnit != null" > and dog_work_unit=#{workUnit}</if>
+			group by work_type,DATE_FORMAT(start_time, '%Y-%m'), xl_num
+		) tab group by work_type, mth
 	</select>
 
 	<select id="getAnalysisData" resultType="java.util.HashMap">

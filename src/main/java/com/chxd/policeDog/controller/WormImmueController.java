@@ -109,7 +109,7 @@ public class WormImmueController extends BaseController {
     }
 
     @RequestMapping("/addWorm")
-    public ResultVO finishWorm(@RequestBody DogWormVO wormVO) {
+    public ResultVO addWorm(@RequestBody DogWormVO wormVO) {
         ResultVO resultVO = ResultVO.getInstance();
         try{
             wormImmueDao.addWorm(wormVO);
@@ -125,6 +125,36 @@ public class WormImmueController extends BaseController {
         ResultVO resultVO = ResultVO.getInstance();
         try{
             wormImmueDao.addImmue(immueVO);
+        }catch (Exception e){
+            e.printStackTrace();
+            resultVO.fail(e.getMessage());
+        }
+        return resultVO;
+    }
+
+    @RequestMapping("/batchAddWorm")
+    public ResultVO batchAddWorm(@RequestBody List<DogWormVO> list) {
+        ResultVO resultVO = ResultVO.getInstance();
+        try{
+            for (int i = 0; i < list.size(); i++) {
+                DogWormVO dogWormVO =  list.get(i);
+                wormImmueDao.addWorm(dogWormVO);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            resultVO.fail(e.getMessage());
+        }
+        return resultVO;
+    }
+
+    @RequestMapping("/batchAddImmue")
+    public ResultVO batchAddImmue(@RequestBody List<DogImmueVO> list) {
+        ResultVO resultVO = ResultVO.getInstance();
+        try{
+            for (int i = 0; i < list.size(); i++) {
+                DogImmueVO dogImmueVO =  list.get(i);
+                wormImmueDao.addImmue(dogImmueVO);
+            }
         }catch (Exception e){
             e.printStackTrace();
             resultVO.fail(e.getMessage());

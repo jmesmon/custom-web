@@ -75,7 +75,8 @@
 		    /*工作申请*/
 		    select 'work' as att_name, count(*) as val from t_dog_work where work_state='待审批' <if test="workUnit != null" > and dog_work_unit=#{workUnit}</if>
 			union all
-		    select 'eightYearsOld' as att_name, count(*) as val from t_dog_base where <![CDATA[ work_stage < 3 and birthday<=#{eightYearsOld} ]]> <if test="workUnit != null" > and work_place=#{workUnit}</if>
+		    /*需要淘汰的警犬*/
+		    select 'eightYearsOld' as att_name, count(*) as val from t_dog_base where <![CDATA[ work_stage < 3 and birthday<=#{eightYearsOld} ]]> <if test="workUnit != null" > and work_place=#{workUnit}</if> <if test="policeId != null" > and police_id=#{policeId}</if>
 			union all
 			/*培训*/
 			select 'train' as att_name, count(*) as val from t_dog_base where <![CDATA[ next_train_date>=#{nowDay} and next_train_date<=#{nextMonth} ]]>
