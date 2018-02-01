@@ -249,7 +249,7 @@
 
 
 	<select id="getOrgCount" resultType="java.util.HashMap">
-		select workUnit,sum(val1) as dogCount,sum(val2) as newsCount,sum(val3) as workHours from (
+		select workUnit,sum(val1) as dogCount,sum(val2) as newsCount,round(sum(val3)) as workHours from (
 			select work_place as workUnit, count(*) as val1, 0 as val2, 0 as val3 from t_dog_base group by work_place
 			union all
 			select work_unit as workUnit, 0 as val1, count(*) as val2, 0 as val3 from t_news
