@@ -32,7 +32,7 @@ public class ApplyTickoutController extends BaseController {
             tickoutVO.setApplyStateGr(1);
         }else if( UserRoleVO.NORMAL_USER.equals(currentUser.getUserRole()) ){
             tickoutVO.setApplyUser(currentUser.getPoliceName());
-        }else if( UserRoleVO.JZD_USER.equals(currentUser.getUserRole())){
+        }else if( UserRoleVO.JZD_USER.equals(currentUser.getUserRole()) || UserRoleVO.SUPER_USER.equals(currentUser.getUserRole())){
             tickoutVO.setApplyStateGr(2);
             tickoutVO.setApplyState(2);
         }else if( UserRoleVO.FJ_JZ_USER.equals(currentUser.getUserRole())){

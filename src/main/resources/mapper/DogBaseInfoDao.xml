@@ -8,6 +8,7 @@
 		<if test="dogInfo.dogNameLike != null" > and dog_name like concat('%', #{dogInfo.dogNameLike}, '%')</if>
 		<if test="dogInfo.dogName != null" > and dog_name = #{dogInfo.dogName}</if>
 		<if test="dogInfo.chipNo != null" > and chip_no=#{dogInfo.chipNo}</if>
+		<if test="dogInfo.chipNoLike != null" > and chip_no like concat('%', #{dogInfo.chipNoLike}, '%')</if>
 
 		<if test="dogInfo.birthdayStart != null" ><![CDATA[  and birthday>=#{dogInfo.birthdayStart} ]]></if>
 		<if test="dogInfo.birthdayEnd != null" ><![CDATA[  and birthday<=#{dogInfo.birthdayEnd} ]]></if>
@@ -29,11 +30,13 @@
 		<if test="dogInfo.tutor != null" > and tutor=#{dogInfo.tutor}</if>
 		<if test="dogInfo.policeId != null" > and police_id=#{dogInfo.policeId}</if>
 		<if test="dogInfo.policeName != null" > and police_name=#{dogInfo.policeName}</if>
+		<if test="dogInfo.policeNameLike != null" > and police_name like concat('%', #{dogInfo.policeNameLike}, '%')</if>
 		<if test="dogInfo.uid != null" > and uid=#{dogInfo.uid}</if>
 		<if test="dogInfo.rewardInfo != null" > and reward_info=#{dogInfo.rewardInfo}</if>
 		<if test="dogInfo.workStage != null" > and work_stage=#{dogInfo.workStage}</if>
 		<if test="dogInfo.mainPro != null" > and main_pro=#{dogInfo.mainPro}</if>
 		<if test="dogInfo.dogPro != null" > and main_pro like concat('%', #{dogInfo.dogPro}, '%')</if>
+		<if test="dogInfo.mainProLike != null" > and main_pro like concat('%', #{dogInfo.mainProLike}, '%')</if>
 	</sql>
 
 	<sql id="pageCondition">
@@ -269,6 +272,7 @@
 		update t_dog_base set
 			last_update_date = now(),
 			tutor=#{dogInfo.policeName},
+			dog_name=#{dogInfo.dogName},
 			police_id=#{dogInfo.policeId},
 			police_name=#{dogInfo.policeName}
 			<if test="dogInfo.workPlace != null" >, work_place=#{dogInfo.workPlace}</if>

@@ -40,7 +40,7 @@
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
 			(
-			#{item.fatherDogId}, #{item.motherDogId}, #{item.motherDogName}, #{item.fatherDogName}, #{item.mateState}, #{item.fatherDogChipNo}, #{item.motherDogChipNo}, #{item.mateDateStr}, #{item.bMuDateStr}, #{item.expectDateStr}, #{item.breedCount}, #{item.liveCount7}, #{item.liveCount21}, #{item.lastUpdateDate}
+			#{item.fatherDogId}, #{item.motherDogId}, #{item.fatherDogName}, #{item.motherDogName}, #{item.mateState}, #{item.fatherDogChipNo}, #{item.motherDogChipNo}, #{item.mateDateStr}, #{item.bMuDateStr}, #{item.expectDateStr}, #{item.breedCount}, #{item.liveCount7}, #{item.liveCount21}, #{item.lastUpdateDate}
 			)
 		</foreach>
 	</insert>

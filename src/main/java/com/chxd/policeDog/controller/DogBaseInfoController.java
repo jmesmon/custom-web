@@ -364,11 +364,20 @@ public class DogBaseInfoController extends BaseController{
     public ResultVO changeUser(@RequestBody DogChangeVO dogChangeVO){
         ResultVO resultVO = ResultVO.getInstance();
         try{
+            DogBaseInfoVO dogByDogId = this.getDogByDogId(new DogBaseInfoVO(dogChangeVO.getDogId()));
             DogBaseInfoVO dog = new DogBaseInfoVO();
             dog.setId(dogChangeVO.getDogId());
             dog.setPoliceId(dogChangeVO.getNewPoliceId());
             dog.setPoliceName(dogChangeVO.getNewPoliceName());
             dog.setWorkPlace(dogChangeVO.getNewWorkPlace());
+
+            String dogName = dogByDogId.getDogName();
+            if(dogName.contains("京-")) {
+                dogName = dogName.substring(4, dogName.length());
+            }
+            dogName = "京-" + dogChangeVO.getNewWorkPlace().substring(0, 2) + "-" + dogName;
+            dog.setDogName(dogName);
+
             dogBaseInfoDao.changePoliceUser(dog);
 
             List<DogChangeVO> li = Lists.newArrayList();

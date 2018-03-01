@@ -14,6 +14,7 @@ public class DogBaseInfoVO extends BaseVO {
     private String  dogNameLike;	//犬名
     private String nestNo; //窝编号
     private String  chipNo;	//芯片号
+    private String  chipNoLike;	//芯片号
     private Date chipNoInject; //芯片注入日期
     private String chipNoInjectStr; //芯片注入日期
     private Integer  sex;	//性别（1：公，2：母）
@@ -48,6 +49,7 @@ public class DogBaseInfoVO extends BaseVO {
     private String  belonging;	//淘汰/退休归属
     private String policeId;
     private String policeName;
+    private String policeNameLike;
     private Long uid;
 
     private String isSign;
@@ -62,6 +64,7 @@ public class DogBaseInfoVO extends BaseVO {
 
     private String dogPro;
     private String mainPro;
+    private String mainProLike;
 
 
     public DogBaseInfoVO() {
@@ -70,6 +73,22 @@ public class DogBaseInfoVO extends BaseVO {
 
     public DogBaseInfoVO(int id) {
         this.id = id;
+    }
+
+    public String getPoliceNameLike() {
+        return policeNameLike;
+    }
+
+    public void setPoliceNameLike(String policeNameLike) {
+        this.policeNameLike = policeNameLike;
+    }
+
+    public String getMainProLike() {
+        return mainProLike;
+    }
+
+    public void setMainProLike(String mainProLike) {
+        this.mainProLike = mainProLike;
     }
 
     public String getDogPro() {
@@ -459,5 +478,13 @@ public class DogBaseInfoVO extends BaseVO {
 
     public void setRewardInfo(String rewardInfo) {
         this.rewardInfo = rewardInfo;
+    }
+
+    public String getChipNoLike() {
+        return chipNoLike;
+    }
+
+    public void setChipNoLike(String chipNoLike) {
+        this.chipNoLike = chipNoLike;
     }
 }
