@@ -33,8 +33,9 @@ public class ApplyDieController extends BaseController {
             applyDieVO.setApplyStateGr(1);
         }else if( UserRoleVO.NORMAL_USER.equals(currentUser.getUserRole()) ){
             applyDieVO.setApplyUser(currentUser.getPoliceName());
-        }else if( UserRoleVO.JZD_USER.equals(currentUser.getUserRole())){
+        }else if( UserRoleVO.JZD_USER.equals(currentUser.getUserRole()) || UserRoleVO.SUPER_USER.equals(currentUser.getUserRole())){
             applyDieVO.setApplyStateGr(2);
+            applyDieVO.setApplyUnit(null);
         }
 
         List<ApplyDieVO> list = applyDieDao.getList(applyDieVO, pageVO);
