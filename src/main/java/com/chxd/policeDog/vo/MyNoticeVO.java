@@ -8,6 +8,7 @@ public class MyNoticeVO extends  BaseVO{
     private String  policeId;	//
     private Integer  isRead;	//1：未读，2：已读，
     private String  noticeType;	//
+    private String processLink;
 
     public String getTitle() {
         return title;
@@ -39,5 +40,13 @@ public class MyNoticeVO extends  BaseVO{
 
     public void setNoticeType(String noticeType) {
         this.noticeType = noticeType;
+    }
+
+    public String getProcessLink() {
+        return processLink;
+    }
+
+    public void setProcessLink(String processLink) {
+        this.processLink = processLink;
     }
 }

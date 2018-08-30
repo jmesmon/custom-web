@@ -3,10 +3,10 @@
 <mapper namespace="com.chxd.policeDog.dao.IMyNoticeDao">
 
 	<insert id="addBatch" parameterType="java.util.List">
-		insert into t_notice (id, title, police_id, is_read, notice_type, creation_date, last_update_date)
+		insert into t_notice (id, title, police_id, is_read, notice_type, creation_date, last_update_date, process_link)
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
-			(#{item.id}, #{item.title}, #{item.policeId}, #{item.isRead}, #{item.noticeType}, now(), now())
+			(#{item.id}, #{item.title}, #{item.policeId}, #{item.isRead}, #{item.noticeType}, now(), now(), #{processLink})
 		</foreach>
 	</insert>
 	<insert id="add">

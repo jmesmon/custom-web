@@ -108,9 +108,10 @@
 			    'age' as ctype,
 		        <![CDATA[
 				case
-				   when age >=0 and age<=3 then '0-3岁'
-				   when age >3 and age<=5 then '4-6岁'
-				   when age >5 and age<8 then '6-7岁'
+				   when age >=0 and age<=1 then '0-1岁'
+				   when age >1 and age<=3 then '1-3岁'
+				   when age >3 and age<=5 then '3-5岁'
+				   when age >5 and age<=7 then '5-7岁'
 				   when age >=8 then '8岁以上'
 				end as att_name,
 				]]>
