@@ -99,6 +99,7 @@ public class DogTrainController extends BaseController {
             notice.setPoliceId(list.get(i).getPoliceId() + "");
             notice.setIsRead(1);
             notice.setNoticeType("培训通知");
+            notice.setProcessLink("0");
             todoList.add(notice);
 
             PoliceUserVO user = new PoliceUserVO();
@@ -114,6 +115,7 @@ public class DogTrainController extends BaseController {
                 notice2.setPoliceId(policeUserVO.getId() + "");
                 notice2.setCreationDate(new Date());
                 notice2.setLastUpdateDate(new Date());
+                notice2.setProcessLink("0");
                 todoList.add(notice2);
             }
         }

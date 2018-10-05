@@ -88,6 +88,8 @@ public class ApplyTickoutController extends BaseController {
                     if(vo.getId() == null) continue;;
                     dog.setId(vo.getDogId());
                     dog.setBelonging(vo.getBelongTo());
+                    dog.setWorkPlace("刑侦总队");
+                    dog.setWorkStage(3);
                     dogList.add(dog);
                 }
             }

@@ -66,6 +66,8 @@ public class DogBaseInfoVO extends BaseVO {
     private String mainPro;
     private String mainProLike;
 
+    private Integer state; // 1: 未分配、已分配；2：
+
 
     public DogBaseInfoVO() {
 
@@ -486,5 +488,13 @@ public class DogBaseInfoVO extends BaseVO {
 
     public void setChipNoLike(String chipNoLike) {
         this.chipNoLike = chipNoLike;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 }

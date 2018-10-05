@@ -212,6 +212,20 @@ public class UserController extends  BaseController{
         return resultVO;
     }
 
+    @RequestMapping("/resetPwd")
+    public ResultVO resetPwd(@RequestBody List<PoliceUserVO> list){
+        ResultVO resultVO = ResultVO.getInstance();
+        for (int i = 0; i < list.size(); i++) {
+            PoliceUserVO policeUserVO = list.get(i);
+            PoliceUserVO user = new PoliceUserVO();
+            user.setId(policeUserVO.getId());
+            user.setPassword("123456");
+            user.setPasswordNew("123456");
+            policeUserDao.update(user);
+        }
+        return resultVO;
+    }
+
     @RequestMapping("/setUserRole")
     public ResultVO setUserRole(@RequestBody List<PoliceUserVO> list){
         ResultVO resultVO = ResultVO.getInstance();

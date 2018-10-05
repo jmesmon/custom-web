@@ -56,7 +56,7 @@
 		<if test="wormVO.wormDesc != null" > and t1.worm_desc=#{wormVO.wormDesc}</if>
 		<if test="wormVO.dogNameLike != null" > and t2.dog_name like concat('%', #{wormVO.dogNameLike}, '%')</if>
 		<if test="wormVO.policeId != null" > and t2.police_id = #{wormVO.policeId} </if>
-		order by worm_date desc
+		order by worm_state asc, worm_date asc
 	</sql>
 
 	<select id="getWormList" resultType="com.chxd.policeDog.vo.DogWormVO">
@@ -82,7 +82,7 @@
 		<if test="immueVO.immueState != null" > and t1.immue_state=#{immueVO.immueState}</if>
 		<if test="immueVO.dogNameLike != null" > and t2.dog_name like concat('%', #{immueVO.dogNameLike}, '%')</if>
 		<if test="immueVO.policeId != null" > and t2.police_id = #{immueVO.policeId} </if>
-		order by immue_date desc
+		order by immue_state asc, immue_date asc
 	</sql>
 
 	<select id="getImmueList" resultType="com.chxd.policeDog.vo.DogImmueVO">

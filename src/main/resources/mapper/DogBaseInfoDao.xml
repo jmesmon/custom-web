@@ -37,6 +37,7 @@
 		<if test="dogInfo.mainPro != null" > and main_pro=#{dogInfo.mainPro}</if>
 		<if test="dogInfo.dogPro != null" > and main_pro like concat('%', #{dogInfo.dogPro}, '%')</if>
 		<if test="dogInfo.mainProLike != null" > and main_pro like concat('%', #{dogInfo.mainProLike}, '%')</if>
+		<if test="dogInfo.state == 1" > and work_stage in(1,2)</if>
 	</sql>
 
 	<sql id="pageCondition">
