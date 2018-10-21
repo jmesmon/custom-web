@@ -90,18 +90,18 @@
 
 	<select id="getDogAnalysis" resultType="java.util.HashMap">
 		select * from (
-			select 'breed' as ctype, breed as att_name, count(*) as val from t_dog_base <if test="workUnit != null" > where work_place=#{workUnit}</if> group by breed
+			select 'breed' as ctype, breed as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5) <if test="workUnit != null" > and work_place=#{workUnit}</if> group by breed
 			union all
-			select 'dog_colour' as ctype, dog_colour as att_name, count(*) as val from t_dog_base <if test="workUnit != null" > where work_place=#{workUnit}</if> group by dog_colour
+			select 'dog_colour' as ctype, dog_colour as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5) <if test="workUnit != null" > and work_place=#{workUnit}</if> group by dog_colour
 			union all
-			select 'hair_type' as ctype, if(hair_type != '', hair_type, '其他') as att_name, count(*) as val from t_dog_base <if test="workUnit != null" > where work_place=#{workUnit}</if> group by hair_type
+			select 'hair_type' as ctype, if(hair_type != '', hair_type, '其他') as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5) <if test="workUnit != null" > and work_place=#{workUnit}</if> group by hair_type
 			union all
-			select 'dog_level' as ctype, dog_level as att_name, count(*) as val from t_dog_base <if test="workUnit != null" > where work_place=#{workUnit}</if> group by dog_level
+			select 'dog_level' as ctype, dog_level as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5) <if test="workUnit != null" > and work_place=#{workUnit}</if> group by dog_level
 			union all
 			select 'work_stage' as ctype, if(work_stage != '', work_stage, '其他') as att_name, count(*) as val from t_dog_base <if test="workUnit != null" > where work_place=#{workUnit}</if> group by work_stage
 			union all
 			select 'pro' as ctype, if(t2.train_name !='', t2.train_name, '其他') as att_name, count(*) as val from t_dog_base t1 left join
-			(select train_name, dog_id from t_dog_train group by dog_id,train_name) t2 on t2.dog_id = t1.id  <if test="workUnit != null" > where t1.work_place=#{workUnit} </if>
+			(select train_name, dog_id from t_dog_train group by dog_id,train_name) t2 on t2.dog_id = t1.id where t1.work_stage in(1,2,5) <if test="workUnit != null" > and t1.work_place=#{workUnit} </if>
 			group by t2.train_name
 			union all
 			select
@@ -117,7 +117,7 @@
 				]]>
 		        count(*) as val
 			from(
-			   SELECT TIMESTAMPDIFF(YEAR, birthday, CURDATE()) as age from t_dog_base <if test="workUnit != null" > where work_place=#{workUnit}</if>
+			   SELECT TIMESTAMPDIFF(YEAR, birthday, CURDATE()) as age from t_dog_base where work_stage in(1,2,5) <if test="workUnit != null" > and work_place=#{workUnit}</if>
 			) tb group by att_name
 		) tab where att_name != ''
 	</select>

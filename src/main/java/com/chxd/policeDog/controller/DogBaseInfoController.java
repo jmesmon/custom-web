@@ -80,6 +80,30 @@ public class DogBaseInfoController extends BaseController{
             for(int i = 0; i<list.size(); i++){
                 DogBaseInfoVO dog = list.get(i);
                 dog.setDogPros(dogProMapping.get(dog.getId()));
+
+                //获取父犬名称
+                if (Strings.isEmpty(dog.getFatherName()) && !Strings.isEmpty(dog.getFatherId())) {
+                    DogBaseInfoVO po = new DogBaseInfoVO();
+                    try {
+                        po.setId(Integer.parseInt(dog.getFatherId()));
+                        List<DogBaseInfoVO> res = dogBaseInfoDao.selectAll(po, new PageVO());
+                        if(res.size() > 0){
+                            dog.setFatherName(res.get(0).getDogName());
+                        }
+                    }catch (Exception e){}
+
+                }
+                //获取母犬名称
+                if (Strings.isEmpty(dog.getMotherName()) && !Strings.isEmpty(dog.getMotherId())) {
+                    DogBaseInfoVO po = new DogBaseInfoVO();
+                    try{
+                        po.setId(Integer.parseInt(dog.getMotherId()));
+                        List<DogBaseInfoVO> res = dogBaseInfoDao.selectAll(po, new PageVO());
+                        if(res.size() > 0){
+                            dog.setMotherName(res.get(0).getDogName());
+                        }
+                    }catch (Exception e){}
+                }
             }
         }
 

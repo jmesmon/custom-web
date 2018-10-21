@@ -46,6 +46,7 @@ public class DogBaseInfoVO extends BaseVO {
     private String  motherId;	//母亲id
     private Integer  growthStage;	//成长阶段（1：幼犬，2：成犬）
     private Integer  workStage;	//工作状态（1：待申领，2：已被申领，3：被淘汰，4：死亡）
+//    private Integer  workSta11;	//工作状态（1：在训，2：在职，3：被淘汰，4：死亡，5：后备，6：退役）
     private String  belonging;	//淘汰/退休归属
     private String policeId;
     private String policeName;
@@ -65,12 +66,30 @@ public class DogBaseInfoVO extends BaseVO {
     private String dogPro;
     private String mainPro;
     private String mainProLike;
+    private String fatherName;
+    private String motherName;
 
-    private Integer state; // 1: 未分配、已分配；2：
+    private Integer state; // 1: 在训、在职、后备；2：
 
 
     public DogBaseInfoVO() {
 
+    }
+
+    public String getFatherName() {
+        return fatherName;
+    }
+
+    public void setFatherName(String fatherName) {
+        this.fatherName = fatherName;
+    }
+
+    public String getMotherName() {
+        return motherName;
+    }
+
+    public void setMotherName(String motherName) {
+        this.motherName = motherName;
     }
 
     public DogBaseInfoVO(int id) {

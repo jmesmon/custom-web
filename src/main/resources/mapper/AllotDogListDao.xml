@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chxd.policeDog.dao.IDogAllotListDao">
+
+    <!-- worm seelct  -->
+    <sql id="pageCondition">
+        limit #{page.startRow}, #{page.pageSize}
+    </sql>
+
+    <sql id="condition">
+        <if test="vo.id != null" > and id=#{vo.id}</if>
+        <if test="vo.workUnit != null" > and work_unit= #{vo.workUnit}</if>
+        <if test="vo.dogName != null" > and dog_name = dogName</if>
+        <if test="vo.dogNameLike != null" > and dog_name like concat( '%', #{vo.dogNameLike}, '%')</if>
+        <if test="vo.dogColor != null" > and dog_color=#{vo.dogColor}</if>
+        <if test="vo.breed != null" > and breed=#{vo.breed}</if>
+        <if test="vo.hairType != null" > and hair_type=#{vo.hairType}</if>
+        <if test="vo.sex != null" > and sex=#{vo.sex}</if>
+        <if test="vo.owner != null" > and owner=#{vo.owner}</if>
+        <if test="vo.allotDate != null" > and allot_date=#{vo.allotDate}</if>
+        <if test="vo.workUnit != null" > and work_unit=#{vo.workUnit}</if>
+        <if test="vo.remark != null" > and remark=#{vo.remark}</if>
+    </sql>
+
+    <select id="getList" resultType="com.chxd.policeDog.vo.DogAllotListVO">
+        select * from t_dog_allot_list where 1=1
+        <include refid="condition"/>
+        order by creation_date desc
+        <include refid="pageCondition"/>
+    </select>
+
+    <select id="getListCount" resultType="java.lang.Integer">
+        select count(1) from t_dog_allot_list where 1=1
+        <include refid="condition"/>
+    </select>
+
+    <insert id="add" parameterType="com.chxd.policeDog.vo.DogAllotListVO">
+        insert into t_dog_allot_list (id, dog_name, breed, dog_color, hair_type, sex, owner, allot_date, work_unit, remark, last_update_date)
+        values
+            (#{item.id}, #{item.dogName}, #{item.breed}, #{item.dogColor}, #{item.hairType}, #{item.sex}, #{item.owner}, #{item.allotDate}, #{item.workUnit}, #{item.remark}, now())
+    </insert>
+
+    <delete id="del">
+        delete from t_dog_allot_list where id in
+        <foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+            #{item.id}
+        </foreach>
+    </delete>
+
+    <update id="update" parameterType="com.chxd.policeDog.vo.DogAllotListVO">
+        update t_dog_allot_list set last_update_date=now()
+        <if test="vo.workUnit != null" > , work_unit= #{vo.workUnit}</if>
+        <if test="vo.dogName != null" > , dog_name=#{vo.dogName}</if>
+        <if test="vo.dogColor != null" > , dog_color=#{vo.dogColor}</if>
+        <if test="vo.breed != null" > , breed=#{vo.breed}</if>
+        <if test="vo.hairType != null" > , hair_type=#{vo.hairType}</if>
+        <if test="vo.sex != null" > , sex=#{vo.sex}</if>
+        <if test="vo.owner != null" > , owner=#{vo.owner}</if>
+        <if test="vo.allotDate != null" > , allot_date=#{vo.allotDate}</if>
+        <if test="vo.workUnit != null" > , work_unit=#{vo.workUnit}</if>
+        <if test="vo.remark != null" > , remark=#{vo.remark}</if>
+        where id=#{vo.id}
+    </update>
+</mapper>

@@ -15,13 +15,13 @@
         <if test="vo.policeMan != null" > and police_man=#{vo.policeMan}</if>
         <if test="vo.policeId != null" > and police_id=#{vo.policeId}</if>
         <if test="vo.applyState != null" > and apply_state=#{vo.applyState}</if>
-        <if test="vo.applyDesc != null" > , apply_desc=#{vo.applyDesc}</if>
+        <if test="vo.applyDesc != null" > and apply_desc=#{vo.applyDesc}</if>
         <if test="vo.approveDetail != null" > and approve_detail=#{vo.approveDetail}</if>
         <if test="vo.creationDate != null" > and creation_date=#{vo.creationDate}</if>
         <if test="vo.lastUpdateDate != null" > and last_update_date=#{vo.lastUpdateDate}</if>
     </sql>
 
-    <select id="getList" resultType="com.chxd.policeDog.vo.ApplyDogVO">
+    <select id="getList" resultType="com.chxd.policeDog.vo.DogAllotListVO">
         select
             id as id,
             work_unit as workUnit,
@@ -44,7 +44,7 @@
         <include refid="condition"/>
     </select>
 
-    <insert id="add" parameterType="com.chxd.policeDog.vo.ApplyDogVO">
+    <insert id="add" parameterType="com.chxd.policeDog.vo.DogAllotListVO">
         insert into t_apply_dog (id, work_unit, apply_amount, dog_id, police_man, police_id, apply_state, apply_desc, approve_detail, creation_date, last_update_date)
         values
             (#{item.id}, #{item.workUnit}, #{item.applyAmount}, #{item.dogId}, #{item.policeMan}, #{item.policeId}, #{item.applyState}, #{item.applyDesc}, #{item.approveDetail}, #{item.creationDate}, #{item.lastUpdateDate})
@@ -57,7 +57,7 @@
         </foreach>
     </delete>
 
-    <update id="update" parameterType="com.chxd.policeDog.vo.ApplyDogVO">
+    <update id="update" parameterType="com.chxd.policeDog.vo.DogAllotListVO">
         update t_apply_dog set last_update_date=now()
         <if test="vo.id != null" > , id=#{vo.id}</if>
         <if test="vo.workUnit != null" > , work_unit=#{vo.workUnit}</if>
