@@ -69,11 +69,49 @@ public class DogBaseInfoVO extends BaseVO {
     private String fatherName;
     private String motherName;
 
+    private String dieReason;
+    private String sickDate;
+    private String cureDetail;
+    private String dieDate;
+
+
     private Integer state; // 1: 在训、在职、后备；2：
 
 
     public DogBaseInfoVO() {
 
+    }
+
+    public String getSickDate() {
+        return sickDate;
+    }
+
+    public void setSickDate(String sickDate) {
+        this.sickDate = sickDate;
+    }
+
+    public String getDieReason() {
+        return dieReason;
+    }
+
+    public void setDieReason(String dieReason) {
+        this.dieReason = dieReason;
+    }
+
+    public String getCureDetail() {
+        return cureDetail;
+    }
+
+    public void setCureDetail(String cureDetail) {
+        this.cureDetail = cureDetail;
+    }
+
+    public String getDieDate() {
+        return dieDate;
+    }
+
+    public void setDieDate(String dieDate) {
+        this.dieDate = dieDate;
     }
 
     public String getFatherName() {

@@ -40,6 +40,8 @@ public class DogBaseInfoController extends BaseController{
     private IDogWorkDao dogWorkDao;
     @Autowired
     private IPoliceUserDao userDao;
+    @Autowired
+    private IApplyDieDao applyDieDao;
 
 
     @RequestMapping("/getAll/{pageSize}/{curPage}")
@@ -103,6 +105,19 @@ public class DogBaseInfoController extends BaseController{
                             dog.setMotherName(res.get(0).getDogName());
                         }
                     }catch (Exception e){}
+                }
+                //查询死亡数据
+                if(dogBaseInfoVO.getWorkStage() != null && dogBaseInfoVO.getWorkStage() == 4){
+                    ApplyDieVO dieVO = new ApplyDieVO();
+                    dieVO.setDogId(dog.getId());
+                    List<ApplyDieVO> dieList = applyDieDao.getList(dieVO, new PageVO());
+                    if(dieList.size() > 0){
+                        ApplyDieVO applyDieVO = dieList.get(0);
+                        dog.setDieReason(applyDieVO.getDieReason());
+                        dog.setSickDate(new SimpleDateFormat("YYYY-MM-dd HH:mm").format(applyDieVO.getSickDate()));
+                        dog.setDieDate(new SimpleDateFormat("YYYY-MM-dd HH:mm").format(applyDieVO.getDieDate()));
+                        dog.setCureDetail(applyDieVO.getCureDetail());
+                    }
                 }
             }
         }
