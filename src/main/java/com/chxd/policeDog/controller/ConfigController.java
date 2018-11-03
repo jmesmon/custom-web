@@ -147,4 +147,25 @@ public class ConfigController extends BaseController {
         resultVO.setResult(userAnalysis);
         return resultVO;
     }
+
+    @RequestMapping("/updateBreedSum")
+    public ResultVO updateBreedSum(@RequestBody BreedSumVO breedSumVO){
+        ResultVO resultVO = ResultVO.getInstance();
+        orgConfigDao.updateBreedSum(breedSumVO);
+        return resultVO;
+    }
+
+    @RequestMapping("/getBreedSumOrgList")
+    public ResultVO getBreedSumOrgList(){
+        ResultVO resultVO = ResultVO.getInstance();
+        try {
+            List<BreedSumVO> list = orgConfigDao.getBreedSumList(new BreedSumVO(), new PageVO());
+            resultVO.setResult(list.get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO.fail(e.getMessage());
+        }
+
+        return resultVO;
+    }
 }

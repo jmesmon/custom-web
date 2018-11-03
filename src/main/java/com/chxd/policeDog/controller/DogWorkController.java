@@ -2,6 +2,7 @@ package com.chxd.policeDog.controller;
 
 import com.chxd.policeDog.dao.IDogBaseInfoDao;
 import com.chxd.policeDog.dao.IDogWorkDao;
+import com.chxd.policeDog.dao.IDogWorkSumDao;
 import com.chxd.policeDog.dao.IMyNoticeDao;
 import com.chxd.policeDog.vo.*;
 import com.google.common.collect.Lists;
@@ -24,7 +25,9 @@ public class DogWorkController extends BaseController{
     @Autowired
     private IDogBaseInfoDao dogBaseInfoDao;
     @Autowired
-    private IMyNoticeDao noticeDao;
+    private IMyNoticeDao noticeDo;
+    @Autowired
+    private IDogWorkSumDao dogWorkSumDao;
 
     @RequestMapping("/getList/{pageSize}/{curPage}")
     public PageResultVO getList(@RequestBody DogWorkVO dogWorkVO, @PathParam("") PageVO pageVO) {
@@ -100,4 +103,39 @@ public class DogWorkController extends BaseController{
         }
         return resultVO;
     }
+
+
+    @RequestMapping("/getWorkSumList/{pageSize}/{curPage}")
+    public PageResultVO getWorkSumList(@RequestBody DogWorkSumVO dogWorkSumVO, @PathParam("") PageVO pageVO){
+        PageResultVO page = new PageResultVO();
+        List<DogWorkSumVO> list = dogWorkSumDao.getList(dogWorkSumVO, pageVO);
+        Integer integer = dogWorkSumDao.getListCount(dogWorkSumVO);
+
+        pageVO.setTotalRows(integer);
+        page.setResult(list);
+        page.setPageVO(pageVO);
+        return page;
+    }
+
+    @RequestMapping("/addWorkSum")
+    public ResultVO addWorkSum(@RequestBody List<DogWorkSumVO> list){
+        ResultVO resultVO = ResultVO.getInstance();
+        dogWorkSumDao.add(list);
+        return resultVO;
+    }
+
+    @RequestMapping("/deleteWorkSum")
+    public ResultVO deleteWorkSum(@RequestBody List<DogWorkSumVO> list){
+        ResultVO resultVO = ResultVO.getInstance();
+        dogWorkSumDao.del(list);
+        return resultVO;
+    }
+
+    @RequestMapping("/updateWorkSum")
+    public ResultVO updateWorkSum(@RequestBody DogWorkSumVO dogWorkSumVO){
+        ResultVO resultVO = ResultVO.getInstance();
+        dogWorkSumDao.update(dogWorkSumVO);
+        return resultVO;
+    }
+
 }

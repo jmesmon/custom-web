@@ -3,10 +3,13 @@
 <mapper namespace="com.chxd.policeDog.dao.IOrgConfigDao">
 
 	<insert id="add" parameterType="java.util.List">
-		insert into t_org_config (id, dog_qty, org_desc, org_pic, org_name, org_leader, org_addr, org_concat, emp_qty, org_area, last_update_date)
+		insert into t_org_config (id, dog_qty, org_desc, org_pic, org_name, org_leader, org_addr, org_concat, emp_qty, org_area, last_update_date,
+			dog_house_qty, trained_qty, untrain_qty, unit_area)
 		values
 		<foreach collection="list" item="item" index="index" separator="," >
-			(#{item.id}, #{item.dogQty}, #{item.orgDesc}, #{item.orgName}, #{item.orgName}, #{item.orgLeader}, #{item.orgAddr}, #{item.orgConcat}, #{item.empQty}, #{item.orgArea}, now())
+			(#{item.id}, #{item.dogQty}, #{item.orgDesc}, #{item.orgName}, #{item.orgName}, #{item.orgLeader}, #{item.orgAddr}, #{item.orgConcat}, #{item.empQty}, #{item.orgArea}, now(),
+			#{item.dogHouseQty},#{item.trainedQty},#{item.untrainQty},#{item.unitArea}
+			)
 		</foreach>
 	</insert>
 	<delete id="del">
@@ -25,6 +28,10 @@
 		<if test="vo.orgLeader != null" > , org_leader=#{vo.orgLeader}</if>
 		<if test="vo.orgAddr != null" > , org_addr=#{vo.orgAddr}</if>
 		<if test="vo.orgConcat != null" > , org_concat=#{vo.orgConcat}</if>
+		<if test="vo.unitArea != null" > , unit_area=#{vo.unitArea}</if>
+		<if test="vo.untrainQty != null" > , untrain_qty=#{vo.untrainQty}</if>
+		<if test="vo.trainedQty != null" > , trained_qty=#{vo.trainedQty}</if>
+		<if test="vo.dogHouseQty != null" > , dog_house_qty=#{vo.dogHouseQty}</if>
 		<if test="vo.empQty != null" > , emp_qty=#{vo.empQty}</if>
 		<if test="vo.orgArea != null" > , org_area=#{vo.orgArea}</if>
 		<if test="vo.lastUpdateDate != null" > , last_update_date=#{vo.lastUpdateDate}</if>
@@ -45,6 +52,10 @@
 		<if test="vo.empQty != null" > and emp_qty=#{vo.empQty}</if>
 		<if test="vo.orgArea != null" > and org_area=#{vo.orgArea}</if>
 		<if test="vo.lastUpdateDate != null" > and last_update_date=#{vo.lastUpdateDate}</if>
+		<if test="vo.unitArea != null" > and unit_area=#{vo.unitArea}</if>
+		<if test="vo.untrainQty != null" > and untrain_qty=#{vo.untrainQty}</if>
+		<if test="vo.trainedQty != null" > and trained_qty=#{vo.trainedQty}</if>
+		<if test="vo.dogHouseQty != null" > and dog_house_qty=#{vo.dogHouseQty}</if>
 	</sql>
 
 	<select id="getList" resultType="com.chxd.policeDog.vo.OrgConfigVO">
@@ -125,4 +136,15 @@
 	<select id="getUserCount" resultType="java.util.HashMap">
 		select work_unit as workUnit,count(*) as userQty from t_police_user group by work_unit
 	</select>
+
+	<select id="getBreedSumList" resultType="com.chxd.policeDog.vo.BreedSumVO">
+		select * from t_breed_sum
+	</select>
+
+	<update id="updateBreedSum" parameterType="com.chxd.policeDog.vo.BreedSumVO">
+		update t_breed_sum set last_update_date=now()
+		<if test="vo.allotQty != null" > , allot_qty=#{vo.allotQty}</if>
+		<if test="vo.breedQty != null" > , breed_qty=#{vo.breedQty}</if>
+		where id=#{vo.id}
+	</update>
 </mapper>

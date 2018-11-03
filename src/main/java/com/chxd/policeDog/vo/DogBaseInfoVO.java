@@ -46,7 +46,7 @@ public class DogBaseInfoVO extends BaseVO {
     private String  motherId;	//母亲id
     private Integer  growthStage;	//成长阶段（1：幼犬，2：成犬）
     private Integer  workStage;	//工作状态（1：待申领，2：已被申领，3：被淘汰，4：死亡）
-//    private Integer  workSta11;	//工作状态（1：在训，2：在职，3：被淘汰，4：死亡，5：后备，6：退役）
+//    private Integer  workSta11;	//工作状态（1：在训，2：出勤，3：被淘汰，4：死亡，5：种犬，6：退役）
     private String  belonging;	//淘汰/退休归属
     private String policeId;
     private String policeName;

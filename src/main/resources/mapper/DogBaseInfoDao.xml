@@ -275,7 +275,7 @@
 	</select>
 
 	<select id="getDogPro" resultType="java.util.HashMap">
-		select concat(train_name, '(', count(*), '次)') as trainName,dog_id from t_dog_train
+		select concat(train_name, '(培训', count(*), '次)') as trainName,dog_id from t_dog_train
 		where train_result != '' and dog_id in
 		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
 			#{item.id}

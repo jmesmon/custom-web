@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chxd.policeDog.dao.IDogWorkSumDao">
+
+	<!-- worm seelct  -->
+	<sql id="pageCondition">
+		limit #{page.startRow}, #{page.pageSize}
+	</sql>
+
+	<sql id="condition">
+		<if test="vo.workType != null" > and t1.work_type=#{vo.workType}</if>
+		<if test="vo.workUnit != null" > and t1.work_unit=#{vo.workUnit}</if>
+		<if test="vo.dateStart != null" > and t1.date_start=#{vo.dateStart}</if>
+		<if test="vo.dateEnd != null" > and t1.date_end=#{vo.dateEnd}</if>
+		<if test="vo.attQty != null" > and t1.att_qty=#{vo.attQty}</if>
+		<if test="vo.attPerQty != null" > and t1.att_per_qty=#{vo.attPerQty}</if>
+		<if test="vo.attDogQty != null" > and t1.att_dog_qty=#{vo.attDogQty}</if>
+		<if test="vo.wjpQty != null" > and t1.wjp_qty=#{vo.wjpQty}</if>
+		<if test="vo.dpQty != null" > and t1.dp_qty=#{vo.dpQty}</if>
+		<if test="vo.checkArea != null" > and t1.check_area=#{vo.checkArea}</if>
+		<if test="vo.checkCarQty != null" > and t1.check_car_qty=#{vo.checkCarQty}</if>
+
+		<if test="vo.workHours != null" > and t1.work_hours=#{vo.workHours}</if>
+		<if test="vo.paQty != null" > and t1.pa_qty=#{vo.paQty}</if>
+
+		<if test="vo.startTimeStr != null" ><![CDATA[  and t1.date_start >= #{vo.startTimeStr} ]]></if>
+		<if test="vo.endTimeStr != null" ><![CDATA[ and t1.date_start <= #{vo.endTimeStr} ]]></if>
+		order by t1.date_start desc
+	</sql>
+
+	<select id="getList" resultType="com.chxd.policeDog.vo.DogWorkSumVO">
+		select * from t_dog_work_sum t1 where 1=1
+		<include refid="condition"/>
+		<include refid="pageCondition"/>
+	</select>
+
+	<select id="getListCount" resultType="java.lang.Integer">
+		select count(1) from t_dog_work_sum t1 where 1=1
+		<include refid="condition"/>
+	</select>
+
+	<insert id="add" parameterType="java.util.List">
+		insert into t_dog_work_sum (work_type, work_unit, date_start, date_end, att_qty, att_per_qty, att_dog_qty, wjp_qty, dp_qty, check_area, check_car_qty, work_hours, pa_qty, last_update_date)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.workType}, #{item.workUnit}, #{item.dateStart}, #{item.dateEnd}, #{item.attQty}, #{item.attPerQty}, #{item.attDogQty}, #{item.wjpQty}, #{item.dpQty}, #{item.checkArea}, #{item.checkCarQty}, #{item.workHours}, #{item.paQty}, now()
+			)
+		</foreach>
+	</insert>
+
+	<delete id="del">
+		delete from t_dog_work_sum where id in
+		<foreach collection="list" item="item" index="index" separator=","  open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+
+	<update id="update">
+		update t_dog_work_sum  set last_update_date=now()
+		<if test="vo.workType != null" > , work_type=#{vo.workType}</if>
+		<if test="vo.workUnit != null" > , work_unit=#{vo.workUnit}</if>
+		<if test="vo.dateStart != null" > , date_start=#{vo.dateStart}</if>
+		<if test="vo.dateEnd != null" > , date_end=#{vo.dateEnd}</if>
+		<if test="vo.attQty != null" > , att_qty=#{vo.attQty}</if>
+		<if test="vo.attPerQty != null" > , att_per_qty=#{vo.attPerQty}</if>
+		<if test="vo.attDogQty != null" > , att_dog_qty=#{vo.attDogQty}</if>
+		<if test="vo.wjpQty != null" > , wjp_qty=#{vo.wjpQty}</if>
+		<if test="vo.dpQty != null" > , dp_qty=#{vo.dpQty}</if>
+		<if test="vo.checkArea != null" > , check_area=#{vo.checkArea}</if>
+		<if test="vo.checkCarQty != null" > , check_car_qty=#{vo.checkCarQty}</if>
+
+		<if test="vo.workHours != null" > , work_hours=#{vo.workHours}</if>
+		<if test="vo.paQty != null" > , pa_qty=#{vo.paQty}</if>
+		where id=#{vo.id}
+	</update>
+</mapper>

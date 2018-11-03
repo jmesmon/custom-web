@@ -1,5 +1,6 @@
 package com.chxd.policeDog.dao;
 
+import com.chxd.policeDog.vo.BreedSumVO;
 import com.chxd.policeDog.vo.OrgConfigVO;
 import com.chxd.policeDog.vo.PageVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,4 +26,8 @@ public interface IOrgConfigDao {
     List<Map> getDogAnalysis(@Param("workUnit") String workUnit);
     List<Map> getUserAnalysis(@Param("workUnit") String workUnit);
     List<Map> getUserCount();
+
+
+    List<BreedSumVO> getBreedSumList(@Param("vo") BreedSumVO vo, @Param("page") PageVO page);
+    void updateBreedSum(@Param("vo") BreedSumVO vo);
 }

@@ -10,6 +10,9 @@ spring:
         force: true
         enabled: true
         charset: utf8
+     multipart:
+        maxFileSize: 10Mb
+        maxRequestSize: 100Mb
   jackson:
     dateFormat: yyyy-MM-dd HH:mm:ss
     timeZone: GMT+8
