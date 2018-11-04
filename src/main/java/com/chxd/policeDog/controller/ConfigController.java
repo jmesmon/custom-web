@@ -5,6 +5,7 @@ import com.chxd.policeDog.dao.IOrgConfigDao;
 import com.chxd.policeDog.vo.*;
 import com.google.common.collect.Maps;
 import com.xjj.util.XDateUtils;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -166,6 +167,40 @@ public class ConfigController extends BaseController {
             resultVO.fail(e.getMessage());
         }
 
+        return resultVO;
+    }
+
+    @RequestMapping("/getDogPowerAnalysis")
+    public ResultVO getDogPowerAnalysis(@RequestBody PoliceUserVO policeUserVO){
+        ResultVO resultVO = ResultVO.getInstance();
+        List<Map> dogPowerAnalysis = orgConfigDao.getDogPowerAnalysis(policeUserVO);
+        resultVO.setResult(dogPowerAnalysis);
+        return resultVO;
+    }
+
+    @RequestMapping("/getDogProAnalysis")
+    public ResultVO getDogProAnalysis(@RequestBody DogBaseInfoVO dogBaseInfoVO){
+        ResultVO resultVO = ResultVO.getInstance();
+        List<DogBaseInfoVO> list = dogBaseInfoDao.selectAll(dogBaseInfoVO, new PageVO().setPageSze(100000));
+        Map<String, Integer> map = Maps.newHashMap();
+        for(int i = 0; i<list.size(); i++){
+            DogBaseInfoVO dog = list.get(i);
+            String pro = dog.getMainPro();
+            if(Strings.isEmpty(pro)) {
+                pro = "其他";
+            }
+            String[] split = pro.split(",");
+            for(String p : split){
+                Integer counter = map.get(p);
+                if(counter == null){
+                    counter = new Integer(1);
+                }else{
+                    counter += 1;
+                }
+                map.put(p, counter);
+            }
+        }
+        resultVO.setResult(map);
         return resultVO;
     }
 }

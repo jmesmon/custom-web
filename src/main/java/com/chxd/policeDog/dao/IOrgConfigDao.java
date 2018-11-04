@@ -3,6 +3,7 @@ package com.chxd.policeDog.dao;
 import com.chxd.policeDog.vo.BreedSumVO;
 import com.chxd.policeDog.vo.OrgConfigVO;
 import com.chxd.policeDog.vo.PageVO;
+import com.chxd.policeDog.vo.PoliceUserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -30,4 +31,7 @@ public interface IOrgConfigDao {
 
     List<BreedSumVO> getBreedSumList(@Param("vo") BreedSumVO vo, @Param("page") PageVO page);
     void updateBreedSum(@Param("vo") BreedSumVO vo);
+
+
+    List<Map> getDogPowerAnalysis(@Param("vo") PoliceUserVO policeUserVO);
 }
