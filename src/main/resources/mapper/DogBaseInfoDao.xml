@@ -263,14 +263,14 @@
 
 
 	<select id="getOrgCount" resultType="java.util.HashMap">
-		select workUnit,sum(val1) as dogCount,sum(val2) as newsCount,round(sum(val3)/24) as workHours from (
+		select workUnit,sum(val1) as dogCount,sum(val2) as newsCount,round(sum(val3)/24) as workQty from (
 			select work_place as workUnit, count(*) as val1, 0 as val2, 0 as val3 from t_dog_base group by work_place
 			union all
 			select work_unit as workUnit, 0 as val1, count(*) as val2, 0 as val3 from t_news
 		    <![CDATA[ where publish_date>=#{lastMonth} and publish_date<#{nowMonth} group by work_unit  ]]>
 			union all
-			select dog_work_unit as workUnit, 0 as val1, 0 as val2, sum((end_time-start_time)/10000) as val3 from t_dog_work
-		    <![CDATA[ where start_time>=#{lastMonth} and start_time<#{nowMonth} group by dog_work_unit,(end_time-start_time)/10000  ]]>
+			SELECT work_unit as workUnit, 0 as val1, 0 as val2, sum(att_qty) as val3 from t_dog_work_sum
+		    <![CDATA[ where date_start>=#{lastMonth} and date_start<#{nowMonth} group by work_type  ]]>
 		) t1 where workUnit is not null group by workUnit
 	</select>
 

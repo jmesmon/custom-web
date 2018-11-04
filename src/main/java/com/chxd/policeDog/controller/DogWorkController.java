@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cheng on 2017/9/16.
@@ -135,6 +136,14 @@ public class DogWorkController extends BaseController{
     public ResultVO updateWorkSum(@RequestBody DogWorkSumVO dogWorkSumVO){
         ResultVO resultVO = ResultVO.getInstance();
         dogWorkSumDao.update(dogWorkSumVO);
+        return resultVO;
+    }
+
+    @RequestMapping("/getWorkSumAnalysis")
+    public ResultVO getWorkSumAnalysis(@RequestBody DogWorkSumVO dogWorkSumVO){
+        ResultVO resultVO = ResultVO.getInstance();
+        List<Map> workSumAnlysis = dogWorkSumDao.getWorkSumAnlysis(dogWorkSumVO);
+        resultVO.setResult(workSumAnlysis);
         return resultVO;
     }
 

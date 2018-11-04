@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cheng on 2017/9/13.
@@ -20,4 +21,6 @@ public interface IDogWorkSumDao {
     void add(List<DogWorkSumVO> list);
     void update(@Param("vo") DogWorkSumVO vo);
     void del(List<DogWorkSumVO> list);
+
+    List<Map> getWorkSumAnlysis(@Param("vo") DogWorkSumVO vo);
 }

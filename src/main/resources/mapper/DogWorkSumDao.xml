@@ -74,4 +74,26 @@
 		<if test="vo.paQty != null" > , pa_qty=#{vo.paQty}</if>
 		where id=#{vo.id}
 	</update>
+
+	<select id="getWorkSumAnlysis" resultType="java.util.HashMap">
+		select
+			work_type,
+			sum(att_qty) as att_qty,
+			sum(att_per_qty) as att_per_qty,
+			sum(att_dog_qty) as att_dog_qty,
+			sum(wjp_qty) as wjp_qty,
+			sum(dp_qty) as dp_qty,
+			sum(check_area) as check_area,
+			sum(check_car_qty) as check_car_qty,
+			sum(work_hours) as work_hours,
+			sum(pa_qty) as pa_qty
+		from
+			t_dog_work_sum
+		where
+			<![CDATA[
+			date_start >= DATE_SUB(CURDATE(),INTERVAL dayofyear(now())-1 DAY)
+			and date_start <= concat(YEAR(now()),'-12-31')]]>
+			<if test="vo.workUnit != null" > and work_unit=#{vo.workUnit} </if>
+		group by work_type
+	</select>
 </mapper>

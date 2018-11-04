@@ -20,6 +20,7 @@ public class OrgConfigVO extends BaseVO {
     private Integer dogQty;
     private Integer newQty;
     private Object workHours;
+    private Object workQty;
     private Integer policeCount;
 
     public Integer getNewQty() {
@@ -148,5 +149,13 @@ public class OrgConfigVO extends BaseVO {
 
     public void setUntrainQty(Integer untrainQty) {
         this.untrainQty = untrainQty;
+    }
+
+    public Object getWorkQty() {
+        return workQty;
+    }
+
+    public void setWorkQty(Object workQty) {
+        this.workQty = workQty;
     }
 }

@@ -35,8 +35,8 @@ public class ConfigController extends BaseController {
             List<OrgConfigVO> list = orgConfigDao.getList(new OrgConfigVO(), new PageVO().setPageSze(1000));
 
             LocalDate localDate = XDateUtils.dateToLocalDate(new Date()).minusMonths(1);
-            String lastMonth = new SimpleDateFormat("YYYY-MM-01").format(XDateUtils.localDateToDate(localDate));
-            String nowMonth = new SimpleDateFormat("YYYY-MM-01").format(System.currentTimeMillis());
+            String lastMonth = new SimpleDateFormat("YYYY-MM-dd").format(XDateUtils.localDateToDate(localDate));
+            String nowMonth = new SimpleDateFormat("YYYY-MM-dd").format(System.currentTimeMillis());
             List<Map> count = dogBaseInfoDao.getOrgCount(lastMonth, nowMonth);
             Map<String, Map> map = Maps.newHashMap();
             for(int i = 0; i<count.size(); i++){
@@ -67,7 +67,7 @@ public class ConfigController extends BaseController {
                     Map val = map.get(orgConfigVO.getOrgName());
                     orgConfigVO.setDogQty(((BigDecimal)val.get("dogCount")).intValue());
                     orgConfigVO.setNewQty(((BigDecimal)val.get("newsCount")).intValue());
-                    orgConfigVO.setWorkHours(val.get("workHours"));
+                    orgConfigVO.setWorkQty(val.get("workQty"));
                 }
                 if("通州分局".equals(orgConfigVO.getOrgName())){
                     Map val = map2.get("通州巡警支队警犬队");
