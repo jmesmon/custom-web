@@ -147,4 +147,17 @@
 		<if test="vo.breedQty != null" > , breed_qty=#{vo.breedQty}</if>
 		where id=#{vo.id}
 	</update>
+
+	<select id="getDogPowerAnalysis" resultType="java.util.HashMap">
+		select 'workStage' as xtype, work_stage as xname,count(*) as qty
+		from t_dog_base
+		where work_stage not in (3,4,5) <if test="vo.workUnit != null" > and work_place=#{vo.workUnit}</if>
+		group by work_stage
+		union all
+		select 'workType' as xtype, work_type as xname,count(*) as qty
+		from t_police_user
+		where id in(select police_id from t_dog_base where police_id is not null)
+		<if test="vo.workUnit != null" > and work_unit=#{vo.workUnit}</if>
+		group by work_type
+	</select>
 </mapper>
