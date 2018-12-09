@@ -71,16 +71,16 @@
 
 	<select id="getUserAnalysis" resultType="java.util.HashMap">
 		select * from (
-		select 'sex' as ctype, sex as att_name, count(*) as val from t_police_user <if test="workUnit != null" > where work_unit=#{workUnit}</if> group by sex
+		select 'sex' as ctype, sex as att_name, count(*) as val from t_police_user  where user_role='JingYuan' <if test="workUnit != null" >and work_unit=#{workUnit}</if> group by sex
 		union all
-		select 'degree' as ctype, case when degree = '' then '其他' else degree end as att_name, count(*) as val from t_police_user <if test="workUnit != null" > where work_unit=#{workUnit}</if> group by degree
+		select 'degree' as ctype, case when education = '' then '其他' else education end as att_name, count(*) as val from (select work_unit, case when (education = '' or education is null) then '其他' else education end as education from t_police_user where user_role='JingYuan') a <if test="workUnit != null" > where work_unit=#{workUnit}</if> group by education
 		union all
-		select 'work_type' as ctype, work_type as att_name, count(*) as val from t_police_user <if test="workUnit != null" > where work_unit=#{workUnit}</if> group by work_type
+		select 'work_type' as ctype, work_type as att_name, count(*) as val from t_police_user where user_role='JingYuan' <if test="workUnit != null" > and work_unit=#{workUnit}</if> group by work_type
 		union all
 		select 'job_title' as ctype, case when job_title='' then '其他' else job_title end as att_name,
-		count(*) as val from t_police_user <if test="workUnit != null" > where work_unit=#{workUnit}</if> group by job_title
+		count(*) as val from t_police_user where user_role='JingYuan' <if test="workUnit != null" > and work_unit=#{workUnit}</if> group by job_title
 		union all
-		select 'job' as ctype, job as att_name, count(*) as val from t_police_user <if test="workUnit != null" > where work_unit=#{workUnit}</if> group by job
+		select 'job' as ctype, job as att_name, count(*) as val from t_police_user where user_role='JingYuan' <if test="workUnit != null" > and work_unit=#{workUnit}</if> group by job
 		union all
 			select
 				'age' as ctype,
@@ -94,31 +94,34 @@
 				]]>
 				count(*) as val
 			from(
-				SELECT TIMESTAMPDIFF(YEAR, birthday, CURDATE()) as age from t_police_user where work_unit=#{workUnit}
+		SELECT TIMESTAMPDIFF(YEAR, birthday, CURDATE()) as age from t_police_user where user_role='JingYuan' <if test="workUnit != null" > and work_unit=#{workUnit} </if>
 			) tb group by att_name
 		) t where att_name != ''
 	</select>
-
+<sql id="workUnit">
+	and work_place in ('刑侦总队', '公交总队', '特警总队', '天安门分局', '西站分局', '清河分局', '东城分局', '西城分局', '朝阳分局', '海淀分局', '丰台分局', '通州分局', '昌平分局', '石景山分局', '门头沟分局', '大兴分局', '怀柔分局', '房山分局', '平谷分局', '顺义分局', '密云分局', '延庆县分局')
+</sql>
 	<select id="getDogAnalysis" resultType="java.util.HashMap">
 		select * from (
-			select 'breed' as ctype, breed as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5) <if test="workUnit != null" > and work_place=#{workUnit}</if> group by breed
+			select 'breed' as ctype, breed as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5) <include refid="workUnit"/>  <if test="workUnit != null" > and work_place=#{workUnit}</if> group by breed
 			union all
-			select 'dog_colour' as ctype, dog_colour as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5) <if test="workUnit != null" > and work_place=#{workUnit}</if> group by dog_colour
+			select 'dog_colour' as ctype, dog_colour as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5) <include refid="workUnit"/> <if test="workUnit != null" > and work_place=#{workUnit}</if> group by dog_colour
 			union all
-			select 'hair_type' as ctype, if(hair_type != '', hair_type, '其他') as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5) <if test="workUnit != null" > and work_place=#{workUnit}</if> group by hair_type
+			select 'hair_type' as ctype, if(hair_type != '', hair_type, '其他') as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5) <include refid="workUnit"/>  <if test="workUnit != null" > and work_place=#{workUnit}</if> group by hair_type
 			union all
-			select 'dog_level' as ctype, dog_level as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5) <if test="workUnit != null" > and work_place=#{workUnit}</if> group by dog_level
-			union all
-			select 'work_stage' as ctype, if(work_stage != '', work_stage, '其他') as att_name, count(*) as val from t_dog_base <if test="workUnit != null" > where work_place=#{workUnit}</if> group by work_stage
-			union all
-			select 'pro' as ctype, if(t2.train_name !='', t2.train_name, '其他') as att_name, count(*) as val from t_dog_base t1 left join
-			(select train_name, dog_id from t_dog_train group by dog_id,train_name) t2 on t2.dog_id = t1.id where t1.work_stage in(1,2,5) <if test="workUnit != null" > and t1.work_place=#{workUnit} </if>
-			group by t2.train_name
+			select 'dog_level' as ctype, dog_level as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5) <include refid="workUnit"/> <if test="workUnit != null" > and work_place=#{workUnit}</if> group by dog_level
+		union all
+			select 'work_stage' as ctype, if(work_stage != '', work_stage, '其他') as att_name, count(*) as val from t_dog_base where 1=1 <include refid="workUnit"/> <if test="workUnit != null" > and work_place=#{workUnit}</if> group by work_stage
+			<!--union all
+			select 'pro' as ctype, if(t2.train_name !='', t2.train_name, '未知') as att_name, count(*) as val from t_dog_base t1 left join
+			(select train_name, dog_id from t_dog_train group by dog_id,train_name) t2 on t2.dog_id = t1.id where t1.work_stage in(1,2) <include refid="workUnit"/> <if test="workUnit != null" > and t1.work_place=#{workUnit} </if>
+			group by t2.train_name-->
 			union all
 			select
 			    'age' as ctype,
 		        <![CDATA[
 				case
+				   when age is null then '未知'
 				   when age >=0 and age<=1 then '0-1岁'
 				   when age >1 and age<=3 then '1-3岁'
 				   when age >3 and age<=5 then '3-5岁'
@@ -128,7 +131,7 @@
 				]]>
 		        count(*) as val
 			from(
-			   SELECT TIMESTAMPDIFF(YEAR, birthday, CURDATE()) as age from t_dog_base where work_stage in(1,2,5) <if test="workUnit != null" > and work_place=#{workUnit}</if>
+			   SELECT TIMESTAMPDIFF(YEAR, birthday, CURDATE()) as age from t_dog_base where work_stage in(1,2) <include refid="workUnit"/> <if test="workUnit != null" > and work_place=#{workUnit}</if>
 			) tb group by att_name
 		) tab where att_name != ''
 	</select>

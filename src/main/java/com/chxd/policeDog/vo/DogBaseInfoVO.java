@@ -76,6 +76,7 @@ public class DogBaseInfoVO extends BaseVO {
 
 
     private Integer state; // 1: 在训、在职、后备；2：
+    private Integer unit; //1:限定为21个单位
 
 
     public DogBaseInfoVO() {
@@ -96,6 +97,14 @@ public class DogBaseInfoVO extends BaseVO {
 
     public void setDieReason(String dieReason) {
         this.dieReason = dieReason;
+    }
+
+    public Integer getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Integer unit) {
+        this.unit = unit;
     }
 
     public String getCureDetail() {

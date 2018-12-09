@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -119,6 +120,19 @@ public class ConfigController extends BaseController {
             workUnit = null;
         }
         List<Map> dogAnalysis = orgConfigDao.getDogAnalysis(workUnit);
+        DogBaseInfoVO dog = new DogBaseInfoVO();
+        dog.setWorkPlace(workUnit);
+        ResultVO dogProAnalysis = getDogProAnalysis(dog);
+        Map<String, Integer> proData = (Map<String, Integer>) dogProAnalysis.getResult();
+        for(Iterator<String> it = proData.keySet().iterator(); it.hasNext();){
+            String proName = it.next();
+            int proQty = proData.get(proName);
+            Map<String, Object> m = Maps.newHashMap();
+            m.put("ctype", "pro");
+            m.put("val", proQty);
+            m.put("att_name", proName);
+            dogAnalysis.add(m);
+        }
         for(int i = 0; i<dogAnalysis.size(); i++){
             Map m = dogAnalysis.get(i);
             if(m.get("att_name")  == null){
@@ -128,7 +142,6 @@ public class ConfigController extends BaseController {
                 byte[] b = (byte[])m.get("att_name");
                 m.put("att_name", new String(b));
             }
-
         }
         resultVO.setResult(dogAnalysis);
         return resultVO;
@@ -181,16 +194,30 @@ public class ConfigController extends BaseController {
     @RequestMapping("/getDogProAnalysis")
     public ResultVO getDogProAnalysis(@RequestBody DogBaseInfoVO dogBaseInfoVO){
         ResultVO resultVO = ResultVO.getInstance();
+        dogBaseInfoVO.setState(1);
+        dogBaseInfoVO.setUnit(1);
         List<DogBaseInfoVO> list = dogBaseInfoDao.selectAll(dogBaseInfoVO, new PageVO().setPageSze(100000));
         Map<String, Integer> map = Maps.newHashMap();
         for(int i = 0; i<list.size(); i++){
             DogBaseInfoVO dog = list.get(i);
             String pro = dog.getMainPro();
             if(Strings.isEmpty(pro)) {
-                pro = "其他";
+                pro = "未知";
             }
             String[] split = pro.split(",");
             for(String p : split){
+                if("追踪".equals(p)){
+                    p = "追踪(刑)";
+                }
+                if("鉴别".equals(p)){
+                    p = "鉴别(刑)";
+                }
+                if("物证搜索".equals(p)){
+                    p = "物证搜索(刑)";
+                }
+                if("搜捕".equals(p)){
+                    p = "搜捕(刑)";
+                }
                 Integer counter = map.get(p);
                 if(counter == null){
                     counter = new Integer(1);
