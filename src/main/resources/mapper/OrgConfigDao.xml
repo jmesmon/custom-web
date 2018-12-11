@@ -86,7 +86,8 @@
 				'age' as ctype,
 				<![CDATA[
 				case
-				when age >=20 and age<=30 then '20-39岁'
+				when age<20 then '20岁以下'
+				when age >=20 and age<=30 then '20-30岁'
 				when age >30 and age<=40 then '30-40岁'
 				when age >40 and age<50 then '40-50岁'
 				when age >=50 then '50岁以上'
@@ -99,17 +100,17 @@
 		) t where att_name != ''
 	</select>
 <sql id="workUnit">
-	and work_place in ('刑侦总队', '公交总队', '特警总队', '天安门分局', '西站分局', '清河分局', '东城分局', '西城分局', '朝阳分局', '海淀分局', '丰台分局', '通州分局', '昌平分局', '石景山分局', '门头沟分局', '大兴分局', '怀柔分局', '房山分局', '平谷分局', '顺义分局', '密云分局', '延庆县分局')
+	and work_place in ('刑侦总队', '公交总队', '反特总队', '天安门分局', '西站分局', '清河分局', '东城分局', '西城分局', '朝阳分局', '海淀分局', '丰台分局', '通州分局', '昌平分局', '石景山分局', '门头沟分局', '大兴分局', '怀柔分局', '房山分局', '平谷分局', '顺义分局', '密云分局', '延庆分局')
 </sql>
 	<select id="getDogAnalysis" resultType="java.util.HashMap">
 		select * from (
-			select 'breed' as ctype, breed as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5) <include refid="workUnit"/>  <if test="workUnit != null" > and work_place=#{workUnit}</if> group by breed
+			select 'breed' as ctype, breed as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5,6) <include refid="workUnit"/>  <if test="workUnit != null" > and work_place=#{workUnit}</if> group by breed
 			union all
-			select 'dog_colour' as ctype, dog_colour as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5) <include refid="workUnit"/> <if test="workUnit != null" > and work_place=#{workUnit}</if> group by dog_colour
+			select 'dog_colour' as ctype, dog_colour as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5,6) <include refid="workUnit"/> <if test="workUnit != null" > and work_place=#{workUnit}</if> group by dog_colour
 			union all
-			select 'hair_type' as ctype, if(hair_type != '', hair_type, '其他') as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5) <include refid="workUnit"/>  <if test="workUnit != null" > and work_place=#{workUnit}</if> group by hair_type
+			select 'hair_type' as ctype, if(hair_type != '', hair_type, '其他') as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5,6) <include refid="workUnit"/>  <if test="workUnit != null" > and work_place=#{workUnit}</if> group by hair_type
 			union all
-			select 'dog_level' as ctype, dog_level as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5) <include refid="workUnit"/> <if test="workUnit != null" > and work_place=#{workUnit}</if> group by dog_level
+			select 'dog_level' as ctype, dog_level as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5,6) <include refid="workUnit"/> <if test="workUnit != null" > and work_place=#{workUnit}</if> group by dog_level
 		union all
 			select 'work_stage' as ctype, if(work_stage != '', work_stage, '其他') as att_name, count(*) as val from t_dog_base where 1=1 <include refid="workUnit"/> <if test="workUnit != null" > and work_place=#{workUnit}</if> group by work_stage
 			<!--union all
@@ -137,7 +138,7 @@
 	</select>
 
 	<select id="getUserCount" resultType="java.util.HashMap">
-		select work_unit as workUnit,count(*) as userQty from t_police_user group by work_unit
+		select work_unit as workUnit,count(*) as userQty from t_police_user where user_role='JingYuan' group by work_unit
 	</select>
 
 	<select id="getBreedSumList" resultType="com.chxd.policeDog.vo.BreedSumVO">
@@ -154,7 +155,7 @@
 	<select id="getDogPowerAnalysis" resultType="java.util.HashMap">
 		select 'workStage' as xtype, work_stage as xname,count(*) as qty
 		from t_dog_base
-		where work_stage not in (3,4,5) <if test="vo.workUnit != null" > and work_place=#{vo.workUnit}</if>
+		where work_stage !=4 <include refid="workUnit"/> <if test="vo.workUnit != null" > and work_place=#{vo.workUnit}</if>
 		group by work_stage
 		union all
 		select 'workType' as xtype, work_type as xname,count(*) as qty

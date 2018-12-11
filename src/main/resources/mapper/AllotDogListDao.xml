@@ -14,18 +14,18 @@
         <if test="vo.dogNameLike != null" > and dog_name like concat( '%', #{vo.dogNameLike}, '%')</if>
         <if test="vo.dogColor != null" > and dog_color=#{vo.dogColor}</if>
         <if test="vo.breed != null" > and breed=#{vo.breed}</if>
-        <if test="vo.hairType != null" > and hair_type=#{vo.hairType}</if>
+        <if test="vo.hairType != null" > and hair_type like concat( '%', #{vo.hairType}, '%')</if>
         <if test="vo.sex != null" > and sex=#{vo.sex}</if>
         <if test="vo.owner != null" > and owner=#{vo.owner}</if>
         <if test="vo.allotDate != null" > and allot_date=#{vo.allotDate}</if>
-        <if test="vo.workUnit != null" > and work_unit=#{vo.workUnit}</if>
+        <if test="vo.workUnit != null" > and work_unit like concat( '%', #{vo.workUnit}, '%')</if>
         <if test="vo.remark != null" > and remark=#{vo.remark}</if>
     </sql>
 
     <select id="getList" resultType="com.chxd.policeDog.vo.DogAllotListVO">
         select * from t_dog_allot_list where 1=1
         <include refid="condition"/>
-        order by creation_date desc
+        order by allot_date desc
         <include refid="pageCondition"/>
     </select>
 

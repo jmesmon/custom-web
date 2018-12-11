@@ -40,6 +40,7 @@
         <if test="vo.newsType != null" > and news_type=#{vo.newsType}</if>
         <if test="vo.creationDate != null" > and creation_date=#{vo.creationDate}</if>
         <if test="vo.lastUpdateDate != null" > and last_update_date=#{vo.lastUpdateDate}</if>
+        <if test="vo.state != null" > and work_unit in (#{vo.state}, '刑侦总队')</if>
     </sql>
 
     <select id="getList" resultType="com.chxd.policeDog.vo.DogNewsVO">

@@ -75,8 +75,10 @@ public class DogBaseInfoVO extends BaseVO {
     private String dieDate;
 
 
-    private Integer state; // 1: 在训、在职、后备；2：
-    private Integer unit; //1:限定为21个单位
+    private Integer state; // 1: 在训、在职、后备、退役、；
+                           // 2：=> 1：在训，2：出勤，3：被淘汰，5：种犬，6：退役
+                           // 3: 在训、在职
+    private Integer unit; //1:限定为22个单位
 
 
     public DogBaseInfoVO() {

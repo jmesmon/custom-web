@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.io.*;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
@@ -42,6 +43,8 @@ public class DogBaseInfoController extends BaseController{
     private IPoliceUserDao userDao;
     @Autowired
     private IApplyDieDao applyDieDao;
+    @Autowired
+    private ConfigController configController;
 
 
     @RequestMapping("/getAll/{pageSize}/{curPage}")
@@ -661,6 +664,7 @@ public class DogBaseInfoController extends BaseController{
             Map root = new HashMap();//data数据
             root.put("ry_民警", 0);
             root.put("ry_辅警", 0);
+
             root.put("pz_德国牧羊犬", 0);
             root.put("pz_昆明犬", 0);
             root.put("pz_荷兰牧羊犬", 0);
@@ -669,6 +673,7 @@ public class DogBaseInfoController extends BaseController{
             root.put("pz_马里努阿犬", 0);
             root.put("pz_史宾格犬", 0);
             root.put("pz_其他", 0);
+
             root.put("jn_追踪", 0);
             root.put("jn_鉴别", 0);
             root.put("jn_搜索", 0);
@@ -678,31 +683,72 @@ public class DogBaseInfoController extends BaseController{
             root.put("jn_搜毒", 0);
             root.put("jn_搜救", 0);
             root.put("jn_其他", 0);
-            root.put("sy_刑侦", 0);
-            root.put("sy_巡逻", 0);
-            root.put("cq_安检出勤", 0);
-            root.put("qt_cq", 0);
-            root.put("sy_刑侦", 0);
-            root.put("sy_巡逻", 0);
-            root.put("sy_安检", 0);
+
+            root.put("cq_刑侦侦查", 0);
+            root.put("cq_治安防范", 0);
+            root.put("cq_搜爆安检", 0);
+            root.put("cq_其他", 0);
+
+            root.put("sy_刑侦侦查", 0);
+            root.put("sy_治安防范", 0);
+            root.put("sy_搜爆安检", 0);
             root.put("sy_其他", 0);
-            root.put("work_刑侦", 0);
-            root.put("work_巡逻", 0);
-            root.put("work_安检", 0);
+
+            root.put("work_刑侦侦查", 0);
+            root.put("work_治安防范", 0);
+            root.put("work_搜爆安检", 0);
             root.put("work_其他", 0);
-            root.put("pa_一般", 0);
-            root.put("pa_重特大", 0);
+
+            root.put("pa_刑侦侦查", 0);
+
             root.put("workUnit", params.get("workUnit"));
             root.put("tbrq", new SimpleDateFormat("YYYY-MM-dd").format(System.currentTimeMillis()));
             root.put("shr", "");
             root.put("tbr", "");
+
+            //设置警犬专业数据
+            DogBaseInfoVO dog = new DogBaseInfoVO();
+            dog.setWorkPlace((String) params.get("workUnit"));
+            ResultVO dogProAnalysis = configController.getDogProAnalysis(dog);
+            Map<String, Integer> proData = (Map<String, Integer>) dogProAnalysis.getResult();
+            int otherCount = 0;
+            for(Iterator<String> it = proData.keySet().iterator(); it.hasNext();){
+                String proName = it.next();
+                int proQty = proData.get(proName);
+                if(proName.indexOf("追踪") != -1){
+                    root.put("jn_追踪", proQty);
+                }else if(proName.indexOf("鉴别") != -1){
+                    root.put("jn_鉴别", proQty);
+                }else if(proName.indexOf("搜索") != -1){
+                    root.put("jn_搜索", proQty);
+                }else if(proName.indexOf("搜捕") != -1){
+                    root.put("jn_搜捕", proQty);
+                }else if(proName.indexOf("治安防范") != -1){
+                    root.put("jn_治安防范", proQty);
+                }else if(proName.indexOf("搜爆") != -1){
+                    root.put("jn_搜爆", proQty);
+                }else if(proName.indexOf("搜毒") != -1){
+                    root.put("jn_搜毒", proQty);
+                }else if(proName.indexOf("搜救") != -1){
+                    root.put("jn_搜救", proQty);
+                }else if(proName.indexOf("其他") != -1 || proName.equals("未知")){
+                    otherCount += proQty;
+                }
+            }
+            root.put("jn_其他", otherCount);
+
             long ry_total = 0;
             for (int i = 0; i < list.size(); i++) {
                 Map map = list.get(i);
+                if(map == null){
+                    continue;
+                }
                 String k = (String)map.get("tName");
+                k = k.replace("（勤备）", "");
+
                 if(k.equals("ry_民警") || k.equals("ry_辅警")){
-                    long n = (Long)map.get("qty");
-                    ry_total += n;
+                    BigDecimal n = (BigDecimal)map.get("qty");
+                    ry_total += n.longValue();
                 }
                 Object v = map.get("qty");
                 root.put(k, v);

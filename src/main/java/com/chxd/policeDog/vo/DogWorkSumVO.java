@@ -3,6 +3,7 @@ package com.chxd.policeDog.vo;
 public class DogWorkSumVO extends BaseVO {
     private String workType;
     private String workUnit;
+    private String workUnitFilter;
     private String dateStart;
     private String startTimeStr;
     private String endTimeStr;
@@ -19,6 +20,14 @@ public class DogWorkSumVO extends BaseVO {
 
     private Integer workHours; //巡逻时长、备勤时长
     private Integer paQty; //破案数
+
+    public String getWorkUnitFilter() {
+        return workUnitFilter;
+    }
+
+    public void setWorkUnitFilter(String workUnitFilter) {
+        this.workUnitFilter = workUnitFilter;
+    }
 
     public String getWorkUnit() {
         return workUnit;

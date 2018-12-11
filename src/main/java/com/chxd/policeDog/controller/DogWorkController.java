@@ -109,6 +109,11 @@ public class DogWorkController extends BaseController{
     @RequestMapping("/getWorkSumList/{pageSize}/{curPage}")
     public PageResultVO getWorkSumList(@RequestBody DogWorkSumVO dogWorkSumVO, @PathParam("") PageVO pageVO){
         PageResultVO page = new PageResultVO();
+        PoliceUserVO user = getCurrentUser();
+        String role = user.getUserRole();
+        if(UserRoleVO.JZ_USER.equals(role) || UserRoleVO.JZD_USER.equals(role) || UserRoleVO.SUPER_USER.equals(role)){
+            dogWorkSumVO.setWorkUnit(null);
+        }
         List<DogWorkSumVO> list = dogWorkSumDao.getList(dogWorkSumVO, pageVO);
         Integer integer = dogWorkSumDao.getListCount(dogWorkSumVO);
 

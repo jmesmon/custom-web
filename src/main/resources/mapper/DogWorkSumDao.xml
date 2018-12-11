@@ -10,6 +10,7 @@
 	<sql id="condition">
 		<if test="vo.workType != null" > and t1.work_type=#{vo.workType}</if>
 		<if test="vo.workUnit != null" > and t1.work_unit=#{vo.workUnit}</if>
+		<if test="vo.workUnitFilter != null" > and t1.work_unit=#{vo.workUnitFilter}</if>
 		<if test="vo.dateStart != null" > and t1.date_start=#{vo.dateStart}</if>
 		<if test="vo.dateEnd != null" > and t1.date_end=#{vo.dateEnd}</if>
 		<if test="vo.attQty != null" > and t1.att_qty=#{vo.attQty}</if>

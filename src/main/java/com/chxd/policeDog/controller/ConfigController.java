@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -29,6 +30,14 @@ public class ConfigController extends BaseController {
     private IOrgConfigDao orgConfigDao;
     @Autowired
     private IDogBaseInfoDao dogBaseInfoDao;
+
+    @RequestMapping("/getAll/{pageSize}/{curPage}")
+    public PageResultVO getList(@RequestBody DogBaseInfoVO dogBaseInfoVO, @PathParam("") PageVO pageVO){
+        PageResultVO rst = new PageResultVO();
+        rst.setResult((List<? extends Object>) getOrgList().getResult());
+        rst.setPageVO(new PageVO());
+        return rst;
+    }
 
     @RequestMapping("/getOrgList")
     public ResultVO getOrgList(){
@@ -84,6 +93,10 @@ public class ConfigController extends BaseController {
             e.printStackTrace();
             resultVO.fail(e.getMessage());
         }
+
+        DogBaseInfoVO db = new DogBaseInfoVO();
+        Integer integer = dogBaseInfoDao.selectAllCount(db);
+        resultVO.setMessage(integer+"");
 
         return resultVO;
     }
@@ -194,7 +207,7 @@ public class ConfigController extends BaseController {
     @RequestMapping("/getDogProAnalysis")
     public ResultVO getDogProAnalysis(@RequestBody DogBaseInfoVO dogBaseInfoVO){
         ResultVO resultVO = ResultVO.getInstance();
-        dogBaseInfoVO.setState(1);
+        dogBaseInfoVO.setState(3);
         dogBaseInfoVO.setUnit(1);
         List<DogBaseInfoVO> list = dogBaseInfoDao.selectAll(dogBaseInfoVO, new PageVO().setPageSze(100000));
         Map<String, Integer> map = Maps.newHashMap();

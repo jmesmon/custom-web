@@ -39,7 +39,10 @@
 		<if test="dogInfo.mainPro != null" > and main_pro=#{dogInfo.mainPro}</if>
 		<if test="dogInfo.dogPro != null" > and main_pro like concat('%', #{dogInfo.dogPro}, '%')</if>
 		<if test="dogInfo.mainProLike != null" > and main_pro like concat('%', #{dogInfo.mainProLike}, '%')</if>
-		<if test="dogInfo.state == 1" > and work_stage in(1,2,5)</if>
+		<if test="dogInfo.state == 1" > and work_stage in(1,2,5,6)</if>
+		<if test="dogInfo.state == 2" > and work_stage in(1,2,3,5,6)</if>
+		<if test="dogInfo.state == 3" > and work_stage in(1,2)</if>
+		<if test="dogInfo.unit == 1" > and work_place in ('刑侦总队', '公交总队', '反特总队', '天安门分局', '西站分局', '清河分局', '东城分局', '西城分局', '朝阳分局', '海淀分局', '丰台分局', '通州分局', '昌平分局', '石景山分局', '门头沟分局', '大兴分局', '怀柔分局', '房山分局', '平谷分局', '顺义分局', '密云分局', '延庆分局') </if>
 	</sql>
 
 	<sql id="pageCondition">
@@ -263,14 +266,14 @@
 
 
 	<select id="getOrgCount" resultType="java.util.HashMap">
-		select workUnit,sum(val1) as dogCount,sum(val2) as newsCount,round(sum(val3)/24) as workQty from (
-			select work_place as workUnit, count(*) as val1, 0 as val2, 0 as val3 from t_dog_base group by work_place
+		select workUnit,sum(val1) as dogCount,sum(val2) as newsCount, sum(val3) as workQty from (
+			select work_place as workUnit, count(*) as val1, 0 as val2, 0 as val3 from t_dog_base where work_stage in (1,2) group by work_place
 			union all
 			select work_unit as workUnit, 0 as val1, count(*) as val2, 0 as val3 from t_news
 		    <![CDATA[ where publish_date>=#{lastMonth} and publish_date<#{nowMonth} group by work_unit  ]]>
 			union all
 			SELECT work_unit as workUnit, 0 as val1, 0 as val2, sum(att_qty) as val3 from t_dog_work_sum
-		    <![CDATA[ where date_start>=#{lastMonth} and date_start<#{nowMonth} group by work_type  ]]>
+		    <![CDATA[ where date_start>=#{lastMonth} and date_start<#{nowMonth} group by work_unit  ]]>
 		) t1 where workUnit is not null group by workUnit
 	</select>
 
@@ -314,46 +317,30 @@
 		/*人员*/
 		select concat('ry_', work_type) as tName, count(*) as qty from t_police_user where work_type in('民警', '辅警') and work_unit=#{workUnit} group by work_type
 		union all /*警犬品种*/
-
 		select concat('pz_', breed) as tName, count(*) as qty from (
-		select case
-			WHEN breed='德国牧羊犬' THEN '德国牧羊犬'
-			WHEN breed='昆明犬' THEN '昆明犬'
-			WHEN breed='荷兰牧羊犬' THEN '荷兰牧羊犬'
-			WHEN breed='罗维纳犬' THEN '罗维纳犬'
-			WHEN breed='拉布拉多犬' THEN '拉布拉多犬'
-			WHEN breed='马里努阿犬' THEN '马里努阿犬'
-			WHEN breed='史宾格犬' THEN '史宾格犬'
-		else '其他' end as breed from t_dog_base where work_place=#{workUnit} and work_stage in (1,2)
+			select case
+				WHEN breed='德国牧羊犬' THEN '德国牧羊犬'
+				WHEN breed='昆明犬' THEN '昆明犬'
+				WHEN breed='荷兰牧羊犬' THEN '荷兰牧羊犬'
+				WHEN breed='罗维纳犬' THEN '罗维纳犬'
+				WHEN breed='拉布拉多犬' THEN '拉布拉多犬'
+				WHEN breed='马里努阿犬' THEN '马里努阿犬'
+				WHEN breed='史宾格犬' THEN '史宾格犬'
+			else '其他' end as breed from t_dog_base where work_place=#{workUnit} and work_stage in (1,2,5,6)
 		) a group by breed
 
-		union all /*工作犬类别*/
-		select case when concat('jn_',t1.train_name) is null then 'jn_其他' else concat('jn_',t1.train_name) end as tName, count(1) as qty from (select dog_id,
-		case
-			WHEN train_name='追踪' THEN '追踪'
-			WHEN train_name='鉴别' THEN '鉴别'
-			WHEN train_name='物证搜索' THEN '搜索'
-			WHEN train_name='搜捕' THEN '搜捕'
-			WHEN train_name='治安防范' THEN '治安防范'
-			WHEN train_name='搜爆' THEN '搜爆'
-			WHEN train_name='搜毒' THEN '搜毒'
-			WHEN train_name='救援' THEN '救援'
-		else '其他' end as train_name from t_dog_train) t1
-		right join
-		t_dog_base t2 on (t1.dog_id=t2.id)
-		where t2.work_place=#{workUnit} and t2.dog_type=1 group by t1.train_name
 		union all /*使用次数*/
-		select concat('sy_', work_type) as tName, count(*) as qty from t_dog_work where end_time>=#{startDate} and end_time<=#{endDate} and work_unit=#{workUnit} group by work_type
+		select concat('sy_', work_type) as tName, sum(att_qty) as qty from t_dog_work_sum where date_end>=#{startDate} and date_end<=#{endDate} and work_unit=#{workUnit} group by work_type
 		union all /*出勤次数*/
-		select 'cq_安检出勤' as tName, count(*) as qty from (
-		select xl_num, count(*) from t_dog_work  where end_time>=#{startDate} and end_time<=#{endDate} and work_unit=#{workUnit} and work_type='安检' group by xl_num
-		)a
+		select concat('cq_', work_type) as tName, sum(att_qty) as qty from t_dog_work_sum where date_end>=#{startDate} and date_end<=#{endDate} and work_unit=#{workUnit} group by work_type
 		union all /*起作用数*/
-		select concat('work_', work_type) as tName, count(*) as qty from t_dog_work  where end_time>=#{startDate} and end_time<=#{endDate} and work_unit=#{workUnit} and is_work='正常' group by work_type
+		select concat('work_', work_type) as tName, sum(att_qty) as qty from t_dog_work_sum  where date_end>=#{startDate} and date_end<=#{endDate} and work_unit=#{workUnit} group by work_type
 		union all
-		select 'pa_一般' as tName, count(*) as qty from t_dog_work  where aj_level='一般' and end_time>=#{startDate} and end_time<=#{endDate} and work_unit=#{workUnit}
+		select concat('wjp_qty') as tName, sum(dp_qty) as qty from t_dog_work_sum where date_end>=#{startDate} and date_end<=#{endDate} and work_unit=#{workUnit}
 		union all
-		select 'pa_重特大' as tName, count(*) as qty from t_dog_work  where aj_level in('严重', '特大', '重大') and end_time>=#{startDate} and end_time<=#{endDate} and work_unit=#{workUnit}
+		select concat('dp_qty') as tName, sum(dp_qty) as qty from t_dog_work_sum where date_end>=#{startDate} and date_end<=#{endDate} and work_unit=#{workUnit}
+		union all
+		select concat('pa_', work_type) as tName, sum(dp_qty) as qty from t_dog_work_sum where date_end>=#{startDate} and date_end<=#{endDate} and work_unit=#{workUnit}
 		]]>
 	</select>
 </mapper>

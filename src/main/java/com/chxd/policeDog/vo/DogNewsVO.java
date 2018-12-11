@@ -14,12 +14,22 @@ public class DogNewsVO extends BaseVO {
     private String  newsType;	//
     private String workUnit;
 
+    private String state; //1: 显示自己分局和邢总的通知
+
     public String getWorkUnit() {
         return workUnit;
     }
 
     public void setWorkUnit(String workUnit) {
         this.workUnit = workUnit;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getTitle() {
