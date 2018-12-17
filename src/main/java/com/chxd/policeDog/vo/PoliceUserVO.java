@@ -36,6 +36,8 @@ public class PoliceUserVO extends BaseVO implements Cloneable {
 
     private String approveRole;
 
+    private Integer dogQty;
+
     public String getPasswordNew() {
         return passwordNew;
     }
@@ -247,5 +249,13 @@ public class PoliceUserVO extends BaseVO implements Cloneable {
 
     public void setRewardInfo(String rewardInfo) {
         this.rewardInfo = rewardInfo;
+    }
+
+    public Integer getDogQty() {
+        return dogQty;
+    }
+
+    public void setDogQty(Integer dogQty) {
+        this.dogQty = dogQty;
     }
 }

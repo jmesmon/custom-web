@@ -4,6 +4,7 @@ import com.chxd.policeDog.config.MyProps;
 import com.chxd.policeDog.dao.IDogBaseInfoDao;
 import com.chxd.policeDog.dao.IPoliceUserDao;
 import com.chxd.policeDog.vo.*;
+import com.google.common.collect.Maps;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -161,10 +162,25 @@ public class UserController extends  BaseController{
         }else{
             policeUserVO.setId(user.getId());
         }
+        List<Map> policeDogList = dogBaseInfoDao.getPoliceDogCount();
+        Map<String, Long> mapping = Maps.newHashMap();
+        for (int i = 0; i < policeDogList.size(); i++) {
+            Map<String, Object> map = policeDogList.get(i);
+            String policeId = (String) map.get("policeId");
+            if(Strings.isNotEmpty(policeId)) {
+                Long qty = (Long) map.get("qty");
+                mapping.put(policeId, qty);
+            }
+        }
 
         List<PoliceUserVO> list = policeUserDao.getList(policeUserVO, pageVO);
         for(int i = 0; i<list.size(); i++){
-            list.get(i).setPassword(null);
+            PoliceUserVO u = list.get(i);
+            u.setPassword(null);
+            Long qty = mapping.get(u.getId());
+            if(qty != null){
+                u.setDogQty(qty.intValue());
+            }
         }
         Integer integer = policeUserDao.getListCount(policeUserVO);
         pageVO.setTotalRows(integer);

@@ -343,4 +343,7 @@
 		select concat('pa_', work_type) as tName, sum(dp_qty) as qty from t_dog_work_sum where date_end>=#{startDate} and date_end<=#{endDate} and work_unit=#{workUnit}
 		]]>
 	</select>
+	<select id="getPoliceDogCount" resultType="java.util.HashMap">
+		select police_name as policeName, police_id as policeId, count(*) as qty from t_dog_base group by police_name,police_id
+	</select>
 </mapper>

@@ -75,7 +75,12 @@
 		union all
 		select 'degree' as ctype, case when education = '' then '其他' else education end as att_name, count(*) as val from (select work_unit, case when (education = '' or education is null) then '其他' else education end as education from t_police_user where user_role='JingYuan') a <if test="workUnit != null" > where work_unit=#{workUnit}</if> group by education
 		union all
-		select 'work_type' as ctype, work_type as att_name, count(*) as val from t_police_user where user_role='JingYuan' <if test="workUnit != null" > and work_unit=#{workUnit}</if> group by work_type
+		select 'work_type' as ctype, work_type as att_name, count(*) as val from
+		(
+			select case when work_type is null or work_type = '' then '未知' else work_type end as work_type from t_police_user
+			where user_role='JingYuan' <if test="workUnit != null" > and work_unit=#{workUnit}</if> <include refid="workUnit2"/>
+		) a
+		group by work_type
 		union all
 		select 'job_title' as ctype, case when job_title='' then '其他' else job_title end as att_name,
 		count(*) as val from t_police_user where user_role='JingYuan' <if test="workUnit != null" > and work_unit=#{workUnit}</if> group by job_title
@@ -99,9 +104,12 @@
 			) tb group by att_name
 		) t where att_name != ''
 	</select>
-<sql id="workUnit">
-	and work_place in ('刑侦总队', '公交总队', '反特总队', '天安门分局', '西站分局', '清河分局', '东城分局', '西城分局', '朝阳分局', '海淀分局', '丰台分局', '通州分局', '昌平分局', '石景山分局', '门头沟分局', '大兴分局', '怀柔分局', '房山分局', '平谷分局', '顺义分局', '密云分局', '延庆分局')
-</sql>
+	<sql id="workUnit">
+		and work_place in ('刑侦总队', '公交总队', '反特总队', '天安门分局', '西站分局', '清河分局', '东城分局', '西城分局', '朝阳分局', '海淀分局', '丰台分局', '通州分局', '昌平分局', '石景山分局', '门头沟分局', '大兴分局', '怀柔分局', '房山分局', '平谷分局', '顺义分局', '密云分局', '延庆分局')
+	</sql>
+		<sql id="workUnit2">
+		and work_unit in ('刑侦总队', '公交总队', '反特总队', '天安门分局', '西站分局', '清河分局', '东城分局', '西城分局', '朝阳分局', '海淀分局', '丰台分局', '通州分局', '昌平分局', '石景山分局', '门头沟分局', '大兴分局', '怀柔分局', '房山分局', '平谷分局', '顺义分局', '密云分局', '延庆分局')
+	</sql>
 	<select id="getDogAnalysis" resultType="java.util.HashMap">
 		select * from (
 			select 'breed' as ctype, breed as att_name, count(*) as val from t_dog_base where work_stage in(1,2,5,6) <include refid="workUnit"/>  <if test="workUnit != null" > and work_place=#{workUnit}</if> group by breed
@@ -159,9 +167,12 @@
 		group by work_stage
 		union all
 		select 'workType' as xtype, work_type as xname,count(*) as qty
-		from t_police_user
-		where id in(select police_id from t_dog_base where police_id is not null)
-		<if test="vo.workUnit != null" > and work_unit=#{vo.workUnit}</if>
+		from
+		(
+			select case when work_type is null or work_type = '' then '未知' else work_type end as work_type from t_police_user
+			where user_role='JingYuan' <if test="vo.workUnit != null" > and work_unit=#{vo.workUnit}</if>  <include refid="workUnit2"/>
+		) a
+		/*where id in(select police_id from t_dog_base where police_id is not null)*/
 		group by work_type
 	</select>
 </mapper>
